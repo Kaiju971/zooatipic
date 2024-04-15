@@ -1,17 +1,12 @@
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
-import axios from "../../axios";
+import axios from "../axios";
 import { AxiosError } from "axios";
-import { Categorie } from "../../types/produits";
-
-import * as S from "./topbar.styled";
+import { Categorie } from "../types/produits";
 import { Stack } from "@mui/system";
-import { Routes } from "../../app/routes";
+import { Routes } from "../app/routes";
 import { useNavigate } from "react-router";
-import { MenuItem } from "@mui/base";
-import { List, ListItem, ListItemButton, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 
 export default function ComboBox() {
   const navigate = useNavigate();
@@ -42,7 +37,6 @@ export default function ComboBox() {
   };
 
   return (
-   
     <Stack spacing={1} sx={{ width: 300 }}>
       <Autocomplete
         {...defaultProps}
@@ -53,7 +47,7 @@ export default function ComboBox() {
               categorieId: (event.target as HTMLTextAreaElement).value,
             },
           });
-        }}  
+        }}
         id="disable-close-on-select"
         disableCloseOnSelect
         renderInput={(params) => (

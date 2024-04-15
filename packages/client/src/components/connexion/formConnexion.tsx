@@ -11,9 +11,9 @@ import TextField from "@mui/material/TextField";
 import { Validate, ValidationGroup } from "mui-validate";
 import React, { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router";
-import imgBan from "../../images/LOGOABS-COUVERTURE.OFF.png";
+import imgBan from "../../images/ZOOAtipic.png";
 
-import Loading from "../../shared/loading";
+// import Loading from "../../shared/loading";
 import * as S from "./formConnexion.styled";
 
 type Props = {
@@ -175,7 +175,7 @@ const FormConnection: React.FC<Props> = (props: Props) => {
                 alt="logo"
                 onClick={() => navigate("/")}
               />
-              <Loading />
+              {/* <Loading /> */}
             </S.BoxForm2>
           </Box>
         </>

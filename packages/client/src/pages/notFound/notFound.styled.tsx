@@ -12,7 +12,7 @@ import { styled } from "@mui/material/styles";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import image404 from "../../images/image404.jpeg";
+import image404 from "../../images/ZOOAtipic.png";
 
 export const MainContainer = styled("div")`
   color: darkred;

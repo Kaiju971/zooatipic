@@ -1,5 +1,5 @@
 import { CSSObject, Theme, styled } from "@mui/material/styles";
-import img from "../../images/fon_prod.png";
+import img from "../../images/_2c4d16f4-0ed2-4072-a796-8820155cbfa7.jpg";
 import MuiDrawer from "@mui/material/Drawer";
 import { ListItemButton } from "@mui/material";
 

@@ -21,12 +21,12 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import Devis from "@mui/icons-material/LibraryBooks";
 import Façonnage from "@mui/icons-material/Engineering";
 import { useLocation, useNavigate } from "react-router";
-import { Routes } from "../../app/routes";
+import { Routes } from "../app/routes";
 import CloseIcon from "@mui/icons-material/Close";
-import { MenuItems } from "../../constants/menuItems";
-import { UserRoles } from "../../constants/roles";
-import AuthContext from "../../store/auth/AuthContextProvider";
-import Logo from "../../images/LOGOABS-COUVERTURE.OFF.png";
+import { MenuItems } from "../constants/menuItems";
+import { UserRoles } from "../constants/roles";
+import AuthContext from "../store/auth/AuthContextProvider";
+import Logo from "../images/ZOOAtipic.png";
 import { Helmet } from "react-helmet";
 
 import * as S from "./topbar.styled";

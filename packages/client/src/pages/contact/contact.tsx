@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import DevisForm from "../../components/contact/devisForm";
-import MapComponent from "../../components/map/localisationMap";
+// import MapComponent from "../../components/map/localisationMap";
 import * as S from "./contact.styled";
-import * as SI from "../../components/banner/banner.styled";
+// import * as SI from "../../components/banner/banner.styled";
 import LoadingSection from "../../components/connexion/LoadingSection";
-import Banner from "../../components/banner/Banner";
-import imgVehicule from "../../images/vehiculeABS.jpg";
-import InfoEntreprise from "../../components/infoEntreprise/infoEntreprise";
+// import Banner from "../../components/banner/Banner";
+// import imgVehicule from "../../images/vehiculeABS.jpg";
+// import InfoEntreprise from "../../components/infoEntreprise/infoEntreprise";
 import { Helmet } from "react-helmet";
 
 const Contact: React.FC = () => {
@@ -41,26 +41,24 @@ const Contact: React.FC = () => {
               content="Entreprise générale de couverture"
             />
           </Helmet>
-          <Banner />
+          {/* <Banner /> */}
           <S.FlexContainer>
-            <MapComponent />
+            {/* <MapComponent /> */}
             <S.Texte>
               <div style={{ width: "100%" }}>
-                <SI.BannerContainer imageUrl={imgVehicule}>
+                {/* <SI.BannerContainer imageUrl={imgVehicule}>
                   <SI.Overlay />
                   <SI.TitleContainer>
                     <h3>
                       Nous nous déplaçons <br /> partout en ile de France
                     </h3>
                   </SI.TitleContainer>
-                </SI.BannerContainer>
+                </SI.BannerContainer> */}
               </div>
             </S.Texte>
           </S.FlexContainer>
           <S.FlexContainer>
-            <S.InerContainer>
-              <InfoEntreprise />
-            </S.InerContainer>
+            <S.InerContainer>{/* <InfoEntreprise /> */}</S.InerContainer>
             <S.InerContainer>
               <DevisForm />
             </S.InerContainer>

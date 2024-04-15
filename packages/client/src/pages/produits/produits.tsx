@@ -15,7 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import CartProduits from "./cartProduits";
-import useApiServce from "../../hooks/service/useAPIservice";
+// import useApiServce from "../../hooks/service/useAPIservice";
 import { Categorie, ProduitWithPhoto } from "../../types/produits";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import LoadingSection from "../../components/connexion/LoadingSection";
@@ -36,7 +36,7 @@ type Filter = {
 };
 
 const Produits: React.FC = () => {
-  const { request, setError } = useApiServce();
+  // const { request, setError } = useApiServce();
   const [categoriedata, setCategoriedata] = useState<Categorie[]>([]);
   const [produitdata, setProduitdata] = useState<ProduitWithPhoto[]>([]);
   const [produitdataDistinct, setProduitdataDistinct] = useState<string[]>([]);
@@ -172,31 +172,31 @@ const Produits: React.FC = () => {
     setOpen(action);
   };
 
-  useEffect(() => {
-    const params = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      request("GET", `categorieswithphotos`, params, setCategoriedata);
-    } catch (error: any) {
-      setError(error.message || error);
-    }
-  }, [request, setError]);
+  // useEffect(() => {
+  //   const params = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   try {
+  //     request("GET", `categorieswithphotos`, params, setCategoriedata);
+  //   } catch (error: any) {
+  //     setError(error.message || error);
+  //   }
+  // }, [request, setError]);
 
-  useEffect(() => {
-    const params = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      request("GET", `categorieproduitimage`, params, setProduitdata);
-    } catch (error: any) {
-      setError(error.message || error);
-    }
-  }, [request, setError]);
+  // useEffect(() => {
+  //   const params = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   try {
+  //     request("GET", `categorieproduitimage`, params, setProduitdata);
+  //   } catch (error: any) {
+  //     setError(error.message || error);
+  //   }
+  // }, [request, setError]);
 
   useEffect(() => {
     if (produitdata) {

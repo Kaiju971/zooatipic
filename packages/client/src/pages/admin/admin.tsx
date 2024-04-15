@@ -7,13 +7,13 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import WallpaperIcon from "@mui/icons-material/Wallpaper";
 import RoofingIcon from "@mui/icons-material/Roofing";
 import HandymanIcon from "@mui/icons-material/Handyman";
-import PhotoService from "../../components/photoService";
+// import PhotoService from "../../components/photoService";
 import axios from "../../axios";
 import { User } from "../../types/users";
 import FormUsersList from "../../components/userListForm/formUsersList";
-import ProduitService from "../../components/produitService";
+// import ProduitService from "../../components/produitService";
 import { useSnackbar } from "notistack";
-import CardUtilisateur from "./cartUtilisateur";
+// import CardUtilisateur from "./cartUtilisateur";
 import { theme } from "../../app/app";
 
 import * as S from "./admin.styled";
@@ -144,16 +144,16 @@ const Admin: React.FC = () => {
           </S.StyledTabs>
           <TabPanel value={value} index={0}>
             <S.StyledTabPanelBox>
-              <S.CartGridContainer horizontal={matchDownLg}>
+              {/* <S.CartGridContainer horizontal={matchDownLg}>
                 {userdata?.map((item, index) => (
                   <CardUtilisateur key={index} element={item} />
                 ))}
-              </S.CartGridContainer>
+              </S.CartGridContainer> */}
               <Auth />
               <FormUsersList />
             </S.StyledTabPanelBox>
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          {/* <TabPanel value={value} index={1}>
             <PhotoService />
           </TabPanel>
           <TabPanel value={value} index={2}>
@@ -161,7 +161,7 @@ const Admin: React.FC = () => {
           </TabPanel>
           <TabPanel value={value} index={3}>
             <ProduitService indexTab={value} />
-          </TabPanel>
+          </TabPanel> */}
         </S.StyledBox>
       </S.InsidedContainer>
     </S.MainContainer>
