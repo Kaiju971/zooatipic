@@ -13,6 +13,7 @@ import {
   ListItemButton,
   Typography,
 } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import CottageIcon from "@mui/icons-material/Cottage";
 import CallIcon from "@mui/icons-material/Call";
@@ -30,6 +31,13 @@ import Logo from "../images/ZOOAtipic.png";
 import { Helmet } from "react-helmet";
 
 import * as S from "./topbar.styled";
+
+const getCurrentYear = (): number => {
+  const currentDate = new Date();
+  return currentDate.getFullYear();
+};
+
+console.log(`L'année en cours est `);
 
 const menuItemsArray = Object.values(MenuItems);
 
@@ -70,6 +78,7 @@ const TopBar: React.FC = () => {
           width: "100%",
         }}
       >
+        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
         {menuItemsArray.map((item) => (
           <ListItem key={item}>
             <ListItemButton
@@ -142,10 +151,14 @@ const TopBar: React.FC = () => {
         )}
       </S.LoginContainer>
       <Typography variant="body2" sx={{ color: "white", width: "100%" }}>
-        © 2023 ABS COUVERTURE. Tous Droits Réservés.
+        © {getCurrentYear()} ZooAtipic .Tous Droits Réservés.
       </Typography>
     </S.DrawerBodyBox>
   );
+
+  function handleOpenUserMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <Box
@@ -155,15 +168,9 @@ const TopBar: React.FC = () => {
       }}
     >
       <Helmet>
-        <title>ABS Couverture</title>
-        <meta
-          name="ABS Couverture"
-          content="Entreprise générale de couverture"
-        />
-        <meta
-          name="Logo - ABS Couverture"
-          content="Entreprise générale de couverture"
-        />
+        <title>ZooAtipic</title>
+        <meta name="ZooAtipic" content="Zoo" />
+        <meta name="Logo - ZooAtipic" content="Zoo" />
       </Helmet>
       <CssBaseline />
       <AppBar
@@ -186,6 +193,9 @@ const TopBar: React.FC = () => {
             <S.LogoMain src={Logo} onClick={() => navigate(Routes.accueil)} />
           </S.FlexBox>
           <div>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
             <IconButton
               color="primary"
               aria-label="open drawer"
@@ -200,6 +210,7 @@ const TopBar: React.FC = () => {
           </div>
         </Toolbar>
       </AppBar>
+
       <Box component="nav">
         <S.DrawerBox
           anchor="right"

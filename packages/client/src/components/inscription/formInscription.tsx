@@ -12,7 +12,7 @@ import { useLocation } from "react-router";
 import axios from "../../axios";
 import { UserRoles } from "../../constants/roles";
 import UpLoad from "../../images/UpLoad.png";
-import img from "../../images/Devon Rex.jpg";
+import img from "../../images/DevonRex.jpg";
 import AuthContext from "../../store/auth/AuthContextProvider";
 import { Roles } from "../../types/produits";
 import * as S from "./formInscription.styled";

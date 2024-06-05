@@ -1,9 +1,10 @@
 // import {  useMediaQuery } from "@mui/material";
-// import Grid from "@mui/material/Grid";
-// import logo from "../../images/logo.gif";
-// import FFB from "../../images/FFB-Grand-Paris.jpeg";
-// import QUALIBAT from "../../images/qualibat rge.jpg";
-// import RGE from "../../images/RGE QUALIBAT .jpeg";
+ import Grid from "@mui/material/Grid";
+import ifaw from "../images/ifaw.png";
+import spa from "../images/SPA.png";
+import wwf from "../images/WWF.png";
+import logo from "../images/ZOOAtipic.png"
+
 // import { Helmet } from "react-helmet";
 // import { useLocation } from "react-router-dom";
 // import { Routes } from "../../app/routes";
@@ -11,11 +12,20 @@
 import React from "react";
 
 import * as S from "./footer.styled";
+import { Typography, useMediaQuery } from "@mui/material";
+import { theme } from "../app/app";
+
+const getCurrentYear = (): number => {
+  const currentDate = new Date();
+  return currentDate.getFullYear();
+};
+
+console.log(`L'année en cours est `);
 
 const Home: React.FC = () => {
   // const location = useLocation();
-  // const mediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  // const smallScreen = useMediaQuery(theme.breakpoints.down(450));
+  const mediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+   const smallScreen = useMediaQuery(theme.breakpoints.down(450));
 
   // if (location.pathname === Routes.cartproduit) {
   //   return null;
@@ -34,7 +44,7 @@ const Home: React.FC = () => {
           content="Entreprise générale de couverture"
         />
       </Helmet> */}
-      {/* <Grid
+      <Grid
         container
         sx={{
           " & .MuiGrid-root": {
@@ -45,30 +55,34 @@ const Home: React.FC = () => {
           },
         }}
       >
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <S.Item>
             <S.ImgContainer>
-              <img src={FFB} alt="FFB" width="100%" />
+              <img src={ifaw} alt="ifaw" width="70%" />
             </S.ImgContainer>
           </S.Item>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <S.Item>
             <S.ImgContainer>
-              <img src={QUALIBAT} alt="QUALIBAT" width="60%" />
+              <img src={wwf} alt="wwf" width="70%" />
             </S.ImgContainer>
           </S.Item>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <S.Item>
             <S.ImgContainer>
-              <img src={RGE} alt="RGE" width="40%" />
+              <img src={spa} alt="spa" width="60%" />
             </S.ImgContainer>
           </S.Item>
         </Grid>
       </Grid>
+      <Typography variant="body1" sx={{ color: "black", width: "100%" }}>
+        © {getCurrentYear()} ZooAtipic. {mediumScreen && <br />} Tous Droits
+        Réservés.
+      </Typography>
 
-      <Grid container spacing={3}>
+      {/* <Grid container spacing={3}>
         <Grid item xs={4}>
           <S.Item>
             01 80 91 49 82
@@ -86,8 +100,8 @@ const Home: React.FC = () => {
         <Grid item xs={4}>
           <S.Item>abscouverture{smallScreen && <br />}@gmail.com</S.Item>
         </Grid>
-      </Grid>
-      <Grid
+      </Grid> */}
+      {/* <Grid
         container
         ml={0}
         sx={{
@@ -103,19 +117,19 @@ const Home: React.FC = () => {
       >
         <Grid item xs={4} marginTop={2}>
           <S.Item>
-            ABS COUVERTURE<S.TestSup>R</S.TestSup>
+            Zoo<S.TestSup>R</S.TestSup>
           </S.Item>
         </Grid>
         <Grid item xs={4}>
           <S.Item>
             <img src={logo} alt="logo" width="18%" />
           </S.Item>
-        </Grid>
+        </Grid> 
         <Grid item xs={4} marginTop={2}>
           <S.Item>
             <Typography variant="body1" sx={{ color: "red", width: "100%" }}>
-              © 2023 ABS COUVERTURE. {mediumScreen && <br />} Tous Droits
-              Réservés.
+              © {getCurrentYear()} ZooAtipic. {mediumScreen && <br />} Tous
+              Droits Réservés.
             </Typography>
           </S.Item>
         </Grid>
