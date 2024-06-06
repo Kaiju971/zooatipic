@@ -23,7 +23,6 @@ export const LogoMain = styled("img")`
 
 export const DrawerBox = styled(Drawer)`
   & .MuiDrawer-paper {
-    background-color: red;
     box-sizing: "border-box";
     max-height: 100vh;
     position: fixed;
@@ -43,13 +42,9 @@ export const DrawerBodyBox = styled("div")`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: start;
   text-align: center;
-
-  background: radial-gradient(circle at top left, #ffffff 35%, transparent 36%),
-    radial-gradient(circle at top left, #f59494df 40%, transparent 41%),
-    radial-gradient(circle at top left, #fa3434 45%, transparent 46%);
 `;
 
 export const CloseIconStyle = styled("div")`
@@ -129,10 +124,16 @@ export const LoginContainer = styled("div")`
 export const ListItemText = styled("div")`
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: end;
 `;
 
 export const ListItemIcon = styled("div")`
   display: flex;
   justify-content: center;
+`;
+
+export const FlexCont = styled("div")`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;

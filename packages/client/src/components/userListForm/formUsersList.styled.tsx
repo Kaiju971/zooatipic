@@ -6,7 +6,7 @@ export const MainContainer = styled("div")`
   padding-bottom: 4vh;
   width: 100%;
   background-color: ${({ theme }) => theme.palette.colorBackgroundForm1.main};
-  color: ${({ theme }) => theme.palette.colorTexteVert.main};
+  color: ${({ theme }) => theme.palette.colorVertMenu.main};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,7 +20,7 @@ export const MainContainer = styled("div")`
 export const StyledBox = styled(Box)`
   padding-top: 2vh;
   text-align: center;
-  color: ${({ theme }) => theme.palette.colorTexteVert.main};
+  color: ${({ theme }) => theme.palette.colorVertMenu.main};
 
   & .MuiTextField-root {
     margin: 0.5rem;
