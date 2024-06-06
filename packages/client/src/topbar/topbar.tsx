@@ -14,18 +14,13 @@ import {
   Typography,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import CottageIcon from "@mui/icons-material/Cottage";
-import CallIcon from "@mui/icons-material/Call";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import Devis from "@mui/icons-material/LibraryBooks";
-import Façonnage from "@mui/icons-material/Engineering";
+import Basket from "../images/Basket.png";
+import IconAvatar from "./iconAvatar";
 import { useLocation, useNavigate } from "react-router";
 import { Routes } from "../app/routes";
 import CloseIcon from "@mui/icons-material/Close";
 import { MenuItems } from "../constants/menuItems";
-import { UserRoles } from "../constants/roles";
+import { menuItemColor } from "../constants/menuItemColor";
 import AuthContext from "../store/auth/AuthContextProvider";
 import Logo from "../images/ZOOAtipic.png";
 import { Helmet } from "react-helmet";
@@ -36,8 +31,6 @@ const getCurrentYear = (): number => {
   const currentDate = new Date();
   return currentDate.getFullYear();
 };
-
-console.log(`L'année en cours est `);
 
 const menuItemsArray = Object.values(MenuItems);
 
@@ -66,9 +59,7 @@ const TopBar: React.FC = () => {
         </Typography>
         <CloseIcon sx={{ fontSize: "2rem", color: "primary.main" }} />
       </S.CloseIconStyle>
-      <S.LogoContainer>
-        <S.LogoImage src={Logo} />
-      </S.LogoContainer>
+
       <Divider variant="middle" sx={{ width: "80%" }} />
       <List
         sx={{
@@ -81,46 +72,9 @@ const TopBar: React.FC = () => {
         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
         {menuItemsArray.map((item) => (
           <ListItem key={item}>
-            <ListItemButton
-              selected={isSelected(item)}
-              sx={{
-                textTransform: "capitalize",
-                textAlign: "left",
-                display:
-                  item === MenuItems.ADMIN &&
-                  (!authState.isLoggedIn ||
-                    authState.role === UserRoles.VISITEUR)
-                    ? "none"
-                    : "flex",
-                "&.Mui-selected": {
-                  color: "primary.main",
-                  backgroundColor: "transparent",
-                  borderRadius: "10px",
-                  boxShadow: " rgba(0, 0, 0, 0.45) 0px 25px 20px -20px",
-                  textShadow: "1px 1px white, -1px -1px black",
-                },
-                "&:hover": {
-                  backgroundColor: "colorRougeOpacity",
-                  borderRadius: "10px",
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px",
-                },
-              }}
-            >
-              <ListItemIcon>
-                {item === MenuItems.ACCUEIL && <CottageIcon color="primary" />}
-                {item === MenuItems.PRODUITS && (
-                  <ShoppingBasketIcon color="primary" />
-                )}
-                {item === MenuItems.CONTACT && <CallIcon color="primary" />}
-                {item === MenuItems.APROPOS && (
-                  <HomeRepairServiceIcon color="primary" />
-                )}
-                {item === MenuItems.DEVIS && <Devis color="primary" />}
-                {item === MenuItems.FACONNAGE && <Façonnage color="primary" />}
-              </ListItemIcon>
+            <ListItemButton selected={isSelected(item)}>
               <ListItemText
-                primary={item === MenuItems.APROPOS ? "A propos de nous" : item}
+                primary={item === MenuItems.APROPOS ? "A propos" : item}
                 onClick={() => handleItemMenu(item)}
                 primaryTypographyProps={{
                   fontSize: { xs: "4vw", sm: "4vw", md: "2vw" },
@@ -156,7 +110,9 @@ const TopBar: React.FC = () => {
     </S.DrawerBodyBox>
   );
 
-  function handleOpenUserMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  function handleOpenUserMenu(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
     throw new Error("Function not implemented.");
   }
 
@@ -189,13 +145,61 @@ const TopBar: React.FC = () => {
             width: "100%",
           }}
         >
-          <S.FlexBox>
-            <S.LogoMain src={Logo} onClick={() => navigate(Routes.accueil)} />
-          </S.FlexBox>
+          {/* <S.FlexBox> */}
+          <S.LogoMain src={Logo} onClick={() => navigate(Routes.accueil)} />
+          <Box sx={{ width: "50vw" }} />
+          <List
+            sx={{
+              display: "flex",
+              justifyContent: "end",
+              width: "100%",
+              pl: 5,
+            }}
+          >
+            {menuItemsArray.map((item) => (
+              <ListItem key={item}>
+                <ListItemButton
+                  selected={isSelected(item)}
+                  sx={{
+                    "&.Mui-selected": {
+                      color: "primary.main",
+                      backgroundColor: "transparent",
+                      borderRadius: "10px",
+                    },
+                    "&:hover": {
+                      borderRadius: "10px",
+                      boxShadow:
+                        "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px",
+                    },
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      item === MenuItems.APROPOS
+                        ? "A propos"
+                        : (menuItemColor[item].text as string)
+                    }
+                    onClick={() => handleItemMenu(item)}
+                    primaryTypographyProps={{
+                      fontSize: { xs: "4vw", sm: "4vw", md: "2vw" },
+                      textTransform: "capitalize",
+                      color: menuItemColor[item].color,
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
           <div>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <S.FlexCont>
+              <IconAvatar />
+              <IconButton
+                onClick={() => navigate(Routes.panier)}
+                sx={{ pl: 2 }}
+              >
+                <Avatar alt="Remy Sharp" src={Basket} />
               </IconButton>
+            </S.FlexCont>
             <IconButton
               color="primary"
               aria-label="open drawer"
@@ -203,11 +207,13 @@ const TopBar: React.FC = () => {
               onClick={handleDrawerToggle}
               sx={{
                 mr: 2,
+                display: { xs: "block", sm: "block", md: "none" },
               }}
             >
               <MenuIcon />
             </IconButton>
           </div>
+          {/* </S.FlexBox> */}
         </Toolbar>
       </AppBar>
 

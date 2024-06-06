@@ -9,16 +9,15 @@ import { UserRoles } from "../constants/roles";
 // import { UserRoles } from "../constants/roles";
 
 const Accueil = lazy(() => import("../pages/accueil/accueil"));
-// const Connexion = lazy(() => import("../pages/connexion"));
+const Connexion = lazy(() => import("../pages/connexion"));
 const Admin = lazy(() => import("../pages/admin/admin"));
 const Apropos = lazy(() => import("../pages/apropos/apropos"));
 const Produits = lazy(() => import("../pages/produits/produits"));
+const Panier = lazy(() => import("../pages/panier"));
+const Contact = lazy(() => import("../pages/contact"));
+const Profil = lazy(() => import("../pages/profil"));
 
-// const CartProduit = lazy(() => import("../pages/descriptionProduit"));
-// const Façonnage = lazy(() => import("../pages/façonnage/façonnage"));
-// const Devis = lazy(() => import("../pages/devis/devis"));
 const Auth = lazy(() => import("../pages/admin/auth"));
-// const Carousel = lazy(() => import("../shared/carousel2D"));
 
 export const AppRoutes: React.FunctionComponent = () => {
   const { authState } = useContext(AuthContext);
@@ -27,15 +26,14 @@ export const AppRoutes: React.FunctionComponent = () => {
   return (
     <Router>
       <Route path={Routes.accueil} element={withSuspense(Accueil)} />
-      {/* <Route path={Routes.contact} element={withSuspense(Contact)} /> */}
+      <Route path={Routes.contact} element={withSuspense(Contact)} />
       {isAdmin && <Route path={Routes.admin} element={withSuspense(Admin)} />}
       <Route path={Routes.login} element={withSuspense(Auth)} />
       <Route path={Routes.apropos} element={withSuspense(Apropos)} />
       <Route path={Routes.produits} element={withSuspense(Produits)} />
-      {/* <Route path={Routes.cartproduit} element={withSuspense(CartProduit)} />
-      <Route path={Routes.façonnage} element={withSuspense(Façonnage)} />
-      <Route path={Routes.devis} element={withSuspense(Devis)} />
-      <Route path={Routes.carousel} element={withSuspense(Carousel)} /> */}
+      <Route path={Routes.panier} element={withSuspense(Panier)} />
+      <Route path={Routes.connexion} element={withSuspense(Connexion)} />
+      <Route path={Routes.profil} element={withSuspense(Profil)} />
       <Route path="*" element={<NotFound />} />
     </Router>
   );

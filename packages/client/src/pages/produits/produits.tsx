@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import CartProduits from "./cartProduits";
+
 // import useApiServce from "../../hooks/service/useAPIservice";
 import { Categorie, ProduitWithPhoto } from "../../types/produits";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
@@ -420,50 +420,6 @@ const Produits: React.FC = () => {
             >
               Nous réalisons
             </Typography>
-            <S.GridContainer>
-              {!categoriedata ? (
-                <CircularProgress />
-              ) : (
-                categoriedata
-                  .filter((el) => el.categorie !== "Services")
-                  .map((item, index) => (
-                    <CartProduits
-                      key={item.id * index * 0.61}
-                      element={item}
-                      hidden={setHiddenCategorie(item)}
-                    />
-                  ))
-              )}
-            </S.GridContainer>
-            <S.GridContainer>
-              {!produitdata ? (
-                <CircularProgress />
-              ) : selectedCategorie ? (
-                produitdata
-                  .filter(
-                    (el) =>
-                      el.categorie !== "Services" &&
-                      el.categorie === selectedCategorie
-                  )
-                  .map((item, index) => (
-                    <CartProduits
-                      key={item.id + index * 7.3}
-                      elProduit={item}
-                      hidden={setHiddenProduit(item)}
-                    />
-                  ))
-              ) : (
-                produitdata
-                  .filter((el) => el.categorie !== "Services")
-                  .map((item, index) => (
-                    <CartProduits
-                      key={item.id + index * 7.3}
-                      elProduit={item}
-                      hidden={setHiddenProduit(item)}
-                    />
-                  ))
-              )}
-            </S.GridContainer>
           </S.Main>
         </S.MainContainer>
       )}

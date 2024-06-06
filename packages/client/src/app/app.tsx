@@ -15,14 +15,14 @@ export let theme = createTheme({
     secondary: {
       main: "#ffffff",
     },
-    colorNoir: {
-      main: "#000000",
+    colorMarronMenu: {
+      main: "#7A6E41",
     },
-    colorVert: {
-      main: "#23FC00",
+    colorVertMenu: {
+      main: "#489F80",
     },
-    colorTexteVert: {
-      main: "#06483a",
+    colorOrangeMenu: {
+      main: "#FC6130",
     },
     colorRougeOpacity: {
       main: "#9c050593",

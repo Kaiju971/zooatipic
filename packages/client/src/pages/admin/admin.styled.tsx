@@ -12,14 +12,14 @@ export const MainContainer = styled("div")`
   padding-top: 14vh;
   padding-bottom: 3vh;
   min-height: 100vh;
-  color: ${({ theme }) => theme.palette.colorTexteVert.main};
+  color: ${({ theme }) => theme.palette.colorVertMenu.main};
   background: url(${img}) no-repeat center center;
   background-size: cover;
 `;
 
 export const InsidedContainer = styled("div")`
   background-color: ${({ theme }) => theme.palette.colorBackgroundForm.main};
-  color: ${({ theme }) => theme.palette.colorTexteVert.main};
+  color: ${({ theme }) => theme.palette.colorVertMenu.main};
   margin-left: 2rem;
   margin-right: 2rem;
   margin-bottom: 2rem;
@@ -59,7 +59,7 @@ export const StyledTabs = styled(Tabs)<{ horizontal: boolean }>`
 `;
 
 export const StyledTab = styled(Tab)`
-  color: ${({ theme }) => theme.palette.colorTexteVert.main};
+  color: ${({ theme }) => theme.palette.colorVertMenu.main};
   font-size: 0.9rem;
   &.MuiTab-root.Mui-selected {
     ${sharedStyleBox}

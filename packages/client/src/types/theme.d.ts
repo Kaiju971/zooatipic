@@ -2,9 +2,9 @@
 import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Palette {
-    colorNoir: Palette["primary"];
-    colorVert: Palette["primary"];
-    colorTexteVert: Palette["primary"];
+    colorMarronMenu: Palette["primary"];
+    colorVertMenu: Palette["primary"];
+    colorOrangeMenu: Palette["primary"];
     colorRougeOpacity: Palette["primary"];
     colorGris: Palette["primary"];
     colorBackgroundForm: Palette["primary"];
@@ -14,9 +14,9 @@ declare module "@mui/material/styles" {
   }
 
   interface PaletteOptions {
-    colorNoir?: PaletteOptions["primary"];
-    colorVert?: PaletteOptions["primary"];
-    colorTexteVert?: PaletteOptions["primary"];
+    colorMarronMenu?: PaletteOptions["primary"];
+    colorVertMenu?: PaletteOptions["primary"];
+    colorOrangeMenu?: PaletteOptions["primary"];
     colorRougeOpacity?: PaletteOptions["primary"];
     colorGris?: PaletteOptions["primary"];
     colorBackgroundForm?: PaletteOptions["primary"];

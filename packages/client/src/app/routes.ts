@@ -4,8 +4,8 @@ export enum Routes {
   admin = "/admin",
   login = "/login",
   produits = "/produits",
-  cartproduit = "/cartproduit",
+  panier = "/panier",
   apropos = "/apropos",
-  categories = "categories",
-  carousel = "/carousel",
+  profil = "/profil",
+  connexion = "/connexion",
 }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { Routes } from "../../app/routes";
 import { Categorie, ProduitWithPhoto } from "../../types/produits";
 
-import * as S from "./cartProduits.styled";
+import * as S from "./connexion.styled";
 
 type Props = {
   element?: Categorie;
@@ -34,7 +34,7 @@ const CartProduit: React.FC<Props> = ({
     if (typeof element === "number") categorieId = element;
     else categorieId = element?.id ?? elProduit?.id_categorie;
     const produitId = elProduit?.id ?? 0;
-    navigate(Routes.cartproduit, {
+    navigate(Routes.admin, {
       state: { categorieId: categorieId, produitId: produitId },
     });
   };
