@@ -26,7 +26,7 @@ function IconAvatar() {
 
   return (
     <Box sx={{ flexGrow: 0, width: "5vw" }}>
-      <Tooltip title="Open settings">
+      <Tooltip title="Menu déroulant">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar
             alt="Remy Sharp"

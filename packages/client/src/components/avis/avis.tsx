@@ -6,8 +6,11 @@ import Slider from "react-slick";
 import * as S from "./avis.styled";
 import { Typography } from "@mui/material";
 
+interface Label {
+  [index: string]: string;
+}
 
-const labels: { [index: string]: string } = {
+const labels: Label = {
   0.5: "Je déconseille",
   1: "Je déconseille+",
   1.5: "Mauvais",
@@ -24,23 +27,71 @@ function getLabelText(value: number) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
+interface ArrowProps {
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}
+
+const SampleNextArrow: React.FC<ArrowProps> = ({
+  className,
+  style,
+  onClick,
+}) => {
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "red",
+        marginRight: "2rem",
+        zIndex: "10",
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
+const SamplePrevArrow: React.FC<ArrowProps> = ({
+  className,
+  style,
+  onClick,
+}) => {
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "green",
+        marginLeft: "2rem",
+        zIndex: "10",
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 1500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 3500,
+  arrows: true,
+  cssEase: "linear",
+  nextArrow: <SampleNextArrow />,
+  prevArrow: <SamplePrevArrow />,
+};
+
+const ArrayConfig = [1, 2, 3, 4, 5];
+
 const Avis: React.FC = () => {
   const [value, setValue] = React.useState<number | null>(2);
   const [hover, setHover] = React.useState(-1);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 1500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay:true,
-    autoplaySpeed: 3500,
-    arrows: true,
-    cssEase:"Linear"
-  };
-
-  const ArrayConfig = [1, 2, 3, 4, 5];
 
   return (
     <S.MainContainer>
@@ -59,7 +110,8 @@ const Avis: React.FC = () => {
             sx={{
               width: 200,
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
               marginTop: "3rem",
               textAlign: "center",
             }}
