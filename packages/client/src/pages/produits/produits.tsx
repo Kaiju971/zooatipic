@@ -418,7 +418,7 @@ const Produits: React.FC = () => {
                 color: "colorGris.main",
               }}
             >
-              Nous réalisons
+              Notre parc
             </Typography>
           </S.Main>
         </S.MainContainer>

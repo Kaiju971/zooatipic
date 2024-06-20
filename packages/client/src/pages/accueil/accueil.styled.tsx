@@ -13,7 +13,7 @@ export const VideoContainer = styled("div")`
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     transform: translate(-50%, -50%); // centre video
     min-height: 100%;
@@ -56,7 +56,6 @@ export const Box = styled("div")`
   //   text-align: center;
   //   width: 50vw;
   //   height: 100%;
- 
 `;
 
 export const NewsLetter = styled("div")`

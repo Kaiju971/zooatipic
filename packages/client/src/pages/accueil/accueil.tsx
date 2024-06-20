@@ -35,7 +35,11 @@ const Home: React.FC = () => {
         <S.NewsLetter>
           <Box sx={{ "& button": { m: 10 } }}>
             <div>
-              <Button variant="contained" size="large"  >
+              <Button
+                sx={{ backgroundColor: "black" }}
+                variant="contained"
+                size="large"
+              >
                 NEWSLETTER
               </Button>
             </div>
@@ -44,19 +48,19 @@ const Home: React.FC = () => {
           <Box
             component="form"
             sx={{
-              "& .MuiTextField-root": { m: 10, width: "30vw" }, marginLeft:"-10rem",
-              
+              "& .MuiTextField-root": { m: 10, width: "30vw" },
+              marginLeft: "-10rem",
             }}
             noValidate
             autoComplete="off"
           >
             <div>
               <TextField
+                sx={{ backgroundColor: "white" }}
                 label="Size"
                 id="outlined-size-medium"
                 defaultValue="Medium"
                 size="medium"
-                
               />
             </div>
           </Box>
