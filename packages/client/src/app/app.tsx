@@ -7,6 +7,20 @@ import ScrollButton from "../components/scrollButton";
 //  import FaviconTheme from "../shared/faviconTheme";
 import React from "react";
 
+import "@mui/material";
+
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xxs: true;
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    xxl: true;
+  }
+}
+
 export let theme = createTheme({
   palette: {
     primary: {
@@ -109,8 +123,8 @@ export let theme = createTheme({
     },
   },
   breakpoints: {
-    keys: ["xs", "sm", "md", "lg", "xl"],
-    values: { xs: 0, sm: 568, md: 760, lg: 960, xl: 1200 },
+    keys: ["xxs", "xs", "sm", "md", "lg", "xl", "xxl"],
+    values: { xxs: 0, xs: 300, sm: 568, md: 750, lg: 960, xl: 1200, xxl: 1500 },
   },
 });
 theme = responsiveFontSizes(theme);

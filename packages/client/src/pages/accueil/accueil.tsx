@@ -1,4 +1,3 @@
-import * as S from "./accueil.styled";
 import React from "react";
 import video from "../../video/videoAccueil.mp4";
 import CarouselAccueil from "../../components/carouselAccueil/carouselAccueil";
@@ -8,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Avis from "../../components/avis/avis";
+
+import * as S from "./accueil.styled";
 
 const Home: React.FC = () => {
   return (

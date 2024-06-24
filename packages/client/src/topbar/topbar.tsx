@@ -51,25 +51,41 @@ const TopBar: React.FC = () => {
     },
     [navigate]
   );
+
+  const avatar = (
+    <>
+      <IconAvatar />
+      <IconButton
+        onClick={() => navigate(Routes.panier)}
+        sx={{
+          pl: 2,
+        }}
+      >
+        <Avatar alt="Panier" src={Basket} />
+      </IconButton>
+    </>
+  );
+
   const drawer = (
-    <S.DrawerBodyBox onClick={handleDrawerToggle}>
-      <S.CloseIconStyle>
+    <S.DrawerBodyBox>
+      <S.CloseIconStyle onClick={handleDrawerToggle}>
         <Typography variant="h5" className="close" color="primary.main">
           Close
         </Typography>
         <CloseIcon sx={{ fontSize: "2rem", color: "primary.main" }} />
       </S.CloseIconStyle>
+      <S.FlexCont mobile={true}>{avatar}</S.FlexCont>
 
-      <Divider variant="middle" sx={{ width: "80%" }} />
+      <Divider variant="middle" sx={{ width: "80%", mt: "2%" }} />
       <List
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "start",
+          alignItems: "center",
           width: "100%",
         }}
       >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
         {menuItemsArray.map((item) => (
           <ListItem key={item}>
             <ListItemButton selected={isSelected(item)}>
@@ -77,7 +93,7 @@ const TopBar: React.FC = () => {
                 primary={item === MenuItems.APROPOS ? "A propos" : item}
                 onClick={() => handleItemMenu(item)}
                 primaryTypographyProps={{
-                  fontSize: { xs: "4vw", sm: "4vw", md: "2vw" },
+                  fontSize: { xxs: "3vh", xs: "4vh", sm: "4vh", md: "4vh" },
                   textTransform: "capitalize",
                 }}
               />
@@ -104,17 +120,19 @@ const TopBar: React.FC = () => {
           </Typography>
         )}
       </S.LoginContainer>
-      <Typography variant="body2" sx={{ color: "white", width: "100%" }}>
-        © {getCurrentYear()} ZooAtipic .Tous Droits Réservés.
+      <Typography
+        variant="body2"
+        sx={{
+          color: "white",
+          width: "100%",
+          position: "absolute",
+          bottom: "4%",
+        }}
+      >
+        © {getCurrentYear()} ZooAtipic. Tous Droits Réservés.
       </Typography>
     </S.DrawerBodyBox>
   );
-
-  function handleOpenUserMenu(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <Box
@@ -145,15 +163,14 @@ const TopBar: React.FC = () => {
             width: "100%",
           }}
         >
-          {/* <S.FlexBox> */}
           <S.LogoMain src={Logo} onClick={() => navigate(Routes.accueil)} />
-          <Box sx={{ width: "50vw" }} />
+
           <List
             sx={{
-              display: "flex",
               justifyContent: "end",
               width: "100%",
               pl: 5,
+              display: { xxs: "none", xs: "none", sm: "none", md: "flex" },
             }}
           >
             {menuItemsArray.map((item) => (
@@ -191,15 +208,7 @@ const TopBar: React.FC = () => {
             ))}
           </List>
           <div>
-            <S.FlexCont>
-              <IconAvatar />
-              <IconButton
-                onClick={() => navigate(Routes.panier)}
-                sx={{ pl: 2 }}
-              >
-                <Avatar alt="Remy Sharp" src={Basket} />
-              </IconButton>
-            </S.FlexCont>
+            <S.FlexCont mobile={false}>{avatar}</S.FlexCont>
             <IconButton
               color="primary"
               aria-label="open drawer"
@@ -213,7 +222,6 @@ const TopBar: React.FC = () => {
               <MenuIcon />
             </IconButton>
           </div>
-          {/* </S.FlexBox> */}
         </Toolbar>
       </AppBar>
 
