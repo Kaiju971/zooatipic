@@ -29,10 +29,12 @@ function IconAvatar() {
       <Tooltip title="Menu déroulant">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar
-            alt="Remy Sharp"
+            alt="avatar"
             src="/static/images/avatar/2.jpg"
-            sx={{ width: "5vw", height: "7vh" }}
-          />
+            sx={{ width: "50px", height: "50px" }}
+          >
+            Name
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

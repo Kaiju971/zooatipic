@@ -26,13 +26,24 @@ export const DrawerBox = styled(Drawer)`
     box-sizing: "border-box";
     max-height: 100vh;
     position: fixed;
-    width: 30%;
+    padding-left: 5%;
+    background: linear-gradient(
+      172.56deg,
+      rgba(255, 199, 0, 0.6) 0%,
+      rgba(184, 186, 108, 0.8) 41%,
+      #7a6e41 77.5%
+    );
 
-    @media (max-width: 960px) {
-      width: 50%;
+    @media (min-width: 760px) {
+      display: none;
     }
 
     @media (max-width: 760px) {
+      width: 70%;
+      display: block;
+    }
+
+    @media (max-width: 568px) {
       width: 100%;
     }
   }
@@ -132,8 +143,15 @@ export const ListItemIcon = styled("div")`
   justify-content: center;
 `;
 
-export const FlexCont = styled("div")`
+export const FlexCont = styled("div")<{ mobile: boolean }>`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+
+  @media (max-width: 750px) {
+    display: ${({ mobile }) => (mobile ? "flex" : "none")};
+    margin-left: 5%;
+    width: 80%;
+  }
 `;
