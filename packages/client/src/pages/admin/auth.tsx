@@ -7,8 +7,8 @@ import { Typography } from "@mui/material";
 import axios from "../../axios";
 import { AxiosError } from "axios";
 import { MIN_SIZE_IMAGE, MAX_SIZE_IMAGE } from "../../constants/index";
-import FormConnection from "../../components/connexion/formConnexion";
-import FormInscription from "../../components/inscription/formInscription";
+import FormConnection from "../../components/formConnexion/formConnexion";
+import FormInscription from "../connexion/connexion";
 import { UserRoles } from "../../constants/roles";
 
 import * as S from "./auth.styled";

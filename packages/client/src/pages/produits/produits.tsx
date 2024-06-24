@@ -18,7 +18,7 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 // import useApiServce from "../../hooks/service/useAPIservice";
 import { Categorie, ProduitWithPhoto } from "../../types/produits";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import LoadingSection from "../../components/connexion/LoadingSection";
+import LoadingSection from "../../components/formConnexion/LoadingSection";
 import { Helmet } from "react-helmet";
 
 import * as S from "./produits.styled";
