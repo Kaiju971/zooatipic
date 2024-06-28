@@ -1,5 +1,5 @@
 export type Nourritures = {
-  id: string;
+  id: number;
   nourriture: string;
   id_animaux: number;
 };

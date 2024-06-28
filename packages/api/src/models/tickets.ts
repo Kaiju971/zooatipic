@@ -4,9 +4,8 @@ import { Tickets } from "./types/tickets";
 export const table = "tickets";
 
 export const getTickets = async () => {
-  const results = await knex<Tickets>(table)
-    .select("*")
-   
+  const results = await knex<Tickets>(table).select("*");
+
   if (results && results.length) {
     return results;
   }
@@ -25,3 +24,36 @@ export const createTicket = async (data: any) => {
   return results[0];
 };
 
+export const putTicketById = async (data: Tickets) => {
+  const id = Number(data.id);
+  const existingTicket = await knex<Tickets>("tickets")
+    .select("*")
+    .where({ id })
+    .first();
+
+  if (!existingTicket) {
+    return null;
+  }
+  const updatedFields: Partial<Tickets> = {};
+
+  if (data.tickets !== existingTicket.tickets && data.tickets !== "") {
+    updatedFields.tickets = data.tickets;
+  }
+
+  if (data.prix !== existingTicket.prix && data.prix !== 0) {
+    updatedFields.prix = data.prix;
+  }
+
+  if (Object.keys(updatedFields).length === 0) {
+    return null;
+  }
+
+  const results = await knex<Tickets>("tickets")
+    .update(updatedFields)
+    .where({ id })
+    .returning("id");
+
+  if (results) return results[0];
+
+  return null;
+};

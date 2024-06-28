@@ -37,8 +37,23 @@ export const getAllTickets =
         if (!ticketId) {
           return res
             .status(404)
-            .send({ message: "Le produit n'a pas été créé" });
+            .send({ message: "Le ticket n'a pas été créé" });
         }
 
         res.send({ results: [ticketId] });
       };
+
+      export const updateTicketById =
+        (model: Ticket) => async (req: Request, res: Response) => {
+          const data = req.body;
+
+          const ticketId = await model.putTicketById(data as any);
+
+          if (!ticketId) {
+            return res
+              .status(400)
+              .send({ message: "Le ticket n'a pas été modifié" });
+          }
+
+          res.send({ results: [ticketId] });
+        };

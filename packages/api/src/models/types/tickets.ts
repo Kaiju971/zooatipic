@@ -1,8 +1,7 @@
 export type Tickets = {
-  id: string;
+  id: number;
   tickets: string;
   prix: number;
- 
 };
 
 
