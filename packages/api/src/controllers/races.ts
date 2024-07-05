@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Animaux, Races } from "../models/types/races";
 
 import * as raceModel from "../models/races";
 
@@ -14,10 +13,22 @@ export const getAllRaces =
     res.send({ results: [race] });
   };
 
+export const updateRaceById =
+  (model: Race) => async (req: Request, res: Response) => {
+    const data = req.body;
+
+    const raceId = await model.putRaceById(data as any);
+
+    if (!raceId) {
+      return res.status(400).send({ message: "La race n'a pas été modifié" });
+    }
+
+    res.send({ results: [raceId] });
+  };
+
 export const deleteRace =
   (model: Race) => async (req: Request, res: Response) => {
     const id = req.params.id;
-
 
     const raceId = await model.deleteRaceById(id as string);
 
@@ -28,20 +39,18 @@ export const deleteRace =
     res.send({ results: [raceId] });
   };
 
-  export const createNewRace =
-    (model: Race) => async (req: Request, res: Response) => {
-      const data = req.body;
+export const createNewRace =
+  (model: Race) => async (req: Request, res: Response) => {
+    const data = req.body;
 
-      const raceId = await model.createRace(data as any);
+    const raceId = await model.createRace(data as any);
 
-      if (!raceId) {
-        return res
-          .status(404)
-          .send({ message: "La race n'a pas été créé" });
-      }
+    if (!raceId) {
+      return res.status(404).send({ message: "La race n'a pas été créé" });
+    }
 
-      res.send({ results: [raceId] });
-    };
+    res.send({ results: [raceId] });
+  };
 
 export const getAllAnimaux =
   (model: Race) => async (req: Request, res: Response) => {
@@ -56,7 +65,6 @@ export const deleteAnimal =
   (model: Race) => async (req: Request, res: Response) => {
     const id = req.params.id;
 
-
     const animalId = await model.deleteAnimalById(id as string);
 
     if (!animalId) {
@@ -66,15 +74,28 @@ export const deleteAnimal =
     res.send({ results: [animalId] });
   };
 
-  export const createNewAnimal =
-    (model: Race) => async (req: Request, res: Response) => {
-      const data = req.body;
+export const updateAnimalById =
+  (model: Race) => async (req: Request, res: Response) => {
+    const data = req.body;
 
-      const animalId = await model.createAnimal(data as any);
+    const animalId = await model.putAnimalById(data as any);
 
-      if (!animalId) {
-        return res.status(404).send({ message: "L'animal n'a pas été créé" });
-      }
+    if (!animalId) {
+      return res.status(400).send({ message: "L'animal n'a pas été modifié" });
+    }
 
-      res.send({ results: [animalId] });
-    };
+    res.send({ results: [animalId] });
+  };
+
+export const createNewAnimal =
+  (model: Race) => async (req: Request, res: Response) => {
+    const data = req.body;
+
+    const animalId = await model.createAnimal(data as any);
+
+    if (!animalId) {
+      return res.status(404).send({ message: "L'animal n'a pas été créé" });
+    }
+
+    res.send({ results: [animalId] });
+  };

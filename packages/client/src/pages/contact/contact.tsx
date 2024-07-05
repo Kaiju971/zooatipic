@@ -3,7 +3,7 @@ import DevisForm from "../../components/contact/devisForm";
 // import MapComponent from "../../components/map/localisationMap";
 import * as S from "./contact.styled";
 // import * as SI from "../../components/banner/banner.styled";
-import LoadingSection from "../../components/connexion/LoadingSection";
+import LoadingSection from "../../components/formConnexion/LoadingSection";
 // import Banner from "../../components/banner/Banner";
 // import imgVehicule from "../../images/vehiculeABS.jpg";
 // import InfoEntreprise from "../../components/infoEntreprise/infoEntreprise";

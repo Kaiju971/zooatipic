@@ -36,6 +36,7 @@
     "dev": "lerna run --parallel dev"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "concurrently": "^8.2.0",
     "lerna": "^8.1.2"
   }

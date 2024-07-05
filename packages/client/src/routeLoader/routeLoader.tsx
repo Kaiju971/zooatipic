@@ -1,13 +1,12 @@
 import React from "react";
 
 import { Container } from "./routeLoader.styled";
-import LoadingSection from "../components/connexion/LoadingSection";
+import LoadingSection from "../components/formConnexion/LoadingSection";
 
 const RouteLoader: React.FC = () => {
-
   return (
     <Container>
-        <LoadingSection />
+      <LoadingSection />
     </Container>
   );
 };

@@ -13,6 +13,40 @@ export const getAllRaces = async () => {
   return null;
 };
 
+export const putRaceById = async (data: Races) => {
+  const id = Number(data.id);
+  const existingRace = await knex<Races>("races")
+    .select("*")
+    .where({ id })
+    .first();
+
+  if (!existingRace) {
+    return null;
+  }
+  const updatedFields: Partial<Races> = {};
+
+  if (data.race !== existingRace.race && data.race !== "") {
+    updatedFields.race = data.race;
+  }
+
+  if (data.id_animaux !== existingRace.id_animaux && data.id_animaux !== 0) {
+    updatedFields.id_animaux = data.id_animaux;
+  }
+
+  if (Object.keys(updatedFields).length === 0) {
+    return null;
+  }
+
+  const results = await knex<Races>("races")
+    .update(updatedFields)
+    .where({ id })
+    .returning("id");
+
+  if (results) return results[0];
+
+  return null;
+};
+
 export const deleteRaceById = async (id: string) => {
   return knex<number>(table).where("id", id).del();
 };
@@ -31,6 +65,36 @@ export const getAnimaux = async () => {
   if (results && results.length) {
     return results;
   }
+  return null;
+};
+
+export const putAnimalById = async (data: Animaux) => {
+  const id = Number(data.id);
+  const existingAnimal = await knex<Animaux>("animaux")
+    .select("*")
+    .where({ id })
+    .first();
+
+  if (!existingAnimal) {
+    return null;
+  }
+  const updatedFields: Partial<Animaux> = {};
+
+  if (data.animal !== existingAnimal.animal && data.animal !== "") {
+    updatedFields.animal = data.animal;
+  }
+
+  if (Object.keys(updatedFields).length === 0) {
+    return null;
+  }
+
+  const results = await knex<Animaux>("animaux")
+    .update(updatedFields)
+    .where({ id })
+    .returning("id");
+
+  if (results) return results[0];
+
   return null;
 };
 

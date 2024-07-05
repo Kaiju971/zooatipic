@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as avisModel from "../models/avis";
+import { Sujets } from "../models/types/avis";
 
 type Avis = typeof avisModel;
 
@@ -38,6 +39,21 @@ export const createNewAvis =
     res.send({ results: [avisId] });
   };
 
+  export const updateAvisById =
+    (model: Avis) => async (req: Request, res: Response) => {
+      const data = req.body;
+
+      const avisId = await model.putAvisById(data as any);
+
+      if (!avisId) {
+        return res
+          .status(400)
+          .send({ message: "L'avis n'a pas été modifié" });
+      }
+
+      res.send({ results: [avisId] });
+    };
+
 export const getAllSujets =
   (model: Avis) => async (req: Request, res: Response) => {
     const sujet = await model.getSujets();
@@ -72,3 +88,18 @@ export const createNewSujet =
 
     res.send({ results: [sujetId] });
   };
+
+  export const updateSujetById =
+    (model: Avis) => async (req: Request, res: Response) => {
+      const data = req.body;
+
+      const sujetId = await model.putSujetById(data as any);
+
+      if (!sujetId) {
+        return res
+          .status(400)
+          .send({ message: "Le sujet n'a pas été modifié" });
+      }
+
+      res.send({ results: [sujetId] });
+    };

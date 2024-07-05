@@ -1,20 +1,12 @@
 export type Avis = {
-  id: string;
+  id: number;
   message: string;
-  note: string;
-  email: string;
+  note: number;
   id_user: number;
-  id_sujet: string;
+  id_sujet: number;
 };
 
-// export type UserCreate = {
-//   id: string;
-//   nom: string;
-//   prenom: string;
-//   email: string;
-//   id_role: number;
-//   password: string;
-// };
+
 
 export type Sujets = {
   id: number;
