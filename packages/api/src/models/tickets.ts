@@ -12,6 +12,15 @@ export const getTickets = async () => {
   return null;
 };
 
+export const getTicketPrixbyId = async (id: number) => {
+  const results = await knex<Tickets>(table).select("prix").where({ id });
+
+  if (results) {
+    return results[0].prix;
+  }
+  return null;
+};
+
 export const deleteTicketById = async (id: string) => {
   return knex<number>(table).where("id", id).del();
 };

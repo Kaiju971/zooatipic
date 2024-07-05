@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
-console.log(process.env.FIREBASE_APIKEY);
-
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
