@@ -3,12 +3,10 @@ import AuthContext from "../../store/auth/AuthContextProvider";
 import { AuthData } from "../../types/apiData";
 import { useLocation } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { Typography } from "@mui/material";
 import axios from "../../axios";
 import { AxiosError } from "axios";
 import { MIN_SIZE_IMAGE, MAX_SIZE_IMAGE } from "../../constants/index";
 import FormConnection from "../../components/formConnexion/formConnexion";
-import FormInscription from "../connexion/connexion";
 import { UserRoles } from "../../constants/roles";
 
 import * as S from "./auth.styled";
@@ -19,7 +17,7 @@ const Auth = () => {
   const { globalLogInDispatch, registerChange } = useContext(AuthContext);
   const location = useLocation();
   const currentPathArray = location.pathname.split("/");
-  const isLogin = currentPathArray[currentPathArray.length - 1] === "login";
+
   const isAdmin = currentPathArray[currentPathArray.length - 1] === "admin";
 
   const showError = (err: any, mess: string) => {
@@ -57,7 +55,8 @@ const Auth = () => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-
+    console.log(data);
+    const isSignUp = data && data.get("prenom");
     const formdata = new FormData();
     const fileData = data.get("avatar") as File;
     const err = "upload file error";
@@ -83,20 +82,21 @@ const Auth = () => {
     }
 
     const roleValue = data.get("role")?.toString().toUpperCase();
-    let roleIndex = 3;
+    let roleIndex = 2;
     if (roleValue !== undefined) {
       roleIndex = Object.keys(UserRoles).indexOf(roleValue) + 1;
-      formdata.append("id_role", roleIndex.toString() ?? 3);
     }
-
+    formdata.append("id_role", roleIndex.toString());
     formdata.append("email", data.get("email") ?? "");
     formdata.append("password", data.get("password") ?? "");
     formdata.append("nom", data.get("nom") ?? "");
     formdata.append("prenom", data.get("prenom") ?? "");
 
-    const endpoint = `${isLogin ? "login" : "register"}`;
+    const endpoint = `${isSignUp ? "createuser" : "login"}`;
     const headers = {
-      "content-type": `${isLogin ? "application/json" : "multipart/form-data"}`,
+      "content-type": `${
+        isSignUp ? "multipart/form-data" : "application/json"
+      }`,
     };
 
     axios
@@ -120,24 +120,7 @@ const Auth = () => {
 
   return (
     <S.MainContainer>
-      <Typography
-        variant="h2"
-        sx={{
-          width: "100%",
-          height: "10vh",
-          backgroundColor: "#00000027",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {isLogin ? "" : isAdmin ? "Ajouteur l'utilisateur" : "Sign Up"}
-      </Typography>
-      {isLogin ? (
-        <FormConnection onSubmit={authHandler} />
-      ) : (
-        <FormInscription onSubmit={authHandler} />
-      )}
+      <FormConnection onSubmit={authHandler} />
     </S.MainContainer>
   );
 };

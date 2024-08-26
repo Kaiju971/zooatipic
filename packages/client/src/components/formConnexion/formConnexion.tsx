@@ -1,19 +1,8 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  FilledInput,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  Typography,
-} from "@mui/material";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { Validate, ValidationGroup } from "mui-validate";
 import React, { FormEventHandler, useState } from "react";
-import { useNavigate } from "react-router";
-import imgBan from "../../images/ZOOAtipic.png";
+import { Typography } from "@mui/material";
+import TextFieldValidated from "./textFieldValidated";
+import { ValidationGroup } from "mui-validate";
 
-// import Loading from "../../shared/loading";
 import * as S from "./formConnexion.styled";
 
 type Props = {
@@ -21,166 +10,161 @@ type Props = {
 };
 
 const FormConnection: React.FC<Props> = (props: Props) => {
-  const navigate = useNavigate();
   const { onSubmit } = props;
+  const [show, setShow] = useState(false);
+  const [password, setPassword] = useState("");
+  const [validationNom, setValidationNom] = useState({
+    valid: false,
+    messages: [],
+    display: false,
+  });
+  const [validationPrenom, setValidationPrenom] = useState({
+    valid: false,
+    messages: [],
+    display: false,
+  });
   const [validationEmail, setValidationEmail] = useState({
     valid: false,
     messages: [],
     display: false,
   });
+  const [validationPassword, setValidationPassword] = useState({
+    valid: false,
+    messages: [],
+    display: true,
+  });
+  const [validationPasswordConf, setValidationPasswordConf] = useState({
+    valid: false,
+    messages: [],
+    display: true,
+  });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const [password, setPassword] = useState(""); // Définir l'état du mot de passe
-
-  const validationForm = validationEmail.valid;
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+  const validationForm =
+    validationEmail.valid &&
+    validationPassword.valid &&
+    (!show ||
+      (validationNom.valid &&
+        validationPrenom.valid &&
+        validationPasswordConf.valid));
 
   const addValidationForm = (event: React.FormEvent<HTMLFormElement>) => {
     if (validationForm) onSubmit(event);
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value); // Mettre à jour le mot de passe lorsqu'il est modifié
-  };
-
   return (
-    <S.MainContainer2>
-      <ValidationGroup>
-        <>
-          <Box
-            component="form"
-            sx={{
-              width: "50%",
-              marginLeft: "25%",
-              marginTop: "5%",
-              marginBottom: "5%",
-              borderRadius: "5px",
-              backgroundColor: "#00000012",
-              "& .MuiTextField-root": {
-                m: 1,
-                width: { xs: "50vw", md: "25vw" },
-                borderRadius: "10px",
-                borderBlockColor: "secondary.main",
-                backgroundColor: "secondary.main",
-                boxShadow: " 0px 4px 4px gray inset",
-              },
-            }}
-            noValidate
-            autoComplete={"off"}
-            onSubmit={addValidationForm}
-          >
-            <S.BoxForm2>
-              <Typography
-                variant="body1"
-                color="primary.main"
-                textAlign="center"
-                paddingLeft="1.5rem"
-              >
-                Email :
-              </Typography>
-              <Validate
-                name="email"
-                regex={[
-                  /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+    <ValidationGroup>
+      <>
+        <S.StyledBox
+          noValidate
+          autoComplete={"off"}
+          show={show}
+          onSubmit={addValidationForm}
+        >
+          <S.BoxTitle>
+            <Typography variant="h1" textAlign="center" paddingLeft="1.5rem">
+              {show ? "INSCRIPTION" : "CONNEXION"}
+            </Typography>
+          </S.BoxTitle>
+          <S.FlexBox>
+            <TextFieldValidated
+              nameField="nom"
+              conditionArray={[
+                [
+                  (value) => /^[a-zA-Z]+$/.test(value),
+                  "Vous ne pouvez mettre que des lettres majuscules et minuscules",
+                ],
+              ]}
+              show={show}
+              setValidationField={setValidationNom}
+            />
+            <TextFieldValidated
+              nameField="prenom"
+              conditionArray={[
+                [
+                  (value) => /^[a-zA-Z]+$/.test(value),
+                  "Vous ne pouvez mettre que des lettres majuscules et minuscules",
+                ],
+              ]}
+              show={show}
+              setValidationField={setValidationPrenom}
+            />
+            <TextFieldValidated
+              nameField="email"
+              conditionArray={[
+                [
+                  (value) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value),
                   "Votre email n'est pas valide",
-                ]}
-                after={(result: any) => setValidationEmail(result)}
-              >
-                <S.ContainerEmail>
-                  <TextField
-                    required
-                    id="email"
-                    type="text"
-                    placeholder="Entrez votre email..."
-                    fullWidth
-                    name="email"
-                  />
-                </S.ContainerEmail>
-              </Validate>
-              <Typography
-                variant="body1"
-                color="primary.main"
-                textAlign="center"
-                paddingLeft="1.5rem"
-              >
-                Mot de passe :
+                ],
+              ]}
+              show={true}
+              setValidationField={setValidationEmail}
+            />
+            <TextFieldValidated
+              nameField="password"
+              label="mot de passe"
+              conditionArray={[
+                [
+                  (value: string) => /[A-Z]/.test(value),
+                  "Au moins une majuscule",
+                ],
+                [
+                  (value: string) => /[a-z]/.test(value),
+                  "Au moins une minuscule",
+                ],
+                [
+                  (value: string) => /[!@#$%^&*(),.?":{}|<>]/.test(value),
+                  "Au moins un caractère spécial",
+                ],
+                [
+                  (value: string) => value.length >= 12,
+                  "Au moins 12 caractères",
+                ],
+              ]}
+              controled
+              show={true}
+              setValidationField={setValidationPassword}
+              setFieldValue={setPassword}
+            />
+            <TextFieldValidated
+              nameField="passwordConf"
+              label="mot de passe confirmation"
+              conditionArray={[
+                [
+                  (value) =>
+                    validationPassword &&
+                    value.length > 0 &&
+                    value === password,
+                  "Le mot de passe ne correspond pas",
+                ],
+              ]}
+              controled
+              show={show}
+              placeholder="Confirmez votre mot de passe..."
+              setValidationField={setValidationPasswordConf}
+            />
+          </S.FlexBox>
+          <br />
+          <br />
+          <S.Buttons>
+            <S.ButtonSubmit
+              type="submit"
+              variant="contained"
+              disabled={!validationForm}
+            >
+              <Typography variant="h2">
+                {show ? "Valider" : "Se connecter"}
               </Typography>
-
-              <FormControl
-                sx={{
-                  m: 1,
-                  width: "50%",
-                  borderRadius: "5px",
-                  borderBlockColor: "secondary.main",
-                  backgroundColor: "secondary.main",
-                  boxShadow: " 0px 4px 4px gray inset",
-                  "@media(max-width: 762px)": {
-                    width: "90%",
-                    marginLeft: "5%",
-                  },
-                }}
-                variant="standard"
-              >
-                <FilledInput
-                  id="filled-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  placeholder="Entrez votre mot de passe..."
-                  name="password"
-                  value={password} // Ajouter la valeur du mot de passe
-                  onChange={handlePasswordChange} // Ajouter la fonction de gestion du changement de mot de passe
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-
-              <br />
-              <br />
-              <S.ButtonSubmit
-                type="submit"
-                variant="contained"
-                color="secondary"
-                disabled={validationForm ? false : true}
-              >
-                Se Connecter
-              </S.ButtonSubmit>
-              <hr style={{ border: "3px solid white" }} />
-              <S.pTag>La page de connexion est réservée aux employés.</S.pTag>
-              <hr
-                style={{
-                  width: "60%",
-                  marginLeft: "20%",
-                  border: "2px solid darkred",
-                }}
-              />
-              <S.ContainerImage2
-                src={imgBan}
-                alt="logo"
-                onClick={() => navigate("/")}
-              />
-              {/* <Loading /> */}
-            </S.BoxForm2>
-          </Box>
-        </>
-      </ValidationGroup>
-    </S.MainContainer2>
+            </S.ButtonSubmit>
+          </S.Buttons>
+          <hr style={{ border: "3px solid white" }} />
+          <S.PTag variant="h5" onClick={() => setShow(!show)}>
+            {show
+              ? "Connectez-vous"
+              : "Vous n'êtes pas encore inscrit ? Inscrivez-vous !"}
+          </S.PTag>
+        </S.StyledBox>
+      </>
+    </ValidationGroup>
   );
 };
 

@@ -1,6 +1,6 @@
 export enum MenuItemsAvatar {
-  LOGIN = "login",
-  LOGOUT = "logout",
+  LOGIN = "log in",
+  LOGOUT = "log out",
   ADMIN = "admin",
   PROFIL = "profil",
 }

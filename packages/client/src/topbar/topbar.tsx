@@ -40,7 +40,7 @@ const TopBar: React.FC = () => {
   const { pathname } = useLocation();
   const { globalLogOutDispatch, authState } = useContext(AuthContext);
   const isSelected = (item: string): boolean => pathname.includes(item);
-
+  console.log(authState);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -111,11 +111,7 @@ const TopBar: React.FC = () => {
             Log Out
           </Typography>
         ) : (
-          <Typography
-            variant="h5"
-            sx={{ opacity: 0 }}
-            onClick={() => navigate(Routes.login)}
-          >
+          <Typography variant="h5" onClick={() => navigate(Routes.login)}>
             Log In
           </Typography>
         )}

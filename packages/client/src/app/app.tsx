@@ -24,16 +24,22 @@ declare module "@mui/material/styles" {
 export let theme = createTheme({
   palette: {
     primary: {
-      main: "#a90b0b",
-    },
-    secondary: {
       main: "#ffffff",
     },
-    colorMarronMenu: {
-      main: "#7A6E41",
+    secondary: {
+      main: "#000000",
     },
-    colorVertMenu: {
-      main: "#489F80",
+    colorJauneFooter: {
+      main: "#FCDB30",
+    },
+    colorJauneFonce: {
+      main: "#FFC700",
+    },
+    colorJauneTexte: {
+      main: "#9D6F16",
+    },
+    colorJauneBorder: {
+      main: "#CA7D23",
     },
     colorOrangeMenu: {
       main: "#FC6130",
@@ -50,11 +56,11 @@ export let theme = createTheme({
     colorBackgroundForm: {
       main: "#d0d0d0f3",
     },
-    rougeFoncé: {
-      main: "#3e1313", // #ccf5d5 //
+    colorVertButton: {
+      main: "#23F800",
     },
-    colorJaune: {
-      main: "#f9f905", //#8B9781 //#0B3E27
+    colorVertMenu: {
+      main: "#489F80",
     },
   },
   typography: {

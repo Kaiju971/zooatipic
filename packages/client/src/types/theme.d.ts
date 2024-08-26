@@ -2,26 +2,30 @@
 import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Palette {
-    colorMarronMenu: Palette["primary"];
-    colorVertMenu: Palette["primary"];
+    colorJauneFooter: Palette["primary"];
+    colorJauneFonce: Palette["primary"];
     colorOrangeMenu: Palette["primary"];
     colorRougeOpacity: Palette["primary"];
     colorGris: Palette["primary"];
     colorBackgroundForm: Palette["primary"];
     colorBackgroundForm1: Palette["primary"];
-    rougeFoncé: Palette["primary"];
-    colorJaune: Palette["primary"];
+    colorVertMenu: Palette["primary"];
+    colorJauneTexte: Palette["primary"];
+    colorVertButton: Palette["primary"];
+    colorJauneBorder: Palette["primary"];
   }
 
   interface PaletteOptions {
-    colorMarronMenu?: PaletteOptions["primary"];
-    colorVertMenu?: PaletteOptions["primary"];
+    colorJauneFooter?: PaletteOptions["primary"];
+    colorJauneFonce?: PaletteOptions["primary"];
     colorOrangeMenu?: PaletteOptions["primary"];
     colorRougeOpacity?: PaletteOptions["primary"];
     colorGris?: PaletteOptions["primary"];
     colorBackgroundForm?: PaletteOptions["primary"];
     colorBackgroundForm1?: PaletteOptions["primary"];
-    rougeFoncé?: PaletteOptions["primary"];
-    colorJaune?: PaletteOptions["primary"];
+    colorVertMenu?: PaletteOptions["primary"];
+    colorJauneTexte?: PaletteOptions["primary"];
+    colorVertButton?: PaletteOptions["primary"];
+    colorJauneBorder?: PaletteOptions["primary"];
   }
 }
