@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -9,11 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import { MenuItemsAvatar } from "../constants/menuItemsAvatar";
 import AuthContext from "../store/auth/AuthContextProvider";
 import { UserRoles } from "../constants/roles";
+import { useNavigate } from "react-router";
+import { Routes } from "../app/routes";
 
 const menuItemsArray = Object.values(MenuItemsAvatar);
 
 function IconAvatar() {
-  const { authState } = useContext(AuthContext);
+  const { globalLogOutDispatch, authState } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,6 +26,13 @@ function IconAvatar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleItemMenu = useCallback(
+    (item: MenuItemsAvatar) => {
+      authState.isLoggedIn ? globalLogOutDispatch() : navigate(Routes.login);
+    },
+    [authState.isLoggedIn, globalLogOutDispatch, navigate]
+  );
 
   return (
     <Box sx={{ flexGrow: 0, width: "5vw" }}>
@@ -56,7 +66,7 @@ function IconAvatar() {
         {menuItemsArray.map((item, index) => (
           <MenuItem
             key={index}
-            onClick={handleCloseUserMenu}
+            onClick={() => handleItemMenu(item)}
             sx={{
               textTransform: "capitalize",
               textAlign: "left",

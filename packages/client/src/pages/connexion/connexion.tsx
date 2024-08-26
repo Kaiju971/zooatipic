@@ -101,7 +101,7 @@ const Connexion: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
-  const isLengthValid = (password: string) => password.length >= 7;
+  const isLengthValid = (password: string) => password.length >= 12;
   const hasUpperCase = (password: string) => /[A-Z]/.test(password);
   const hasLowerCase = (password: string) => /[a-z]/.test(password);
   const hasSpecialChar = (password: string) =>
@@ -111,7 +111,7 @@ const Connexion: React.FC<Props> = ({ onSubmit }) => {
     const passwordValidations = [
       {
         condition: isLengthValid(passwordValue),
-        message: "au moins 7 caractères",
+        message: "au moins 12 caractères",
       },
       {
         condition: hasUpperCase(passwordValue),
