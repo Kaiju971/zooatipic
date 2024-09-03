@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import * as CommandesModel from "../models/commandes";
-import { Stock } from "../models/types/stock";
-import { StockRestant } from "../models/stock";
 import { Commandes } from "../models/types/commandes";
 
 type CommandesModel = typeof CommandesModel;

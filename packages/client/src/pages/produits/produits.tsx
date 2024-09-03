@@ -82,3 +82,5 @@ const Produits: React.FC = () => {
 };
 
 export default Produits;
+
+
