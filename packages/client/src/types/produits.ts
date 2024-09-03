@@ -9,8 +9,7 @@ export type Produit = {
 
 export type Categorie = {
   id: number;
-  categorie: string;
-  description: string;
+  animal: string;
   photo_principale: string;
 };
 

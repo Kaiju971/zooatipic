@@ -4,6 +4,7 @@ import { SnackbarProvider } from "notistack";
 import Footer from "../footer/footer";
 import { AppRoutes } from "./appRoutes";
 import ScrollButton from "../components/scrollButton";
+
 //  import FaviconTheme from "../shared/faviconTheme";
 import React from "react";
 
