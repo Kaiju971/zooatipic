@@ -1,53 +1,40 @@
-import { Breadcrumbs, Link, Typography } from "@mui/material";
+import React from "react";
+import { Breadcrumbs, ImageListItem, Link, Typography } from "@mui/material";
 import axios from "../../axios";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import { Categorie } from "../../types/produits";
+import { CategorieWithPhoto } from "../../types/produits";
+import camion from "../../images/livraison.jpg";
+import labo from "../../images/laboratoire.jpg";
+import emporter from "../../images/a_emporter.jpg";
+import food from "../../images/catFood.jpg";
 
 import * as S from "./produits.styled";
+import { useNavigate } from "react-router";
+import { Routes } from "../../app/routes";
 
 interface ProductsData {
-  results: Categorie[][];
+  results: CategorieWithPhoto[][];
 }
 
 const fetchProducts = async (): Promise<ProductsData> => {
-  const response = await axios.get<ProductsData>("/animaux");
+  const response = await axios.get<ProductsData>("/photoscategorie");
   return response.data;
 };
 
-const ArrayLiens = [
-  "horaires",
-  "cottages",
-  "sous-marine",
-  "tarifs",
-  "laboratorie",
-];
-
 const Produits: React.FC = () => {
+  const navigate = useNavigate();
   const {
     data: categoriedata,
     isLoading,
     isError,
   } = useQuery<ProductsData>({
-    queryKey: ["getanimaux"],
+    queryKey: ["photoscategorie"],
     queryFn: fetchProducts,
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading products</p>;
-
-  // useEffect(() => {
-  //   const params = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-  //   try {
-  //     request("GET", `categorieswithphotos`, params, setCategoriedata);
-  //   } catch (error: any) {
-  //     setError(error.message || error);
-  //   }
-  // }, [request, setError]);
 
   return (
     <div>
@@ -55,10 +42,15 @@ const Produits: React.FC = () => {
         <S.BreadcrumbsContainer>
           <Breadcrumbs
             aria-label="breadcrumb"
-            separator={<DoubleArrowIcon fontSize="small" color="primary" />}
+            separator={
+              <DoubleArrowIcon
+                fontSize="small"
+                sx={{ color: "colorOrangeMenu.main" }}
+              />
+            }
           >
             <Link underline="hover" color="inherit" href="/">
-              <Typography variant="body2" color="primary.main">
+              <Typography variant="body2" color="colorOrangeMenu.main">
                 Accueil
               </Typography>
             </Link>
@@ -66,21 +58,58 @@ const Produits: React.FC = () => {
           </Breadcrumbs>
         </S.BreadcrumbsContainer>
         <Typography variant="h1">NOS RESIDENTS</Typography>
-        <S.GridContainer>
-          {categoriedata &&
-            categoriedata.results.length > 0 &&
-            categoriedata.results[0].map((item) => (
-              <div key={item.id}>{item.animal}</div>
-            ))}
-          {ArrayLiens.map((item) => (
-            <div key={item}>{item}</div>
-          ))}
-        </S.GridContainer>
+        <S.StyledImageBox>
+          <S.StyledImageList cols={4}>
+            {categoriedata !== undefined &&
+              categoriedata?.results?.length > 0 &&
+              categoriedata?.results[0]?.map((item) => (
+                <ImageListItem key={item.id}>
+                  <S.Image
+                    srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
+                    src={`${item.lien}?w=100&h=100&fit=crop&auto=format`}
+                    alt=""
+                    loading="lazy"
+                  />
+                </ImageListItem>
+              ))}
+          </S.StyledImageList>
+          <S.StyledFlexBox>
+            <S.ContainerGrid onClick={() => navigate(Routes.vente)}>
+              <S.ContainerGeneral>
+                <S.ImageContainer1>
+                  <S.ImageTurn src={camion} alt="" />
+                </S.ImageContainer1>
+                <S.ImageContainer2 className="grid">
+                  <S.ImageTurn src={food} alt="" />
+                  <S.StyledTypography
+                    variant="body2"
+                    fontWeight="900"
+                    className="text"
+                  >
+                    METHODE DE LIVRAISON
+                  </S.StyledTypography>
+                </S.ImageContainer2>
+                <S.ImageContainer3>
+                  <S.ImageTurn src={emporter} alt="" />
+                </S.ImageContainer3>
+                <S.ImageContainer4>
+                  <S.ImageTurn src={labo} alt="" />
+                </S.ImageContainer4>
+              </S.ContainerGeneral>
+            </S.ContainerGrid>
+            <S.ContainerTexte>
+              <Typography variant="h6">Nos propositions</Typography>
+              <Typography variant="h6">
+                Venez voir nos animaux vous pourrez également leurs donner de la
+                nourriture mais pas que, vous pourrez également confectionner de
+                la nourriture spécialement pour votre animal de compagnie
+              </Typography>
+            </S.ContainerTexte>
+          </S.StyledFlexBox>
+        </S.StyledImageBox>
       </S.MainContainer>
     </div>
   );
 };
 
 export default Produits;
-
-

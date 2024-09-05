@@ -1,6 +1,6 @@
 export enum Routes {
   accueil = "/",
-  contact = "/contact",
+  vente = "/vente",
   admin = "/admin",
   login = "/login",
   produits = "/produits",

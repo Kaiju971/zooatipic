@@ -25,19 +25,19 @@ export type Images = {
 };
 
 export type DataImages = {
-  id_animal: number;
-  id_race: number;
+  id_animal: number | null;
+  id_race: number | null;
   principale: boolean;
-  id_nourriture: number;
+  id_nourriture: number | null;
 };
 
 export type ImagesUpd = {
   id: number;
   animal: string;
-  id_animal: number;
-  id_race: number;
+  id_animal: number | null;
+  id_race: number | null;
   race: string;
-  id_nourriture: number;
+  id_nourriture: number | null;
   nourriture: string;
   principale: boolean;
   lien: string;

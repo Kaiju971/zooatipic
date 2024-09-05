@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 // import { Helmet } from "react-helmet";
 import LoadingSection from "../../components/formConnexion/LoadingSection";
 
-
-
 import * as S from "./apropos.styled";
-
 
 const Apropos: React.FC = () => {
   const [formLoading, setFormLoading] = useState(true);
@@ -39,10 +36,6 @@ const Apropos: React.FC = () => {
               content="Entreprise générale de couverture"
             />
           </Helmet> */}
-          
-          
-         
-          
         </S.MainContainer>
       )}
     </div>

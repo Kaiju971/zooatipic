@@ -13,6 +13,12 @@ export type Categorie = {
   photo_principale: string;
 };
 
+export type CategorieWithPhoto = {
+  id: number;
+  lien: string;
+  id_categorie: number;
+};
+
 export type Photo = {
   id_categorie: number;
   id_produit: number;

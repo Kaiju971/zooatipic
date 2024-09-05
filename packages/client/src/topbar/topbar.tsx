@@ -24,6 +24,7 @@ import { menuItemColor } from "../constants/menuItemColor";
 import AuthContext from "../store/auth/AuthContextProvider";
 import Logo from "../images/ZOOAtipic.png";
 import { Helmet } from "react-helmet";
+import fon1 from "../images/Daco_501.png";
 
 import * as S from "./topbar.styled";
 
@@ -131,12 +132,7 @@ const TopBar: React.FC = () => {
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        backgroundColor: "transparent",
-      }}
-    >
+    <S.MainContainer>
       <Helmet>
         <title>ZooAtipic</title>
         <meta name="ZooAtipic" content="Zoo" />
@@ -147,8 +143,11 @@ const TopBar: React.FC = () => {
         component="nav"
         position="fixed"
         sx={{
-          backgroundColor: "transparent",
+          backgroundImage: `url(${fon1})`,
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
           boxShadow: "none",
+          height: "20vh",
         }}
       >
         <Toolbar
@@ -234,7 +233,7 @@ const TopBar: React.FC = () => {
           {drawer}
         </S.DrawerBox>
       </Box>
-    </Box>
+    </S.MainContainer>
   );
 };
 
