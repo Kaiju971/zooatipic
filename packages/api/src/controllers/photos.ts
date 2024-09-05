@@ -4,6 +4,17 @@ import * as imagesModel from "../models/photos";
 import { DataImages } from "../models/types/races";
 type Photos = typeof imagesModel;
 
+export const getPhotosCategorie =
+  (model: Photos) => async (req: Request, res: Response) => {
+    const photos = await model.getPhotosCategorie();
+
+    if (!photos) {
+      return res.status(404).send({ message: "Pas de photo" });
+    }
+
+    res.send({ results: [photos] });
+  };
+
 export const uploadImage =
   (model: Photos) => async (req: Request, res: Response) => {
     const filePicture = req.file;
@@ -11,11 +22,24 @@ export const uploadImage =
     const photo = req.body;
 
     const data: DataImages = {
-      id_animal: photo.id_animal,
-      id_race: photo.id_race,
-      principale: photo.principale === "false" ? false : true,
-      id_nourriture: photo.id_nourriture,
+      id_animal:
+        photo.id_animal !== undefined && photo.id_animal !== null
+          ? Number(photo.id_animal)
+          : null, 
+      id_race:
+        photo.id_race !== undefined && photo.id_race !== null
+          ? Number(photo.id_race)
+          : null, 
+      principale:
+        photo.principale === "false" || photo.principale === false
+          ? false
+          : true, 
+      id_nourriture:
+        photo.id_nourriture !== undefined && photo.id_nourriture !== null
+          ? Number(photo.id_nourriture)
+          : null, 
     };
+
 
     let photoUrl = "";
     if (filePicture) {

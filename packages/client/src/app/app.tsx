@@ -9,6 +9,7 @@ import ScrollButton from "../components/scrollButton";
 import React from "react";
 
 import "@mui/material";
+import Banniere from "../components/banniere/banniere";
 
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
@@ -95,7 +96,7 @@ export let theme = createTheme({
       },
     },
     h6: {
-      fontFamily: "Great Vibes, cursive",
+      fontFamily: "Inter, serif",
     },
     body1: {
       fontFamily: "Special Elite, sans-serif",
@@ -140,6 +141,7 @@ const App: React.FC = () => (
   <ThemeProvider theme={responsiveFontSizes(theme)}>
     {/* <FaviconTheme /> */}
     <Topbar />
+    <Banniere />
     <SnackbarProvider>
       <AppRoutes />
       <ScrollButton />

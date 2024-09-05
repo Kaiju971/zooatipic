@@ -1,9 +1,7 @@
 import { knex } from "../../db";
-import { getNourritures, getNourriturePrixbyId } from "./nourritures";
-import { createStock } from "./stock";
-import { getTicketPrixbyId, getTickets } from "./tickets";
+import { getNourritures } from "./nourritures";
+import { getTickets } from "./tickets";
 import { Commandes, CommandesUpd } from "./types/commandes";
-import { Stock } from "./types/stock";
 
 export const table = "commandes";
 

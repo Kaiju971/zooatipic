@@ -18,6 +18,20 @@ export const getPhotos = async () => {
   return null;
 };
 
+export const getPhotosCategorie = async () => {
+  const results = await knex<DataImages>(table)
+    .select("*")
+    .where({ principale: true })
+    .whereNotNull("id_animal")
+    .andWhere({ id_nourriture: null });
+
+  if (results && results.length) {
+    return results;
+  }
+
+  return null;
+};
+
 export const deletePhotoById = async (id: string) => {
   return knex<number>(table).where("id", id).del();
 };
@@ -45,7 +59,7 @@ export const setPhotoPrincipale = async (
 ): Promise<number> => {
   const photos = await knex<Images>(table)
     .select("*")
-    .where({ id_animal: data.id_animal })
+    .where({ id_animal: Number(data.id_animal) ?? null })
     .andWhereNot({ id: photoId });
 
   if (photos && photos.length) {
