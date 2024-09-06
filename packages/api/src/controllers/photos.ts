@@ -12,7 +12,7 @@ export const getPhotosCategorie =
       return res.status(404).send({ message: "Pas de photo" });
     }
 
-    res.send({ results: [photos] });
+    res.send({ results: photos });
   };
 
 export const uploadImage =
@@ -25,21 +25,20 @@ export const uploadImage =
       id_animal:
         photo.id_animal !== undefined && photo.id_animal !== null
           ? Number(photo.id_animal)
-          : null, 
+          : null,
       id_race:
         photo.id_race !== undefined && photo.id_race !== null
           ? Number(photo.id_race)
-          : null, 
+          : null,
       principale:
         photo.principale === "false" || photo.principale === false
           ? false
-          : true, 
+          : true,
       id_nourriture:
         photo.id_nourriture !== undefined && photo.id_nourriture !== null
           ? Number(photo.id_nourriture)
-          : null, 
+          : null,
     };
-
 
     let photoUrl = "";
     if (filePicture) {

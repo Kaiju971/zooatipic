@@ -64,6 +64,12 @@ export let theme = createTheme({
     colorVertMenu: {
       main: "#489F80",
     },
+    buttonNoir: {
+      main: "#222222",
+    },
+    textBlue: {
+      main: "#DDFFFF",
+    },
   },
   typography: {
     h1: {

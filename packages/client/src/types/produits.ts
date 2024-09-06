@@ -16,7 +16,8 @@ export type Categorie = {
 export type CategorieWithPhoto = {
   id: number;
   lien: string;
-  id_categorie: number;
+  id_animal: number;
+  animal: string;
 };
 
 export type Photo = {
@@ -40,16 +41,8 @@ export type PhotoUpd = {
 
 export type CarouselImg = {
   id: number;
-  prod_description: string;
-  prod_description_general: string;
-  id_categorie: number;
-  id_produit: number;
-  principale: boolean;
   src: string;
-  produit: string;
-  categorie: string;
-  cat_description: string;
-  general: boolean;
+  alt: string;
 };
 
 export type ProduitWithPhoto = {
