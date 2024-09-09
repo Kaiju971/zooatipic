@@ -20,8 +20,16 @@ export const getPhotos = async () => {
 
 export const getPhotosCategorie = async () => {
   const results = await knex<DataImages>(table)
-    .select("*")
+    .select(
+      `${table}.id`,
+      `${table}.lien`,
+      `${table}.id_animal`,
+      `${table}.id_race`,
+      `${table}.principale`,
+      `a.animal`
+    )
     .where({ principale: true })
+    .leftJoin("animaux as a", "id_animal", "a.id")
     .whereNotNull("id_animal")
     .andWhere({ id_nourriture: null });
 

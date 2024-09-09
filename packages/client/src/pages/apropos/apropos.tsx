@@ -1,44 +1,103 @@
-import { useEffect, useState } from "react";
-// import { Helmet } from "react-helmet";
-import LoadingSection from "../../components/formConnexion/LoadingSection";
+import parc from "../../images/parc.webp";
+import cottage from "../../images/cottage.webp";
+import sousmarin from "../../images/sousmarin.webp";
+import CarouselSlider from "../../components/carouselSlider";
+import { fetchProducts } from "../../api/fetchers/produit";
+import { CategorieWithPhoto } from "../../types/produits";
+import { useQuery } from "@tanstack/react-query";
+import PrimaryButton from "../../components/buttonPrincipale";
 
 import * as S from "./apropos.styled";
+import { List, ListItem } from "@mui/material";
+
+interface ProductsData {
+  results: CategorieWithPhoto[];
+}
 
 const Apropos: React.FC = () => {
-  const [formLoading, setFormLoading] = useState(true);
+  const {
+    data: categoriedata,
+    isLoading,
+    isError,
+  } = useQuery<ProductsData>({
+    queryKey: ["photoscategorie"],
+    queryFn: fetchProducts,
+  });
 
-  useEffect(() => {
-    // Simulation d'un délai de chargement (par exemple, 2 secondes) pour le formulaire
-    const formLoadingTimeout = setTimeout(() => {
-      setFormLoading(false);
-    }, 2000);
+  const imagesArray = categoriedata?.results?.map((item) => ({
+    id: item.id,
+    src: item.lien,
+    alt: item.animal,
+  }));
 
-    // Nettoyer les timeouts lorsqu'un composant est démonté
-    return () => {
-      clearTimeout(formLoadingTimeout);
-    };
-  }, []);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading products</p>;
 
   return (
-    <div>
-      {formLoading ? (
-        <LoadingSection />
-      ) : (
-        <S.MainContainer>
-          {/* <Helmet>
-            <title>A propos de nous</title>
-            <meta
-              name="A propos de nous - ABS Couverture"
-              content="Entreprise générale de couverture"
-            />
-            <meta
-              name="Dépannage, Entretien, Charpente ossature bois, Pose de fenêtre de toit - ABS Couverture"
-              content="Entreprise générale de couverture"
-            />
-          </Helmet> */}
-        </S.MainContainer>
-      )}
-    </div>
+    <S.MainContainer>
+      <S.FlexContainer>
+        <S.ImageButtonContainer>
+          <S.StyledImage src={parc} alt="parc" />
+          <S.ButtonContainer>
+            <PrimaryButton label="Réserver" />
+          </S.ButtonContainer>
+        </S.ImageButtonContainer>
+        <S.ImageButtonContainer>
+          <S.StyledImage src={cottage} alt="cottage" />
+          <S.TextContainer>
+            <S.StyledTypography variant="h6">NOS COTTAGES</S.StyledTypography>
+            <S.StyledTypography variant="body1">
+              Réservez nos cottages sur mesures :
+            </S.StyledTypography>
+            <List sx={{ textAlign: "center" }}>
+              <ListItem>
+                <S.StyledTypography variant="body1">
+                  - la famille ours;
+                </S.StyledTypography>
+              </ListItem>
+              <ListItem>
+                <S.StyledTypography variant="body1">
+                  - la famille loup;
+                </S.StyledTypography>
+              </ListItem>
+              <ListItem>
+                <S.StyledTypography variant="body1">
+                  - la famille lion;
+                </S.StyledTypography>
+              </ListItem>
+            </List>
+            <S.StyledTypography variant="body1">
+              et ainsi profitez d’instants privilegié avec vos animaux préférés
+            </S.StyledTypography>
+          </S.TextContainer>
+          <S.ButtonContainer>
+            <PrimaryButton label="Réserver" />
+          </S.ButtonContainer>
+        </S.ImageButtonContainer>
+        <S.ImageButtonContainer>
+          <S.StyledImage src={sousmarin} alt="sousmarin" />
+          <S.TextContainer>
+            <S.StyledTypography variant="h6">
+              BALADE SOUS MARINE
+            </S.StyledTypography>
+            <S.StyledTypography variant="body1">
+              Qui n’a jamais rêvé de nager avec les poissons!
+            </S.StyledTypography>
+            <S.StyledTypography variant="body1">
+              Une balade pour les puristes et les photographes, vous aurez une
+              vue imprennable sur notre aquarium et plongez à la rencontre de
+              nos plus beaux spécimens sans se mouiller.
+            </S.StyledTypography>
+          </S.TextContainer>
+          <S.ButtonContainer>
+            <PrimaryButton label="Réserver" />
+          </S.ButtonContainer>
+        </S.ImageButtonContainer>
+      </S.FlexContainer>
+      <S.CarouselContainer>
+        <CarouselSlider imagesArray={imagesArray} />
+      </S.CarouselContainer>
+    </S.MainContainer>
   );
 };
 

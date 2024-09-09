@@ -1,6 +1,5 @@
 import React from "react";
 import { Breadcrumbs, ImageListItem, Link, Typography } from "@mui/material";
-import axios from "../../axios";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { CategorieWithPhoto } from "../../types/produits";
@@ -8,19 +7,15 @@ import camion from "../../images/livraison.jpg";
 import labo from "../../images/laboratoire.jpg";
 import emporter from "../../images/a_emporter.jpg";
 import food from "../../images/catFood.jpg";
-
-import * as S from "./produits.styled";
 import { useNavigate } from "react-router";
 import { Routes } from "../../app/routes";
+import { fetchProducts } from "../../api/fetchers/produit";
+
+import * as S from "./produits.styled";
 
 interface ProductsData {
-  results: CategorieWithPhoto[][];
+  results: CategorieWithPhoto[];
 }
-
-const fetchProducts = async (): Promise<ProductsData> => {
-  const response = await axios.get<ProductsData>("/photoscategorie");
-  return response.data;
-};
 
 const Produits: React.FC = () => {
   const navigate = useNavigate();
@@ -62,7 +57,7 @@ const Produits: React.FC = () => {
           <S.StyledImageList cols={4}>
             {categoriedata !== undefined &&
               categoriedata?.results?.length > 0 &&
-              categoriedata?.results[0]?.map((item) => (
+              categoriedata?.results?.map((item) => (
                 <ImageListItem key={item.id}>
                   <S.Image
                     srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
