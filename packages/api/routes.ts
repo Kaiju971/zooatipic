@@ -52,6 +52,7 @@ import {
   deletePhoto,
   getAllPhotos,
   getPhotosCategorie,
+  getPhotosProduitsByCategorie,
   uploadImage,
 } from "./src/controllers/photos";
 import multer from "multer";
@@ -87,6 +88,7 @@ router.get("/stock", getAllStock(stockModel));
 router.get("/commandes", getAllCommandes(commandesModel));
 router.get("/stockactuel", getStockActuel(stockModel));
 router.get("/photoscategorie", getPhotosCategorie(photosModel));
+router.get("/photosproduits/:id", getPhotosProduitsByCategorie(photosModel));
 
 router.post("/createuser", upload.single("file"), createNewUser(userModel));
 router.post("/createrole", createNewRole(userModel));

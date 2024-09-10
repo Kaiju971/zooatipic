@@ -1,11 +1,17 @@
 import axios from "../../axios";
-import { CategorieWithPhoto } from "../../types/produits";
+import { ProduitsWithPhoto } from "../../types/produits";
 
 interface ProductsData {
-  results: CategorieWithPhoto[];
+  results: ProduitsWithPhoto[];
 }
 
-export const fetchProducts = async (): Promise<ProductsData> => {
-  const response = await axios.get<ProductsData>("/photoscategorie");
+type Params = {
+  animalId: string | undefined;
+};
+
+export const fetchProducts = async ({
+  animalId,
+}: Params): Promise<ProductsData> => {
+  const response = await axios.get<ProductsData>(`/photosproduits/${animalId}`);
   return response.data;
 };

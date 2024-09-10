@@ -1,9 +1,8 @@
 // import {  useMediaQuery } from "@mui/material";
- import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid";
 import ifaw from "../images/ifaw.png";
 import spa from "../images/SPA.png";
 import wwf from "../images/WWF.png";
-import logo from "../images/ZOOAtipic.png"
 
 // import { Helmet } from "react-helmet";
 // import { useLocation } from "react-router-dom";
@@ -20,12 +19,9 @@ const getCurrentYear = (): number => {
   return currentDate.getFullYear();
 };
 
-console.log(`L'année en cours est `);
-
 const Home: React.FC = () => {
   // const location = useLocation();
   const mediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-   const smallScreen = useMediaQuery(theme.breakpoints.down(450));
 
   // if (location.pathname === Routes.cartproduit) {
   //   return null;

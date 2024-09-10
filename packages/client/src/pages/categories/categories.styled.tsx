@@ -1,14 +1,13 @@
 import { ImageList, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const MainContainer = styled("div")<{ background: string | undefined }>`
+export const MainContainer = styled("div")`
   text-align: center;
   color: ${({ theme }) => theme.palette.secondary.main};
   display: flex;
+  justify-content: space-between;
   padding-left: 0.5vw;
-  padding-top: 25vh;
-  background-color: ${({ background, theme }) =>
-    background ? background : theme.palette.primary.main};
+  padding-top: 5vh;
 
   @media (max-width: 750px) {
     align-items: center;
@@ -17,7 +16,7 @@ export const MainContainer = styled("div")<{ background: string | undefined }>`
 `;
 
 export const BreadcrumbsContainer = styled("div")`
-  padding-top: 10vh;
+  padding-top: 30vh;
   padding-left: 1vw;
   font-style: italic;
   width: 4vw;
@@ -37,6 +36,7 @@ export const StyledImageList = styled(ImageList)`
 `;
 
 export const StyledImageBox = styled("div")`
+  padding-top: 20vh;
   width: 98vw;
   display: flex;
   justify-content: center;

@@ -55,7 +55,7 @@ const Auth = () => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    console.log(data);
+
     const isSignUp = data && data.get("prenom");
     const formdata = new FormData();
     const fileData = data.get("avatar") as File;
