@@ -15,6 +15,20 @@ export const getPhotosCategorie =
     res.send({ results: photos });
   };
 
+export const getPhotosProduitsByCategorie =
+  (model: Photos) => async (req: Request, res: Response) => {
+    const { params } = req;
+    const animalId = Number(params.id ?? -1);
+
+    const photos = await model.getPhotosProduitsByCategorie(animalId as number);
+
+    if (!photos) {
+      return res.status(404).send({ message: "Pas de photo" });
+    }
+
+    res.send({ results: photos });
+  };
+
 export const uploadImage =
   (model: Photos) => async (req: Request, res: Response) => {
     const filePicture = req.file;

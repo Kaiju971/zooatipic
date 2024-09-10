@@ -2,108 +2,84 @@ import React from "react";
 import { Breadcrumbs, ImageListItem, Link, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import { CategorieWithPhoto } from "../../types/produits";
-import camion from "../../images/livraison.jpg";
-import labo from "../../images/laboratoire.jpg";
-import emporter from "../../images/a_emporter.jpg";
-import food from "../../images/catFood.jpg";
-import { useNavigate } from "react-router";
-import { Routes } from "../../app/routes";
+import { ProduitsWithPhoto } from "../../types/produits";
+import { useParams } from "react-router";
 import { fetchProducts } from "../../api/fetchers/produit";
 
 import * as S from "./produits.styled";
 
 interface ProductsData {
-  results: CategorieWithPhoto[];
+  results: ProduitsWithPhoto[];
 }
 
 const Produits: React.FC = () => {
-  const navigate = useNavigate();
+  const { animalId, animal, background } = useParams<{
+    animalId: string | undefined;
+    animal: string;
+    background: string | undefined;
+  }>();
+
   const {
-    data: categoriedata,
+    data: productdata,
     isLoading,
     isError,
   } = useQuery<ProductsData>({
-    queryKey: ["photoscategorie"],
-    queryFn: fetchProducts,
+    queryKey: ["photosproduitsbycategorie", animalId],
+    queryFn: () => fetchProducts({ animalId: animalId ?? "" }),
+    enabled: !!animalId,
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading products</p>;
 
   return (
-    <div>
-      <S.MainContainer>
-        <S.BreadcrumbsContainer>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={
-              <DoubleArrowIcon
-                fontSize="small"
-                sx={{ color: "colorOrangeMenu.main" }}
-              />
-            }
-          >
-            <Link underline="hover" color="inherit" href="/">
-              <Typography variant="body2" color="colorOrangeMenu.main">
-                Accueil
-              </Typography>
-            </Link>
-            <Typography variant="body2">Produits</Typography>
-          </Breadcrumbs>
-        </S.BreadcrumbsContainer>
-        <Typography variant="h1">NOS RESIDENTS</Typography>
-        <S.StyledImageBox>
-          <S.StyledImageList cols={4}>
-            {categoriedata !== undefined &&
-              categoriedata?.results?.length > 0 &&
-              categoriedata?.results?.map((item) => (
-                <ImageListItem key={item.id}>
-                  <S.Image
-                    srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
-                    src={`${item.lien}?w=100&h=100&fit=crop&auto=format`}
-                    alt=""
-                    loading="lazy"
-                  />
-                </ImageListItem>
-              ))}
-          </S.StyledImageList>
-          <S.StyledFlexBox>
-            <S.ContainerGrid onClick={() => navigate(Routes.vente)}>
-              <S.ContainerGeneral>
-                <S.ImageContainer1>
-                  <S.ImageTurn src={camion} alt="" />
-                </S.ImageContainer1>
-                <S.ImageContainer2 className="grid">
-                  <S.ImageTurn src={food} alt="" />
-                  <S.StyledTypography
-                    variant="body2"
-                    fontWeight="900"
-                    className="text"
-                  >
-                    METHODE DE LIVRAISON
-                  </S.StyledTypography>
-                </S.ImageContainer2>
-                <S.ImageContainer3>
-                  <S.ImageTurn src={emporter} alt="" />
-                </S.ImageContainer3>
-                <S.ImageContainer4>
-                  <S.ImageTurn src={labo} alt="" />
-                </S.ImageContainer4>
-              </S.ContainerGeneral>
-            </S.ContainerGrid>
-            <S.ContainerTexte>
-              <Typography variant="h6">Nos propositions</Typography>
-              <Typography variant="h6">
-                Venez voir nos animaux vous pourrez également leurs donner de la
-                nourriture mais pas que, vous pourrez également confectionner de
-                la nourriture spécialement pour votre animal de compagnie
-              </Typography>
-            </S.ContainerTexte>
-          </S.StyledFlexBox>
-        </S.StyledImageBox>
-      </S.MainContainer>
-    </div>
+    <S.MainContainer background={background}>
+      <S.BreadcrumbsContainer>
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{ writingMode: "vertical-lr", transform: "rotate(180deg)" }}
+          separator={
+            <DoubleArrowIcon
+              fontSize="small"
+              sx={{
+                color: "colorOrangeMenu.main",
+                transform: "rotate(90deg)",
+              }}
+            />
+          }
+        >
+          <Link underline="hover" color="inherit" href="/">
+            <Typography variant="h6" color="colorOrangeMenu.main">
+              Accueil
+            </Typography>
+          </Link>
+          <Link underline="hover" color="inherit" href="/categories">
+            <Typography variant="h6" color="colorOrangeMenu.main">
+              Nos residents
+            </Typography>
+          </Link>
+          <Typography variant="h6">{animal} </Typography>
+        </Breadcrumbs>
+      </S.BreadcrumbsContainer>
+
+      <S.StyledImageBox>
+        <Typography variant="h1">{animal}</Typography>
+        <S.StyledImageList cols={4}>
+          {productdata !== undefined &&
+            productdata?.results?.length > 0 &&
+            productdata?.results?.map((item) => (
+              <ImageListItem key={item.id}>
+                <S.Image
+                  srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
+                  src={`${item.lien}?w=100&h=100&fit=crop&auto=format`}
+                  alt=""
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+        </S.StyledImageList>
+      </S.StyledImageBox>
+    </S.MainContainer>
   );
 };
 

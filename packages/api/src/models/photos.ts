@@ -26,12 +26,34 @@ export const getPhotosCategorie = async () => {
       `${table}.id_animal`,
       `${table}.id_race`,
       `${table}.principale`,
-      `a.animal`
+      `a.animal`,
+      `a.background`
     )
     .where({ principale: true })
     .leftJoin("animaux as a", "id_animal", "a.id")
     .whereNotNull("id_animal")
     .andWhere({ id_nourriture: null });
+
+  if (results && results.length) {
+    return results;
+  }
+
+  return null;
+};
+
+export const getPhotosProduitsByCategorie = async (id_animal: number) => {
+  const results = await knex<DataImages>(table)
+    .select(
+      `${table}.id`,
+      `${table}.lien`,
+      `${table}.id_animal`,
+      `${table}.id_race`,
+      `${table}.principale`,
+      `r.race`
+    )
+
+    .leftJoin("races as r", "id_race", "r.id")
+    .where({ id_animal });
 
   if (results && results.length) {
     return results;

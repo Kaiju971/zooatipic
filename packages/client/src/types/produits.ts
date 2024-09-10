@@ -18,6 +18,14 @@ export type CategorieWithPhoto = {
   lien: string;
   id_animal: number;
   animal: string;
+  background: string;
+};
+
+export type ProduitsWithPhoto = {
+  id: number;
+  lien: string;
+  id_race: number;
+  race: string;
 };
 
 export type Photo = {

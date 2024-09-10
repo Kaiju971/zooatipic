@@ -2,13 +2,13 @@ import parc from "../../images/parc.webp";
 import cottage from "../../images/cottage.webp";
 import sousmarin from "../../images/sousmarin.webp";
 import CarouselSlider from "../../components/carouselSlider";
-import { fetchProducts } from "../../api/fetchers/produit";
+import { fetchCategories } from "../../api/fetchers/categories";
 import { CategorieWithPhoto } from "../../types/produits";
 import { useQuery } from "@tanstack/react-query";
 import PrimaryButton from "../../components/buttonPrincipale";
+import { List, ListItem } from "@mui/material";
 
 import * as S from "./apropos.styled";
-import { List, ListItem } from "@mui/material";
 
 interface ProductsData {
   results: CategorieWithPhoto[];
@@ -21,7 +21,7 @@ const Apropos: React.FC = () => {
     isError,
   } = useQuery<ProductsData>({
     queryKey: ["photoscategorie"],
-    queryFn: fetchProducts,
+    queryFn: fetchCategories,
   });
 
   const imagesArray = categoriedata?.results?.map((item) => ({

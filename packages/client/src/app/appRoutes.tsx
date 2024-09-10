@@ -12,7 +12,8 @@ const Accueil = lazy(() => import("../pages/accueil/accueil"));
 const Connexion = lazy(() => import("../pages/connexion"));
 const Admin = lazy(() => import("../pages/admin/admin"));
 const Apropos = lazy(() => import("../pages/apropos/apropos"));
-const Produits = lazy(() => import("../pages/produits/produits"));
+const Categories = lazy(() => import("../pages/categories"));
+const Produits = lazy(() => import("../pages/produits"));
 const Panier = lazy(() => import("../pages/panier"));
 const Vente = lazy(() => import("../pages/vente"));
 const Profil = lazy(() => import("../pages/profil"));
@@ -30,6 +31,7 @@ export const AppRoutes: React.FunctionComponent = () => {
       {isAdmin && <Route path={Routes.admin} element={withSuspense(Admin)} />}
       <Route path={Routes.login} element={withSuspense(Auth)} />
       <Route path={Routes.apropos} element={withSuspense(Apropos)} />
+      <Route path={Routes.categories} element={withSuspense(Categories)} />
       <Route path={Routes.produits} element={withSuspense(Produits)} />
       <Route path={Routes.panier} element={withSuspense(Panier)} />
       <Route path={Routes.connexion} element={withSuspense(Connexion)} />

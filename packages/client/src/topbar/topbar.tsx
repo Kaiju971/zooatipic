@@ -41,7 +41,7 @@ const TopBar: React.FC = () => {
   const { pathname } = useLocation();
   const { globalLogOutDispatch, authState } = useContext(AuthContext);
   const isSelected = (item: string): boolean => pathname.includes(item);
-  console.log(authState);
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
