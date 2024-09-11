@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import ifaw from "../images/ifaw.png";
 import spa from "../images/SPA.png";
 import wwf from "../images/WWF.png";
+import hirobot from "../images/hi-robot.gif";
 
 // import { Helmet } from "react-helmet";
 // import { useLocation } from "react-router-dom";
@@ -19,7 +20,7 @@ const getCurrentYear = (): number => {
   return currentDate.getFullYear();
 };
 
-const Home: React.FC = () => {
+const Footer: React.FC = () => {
   // const location = useLocation();
   const mediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -51,87 +52,55 @@ const Home: React.FC = () => {
           },
         }}
       >
-        <Grid item xs={3}>
+        <Grid item xs={1.5}>
           <S.Item>
             <S.ImgContainer>
               <img src={ifaw} alt="ifaw" width="70%" />
             </S.ImgContainer>
           </S.Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={1.5}>
           <S.Item>
             <S.ImgContainer>
               <img src={wwf} alt="wwf" width="70%" />
             </S.ImgContainer>
           </S.Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={1.5}>
           <S.Item>
             <S.ImgContainer>
               <img src={spa} alt="spa" width="60%" />
             </S.ImgContainer>
           </S.Item>
         </Grid>
+        <Grid item xs={2.5}>
+          <S.TextContainer>
+            <Typography
+              variant="h4"
+              sx={{ color: "primary.main", width: "100%" }}
+            >
+              CONTACT
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ color: "primary.main", width: "100%" }}
+            >
+              informations générales:
+              <br />
+              info@zooatipic.net
+            </Typography>
+          </S.TextContainer>
+        </Grid>
+        <Grid item xs={2}>
+          <S.Robot src={hirobot} alt="chatbot" />
+        </Grid>
       </Grid>
-      <Typography variant="body1" sx={{ color: "black", width: "100%" }}>
+      <Typography variant="body1" sx={{ color: "primary.main", width: "100%" }}>
         © {getCurrentYear()} ZooAtipic. {mediumScreen && <br />} Tous Droits
         Réservés.
       </Typography>
-
-      {/* <Grid container spacing={3}>
-        <Grid item xs={4}>
-          <S.Item>
-            01 80 91 49 82
-            <br />
-            09 86 60 00 07
-          </S.Item>
-        </Grid>
-        <Grid item xs={4}>
-          <S.Item>
-            129 quai de la Pie
-            <br />
-            94100 Saint-Maur-{smallScreen && <br />}des-Fossés
-          </S.Item>
-        </Grid>
-        <Grid item xs={4}>
-          <S.Item>abscouverture{smallScreen && <br />}@gmail.com</S.Item>
-        </Grid>
-      </Grid> */}
-      {/* <Grid
-        container
-        ml={0}
-        sx={{
-          " & .MuiGrid-root": {
-            padding: 0,
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            mt: { xs: 0, sm: 2, md: 4 },
-            pb: { xs: 2, sm: 1, md: 0 },
-          },
-        }}
-      >
-        <Grid item xs={4} marginTop={2}>
-          <S.Item>
-            Zoo<S.TestSup>R</S.TestSup>
-          </S.Item>
-        </Grid>
-        <Grid item xs={4}>
-          <S.Item>
-            <img src={logo} alt="logo" width="18%" />
-          </S.Item>
-        </Grid> 
-        <Grid item xs={4} marginTop={2}>
-          <S.Item>
-            <Typography variant="body1" sx={{ color: "red", width: "100%" }}>
-              © {getCurrentYear()} ZooAtipic. {mediumScreen && <br />} Tous
-              Droits Réservés.
-            </Typography>
-          </S.Item>
-        </Grid>
-      </Grid> */}
     </S.MainContainer>
   );
 };
 
-export default Home;
+export default Footer;
