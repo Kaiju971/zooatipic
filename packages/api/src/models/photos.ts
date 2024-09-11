@@ -41,6 +41,27 @@ export const getPhotosCategorie = async () => {
   return null;
 };
 
+export const getPhotosNourritures = async () => {
+  const results = await knex<DataImages>(table)
+    .select(
+      `${table}.id`,
+      `${table}.lien`,
+      `n.id_animaux`,
+      `${table}.id_nourriture`,
+      `n.nourriture`,
+      `n.prix`
+    )
+    .leftJoin("nourritures as n", "id_nourriture", "n.id")
+    .whereNotNull("id_nourriture")
+    .andWhere({ id_animal: null });
+
+  if (results && results.length) {
+    return results;
+  }
+
+  return null;
+};
+
 export const getPhotosProduitsByCategorie = async (id_animal: number) => {
   const results = await knex<DataImages>(table)
     .select(

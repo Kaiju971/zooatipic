@@ -29,8 +29,11 @@ const Categories: React.FC = () => {
   });
 
   const openRace = (animalId: number, animal: string, background: string) => {
-    const encodedBackground = encodeURIComponent(background);
-    navigate(`/produits/${animalId}/${animal}/${encodedBackground}`);
+    if (animal === "LABORATOIRE") navigate(Routes.laboratoire);
+    else {
+      const encodedBackground = encodeURIComponent(background);
+      navigate(`/produits/${animalId}/${animal}/${encodedBackground}`);
+    }
   };
 
   if (isLoading) return <p>Loading...</p>;

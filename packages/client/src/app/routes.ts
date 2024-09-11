@@ -9,4 +9,5 @@ export enum Routes {
   apropos = "/apropos",
   profil = "/profil",
   connexion = "/connexion",
+  laboratoire = "/laboratoire",
 }

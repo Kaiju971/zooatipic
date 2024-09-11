@@ -8,33 +8,25 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import { ProduitsWithPhoto } from "../../types/produits";
-import { useParams } from "react-router";
-import { fetchProducts } from "../../api/fetchers/produit";
+import { NourritureWithPhoto } from "../../types/produits";
 
-import * as S from "./produits.styled";
+import * as S from "./laboratoire.styled";
 import PrimaryButton from "../../components/buttonPrincipale";
 import { Panier } from "../../types/panier";
+import { fetchNourritures } from "../../api/fetchers/nourriture";
 
 interface ProductsData {
-  results: ProduitsWithPhoto[];
+  results: NourritureWithPhoto[];
 }
 
-const Produits: React.FC = () => {
-  const { animalId, animal, background } = useParams<{
-    animalId: string | undefined;
-    animal: string;
-    background: string | undefined;
-  }>();
-
+const Laboratoire: React.FC = () => {
   const {
     data: productdata,
     isLoading,
     isError,
   } = useQuery<ProductsData>({
-    queryKey: ["photosproduitsbycategorie", animalId],
-    queryFn: () => fetchProducts({ animalId: animalId ?? "" }),
-    enabled: !!animalId,
+    queryKey: ["photosproduitsbycategorie"],
+    queryFn: fetchNourritures,
   });
 
   const saveBasket = (basket: Panier) => {
@@ -45,7 +37,7 @@ const Produits: React.FC = () => {
   if (isError) return <p>Error loading products</p>;
 
   return (
-    <S.MainContainer background={background}>
+    <S.MainContainer>
       <S.BreadcrumbsContainer>
         <Breadcrumbs
           aria-label="breadcrumb"
@@ -70,24 +62,39 @@ const Produits: React.FC = () => {
               Nos residents
             </Typography>
           </Link>
-          <Typography variant="h6">{animal} </Typography>
+          <Typography variant="h6">LABORATOIRE DE CONFISERIES </Typography>
         </Breadcrumbs>
       </S.BreadcrumbsContainer>
 
       <S.StyledImageBox>
-        <Typography variant="h1">{animal}</Typography>
+        <Typography variant="h1">LABORATOIRE DE CONFISERIES</Typography>
         <S.StyledImageList cols={4}>
           {productdata !== undefined &&
             productdata?.results?.length > 0 &&
             productdata?.results?.map((item) => (
-              <ImageListItem key={item.id}>
-                <S.Image
-                  srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
-                  src={`${item.lien}?w=100&h=100&fit=crop&auto=format`}
-                  alt=""
-                  loading="lazy"
-                />
-              </ImageListItem>
+              <>
+                <ImageListItem key={item.id}>
+                  <S.Image
+                    srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
+                    src={`${item.lien}?w=100&h=100&fit=crop&auto=format`}
+                    alt=""
+                    loading="lazy"
+                  />
+                </ImageListItem>
+                <ListItemText>
+                  <PrimaryButton
+                    label="Acheter"
+                    onClick={() =>
+                      saveBasket({
+                        id_nourriture: item.id_nourriture,
+                        prix: item.prix,
+                        quantité: item.quantité,
+                        nourriture: item.nourriture,
+                      })
+                    }
+                  />
+                </ListItemText>
+              </>
             ))}
         </S.StyledImageList>
       </S.StyledImageBox>
@@ -95,4 +102,4 @@ const Produits: React.FC = () => {
   );
 };
 
-export default Produits;
+export default Laboratoire;

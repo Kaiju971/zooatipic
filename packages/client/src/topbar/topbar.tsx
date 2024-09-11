@@ -148,6 +148,9 @@ const TopBar: React.FC = () => {
           backgroundRepeat: "no-repeat",
           boxShadow: "none",
           height: "20vh",
+
+          "& .MuiPaper-root ": {},
+          backgroundColor: "transparent",
         }}
       >
         <Toolbar
@@ -156,6 +159,7 @@ const TopBar: React.FC = () => {
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
+            backgroundColor: "transparent",
           }}
         >
           <S.LogoMain src={Logo} onClick={() => navigate(Routes.accueil)} />

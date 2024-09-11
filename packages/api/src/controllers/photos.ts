@@ -15,6 +15,17 @@ export const getPhotosCategorie =
     res.send({ results: photos });
   };
 
+export const getPhotosNourritures =
+  (model: Photos) => async (req: Request, res: Response) => {
+    const photos = await model.getPhotosNourritures();
+
+    if (!photos) {
+      return res.status(404).send({ message: "Pas de photo" });
+    }
+
+    res.send({ results: photos });
+  };
+
 export const getPhotosProduitsByCategorie =
   (model: Photos) => async (req: Request, res: Response) => {
     const { params } = req;
