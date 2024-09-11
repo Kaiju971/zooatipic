@@ -52,6 +52,7 @@ import {
   deletePhoto,
   getAllPhotos,
   getPhotosCategorie,
+  getPhotosNourritures,
   getPhotosProduitsByCategorie,
   uploadImage,
 } from "./src/controllers/photos";
@@ -88,6 +89,7 @@ router.get("/stock", getAllStock(stockModel));
 router.get("/commandes", getAllCommandes(commandesModel));
 router.get("/stockactuel", getStockActuel(stockModel));
 router.get("/photoscategorie", getPhotosCategorie(photosModel));
+router.get("/getphotosnourritures", getPhotosNourritures(photosModel));
 router.get("/photosproduits/:id", getPhotosProduitsByCategorie(photosModel));
 
 router.post("/createuser", upload.single("file"), createNewUser(userModel));

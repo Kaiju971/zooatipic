@@ -17,6 +17,7 @@ const Produits = lazy(() => import("../pages/produits"));
 const Panier = lazy(() => import("../pages/panier"));
 const Vente = lazy(() => import("../pages/vente"));
 const Profil = lazy(() => import("../pages/profil"));
+const Laboratoire = lazy(() => import("../pages/laboratoire"));
 
 const Auth = lazy(() => import("../pages/admin/auth"));
 
@@ -36,6 +37,8 @@ export const AppRoutes: React.FunctionComponent = () => {
       <Route path={Routes.panier} element={withSuspense(Panier)} />
       <Route path={Routes.connexion} element={withSuspense(Connexion)} />
       <Route path={Routes.profil} element={withSuspense(Profil)} />
+      <Route path={Routes.laboratoire} element={withSuspense(Laboratoire)} />
+
       <Route path="*" element={<NotFound />} />
     </Router>
   );

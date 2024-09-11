@@ -21,6 +21,16 @@ export type CategorieWithPhoto = {
   background: string;
 };
 
+export type NourritureWithPhoto = {
+  id: number;
+  lien: string;
+  id_animal: number;
+  id_nourriture: number;
+  nourriture: string;
+  prix: number;
+  quantité: number;
+};
+
 export type ProduitsWithPhoto = {
   id: number;
   lien: string;
