@@ -3,12 +3,17 @@ import { styled } from "@mui/material/styles";
 
 export const MainContainer = styled("div")`
   color: ${({ theme }) => theme.palette.secondary.main};
-  background-color: #FCDB30;
+  background-color: #fcdb30;
   text-align: end;
   * {
     margin: 0;
     padding: 0;
   }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Item = styled(Paper)(({ theme }) => ({
@@ -16,9 +21,9 @@ export const Item = styled(Paper)(({ theme }) => ({
   // backgroundColor: theme.palette.colorNoir.main,
   padding: theme.spacing(1),
   textAlign: "center",
-  wordBreak: "break-all",
-  fontSize: "1rem",
-  fontWeight: "700",
+  // wordBreak: "break-all",
+  // fontSize: "1rem",
+  // fontWeight: "700",
   marginTop: "2vh",
 
   [theme.breakpoints.down("lg")]: {
@@ -38,65 +43,23 @@ export const Item = styled(Paper)(({ theme }) => ({
   },
 }));
 
-export const TextContainer = styled("div")`
-  color: ${({ theme }) => theme.palette.secondary.main};
-
-  display: grid;
-  grid-template-columns: 10% 90%;
-  align-items: center;
-  justify-items: start;
-
-  @media (max-width: 750px) {
-    justify-items: center;
-  }
-`;
-
 export const ImgContainer = styled("div")`
-  margin-top: 2vh;
-  background-color: ${({ theme }) => theme.palette.secondary.main};
-  width: 15vw;
-  height: 20vh;
+  width: 10vw;
+  height: 14vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  
-
-  /* @media (max-width: 1200px) {
-    height: 16vh;
-  }
-  @media (max-width: 900px) {
-    height: 14vh;
-  }
-  @media (max-width: 750px) {
-    height: 12vh;
-  }
-  @media (max-width: 568px) {
-    height: 8vh;
-  }
-  @media (max-width: 450px) {
-    height: 6vh;
-  }
-  @media (max-width: 350px) {
-    height: 4vh;
-  } */
 `;
 
-// export const TestSup = styled("span")`
-//   vertical-align: super;
-//   font-size: 0.7rem;
-//   border: solid 0.1px red;
-//   border-radius: 50%;
-//   padding-top: 3px;
-//   padding-left: 4px;
-//   padding-right: 4px;
-//   line-height: 1.5em;
-//   margin-left: 4px;
+export const Robot = styled("img")`
+  width: 10vw;
+  height: 20vh;
+`;
 
-//   @media (max-width: 750px) {
-//     font-size: 0.4rem;
-//     padding-left: 2px;
-//     padding-right: 2px;
-//   }
-// `;
+export const TextContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
