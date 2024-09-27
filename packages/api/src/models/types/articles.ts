@@ -1,14 +1,14 @@
-export type Nourritures = {
+export type articles = {
   id: number;
-  nourriture: string;
+  article: string;
   id_animaux: number;
   prix: number;
   disponible: boolean;
 };
 
-export type NourrituresUpd = {
+export type articlesUpd = {
   id: number;
-  nourriture: string;
+  article: string;
   id_animaux: number;
   animal: string;
   prix: number;

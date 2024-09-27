@@ -33,7 +33,7 @@ export const createNewCommande =
     const data = req.body as Commandes[];
 
     data.forEach((item: Partial<Commandes>) => {
-      if (item.id_ticket && item.id_nourriture) {
+      if (item.id_ticket && item.id_article) {
         return res.status(422).send({
           message: "La commande ne peut contenir qu'un champ d'id_",
         });
@@ -53,14 +53,12 @@ export const createNewCommande =
     if (commandeId[0] === -1) {
       return res
         .status(422)
-        .send({ message: "les champs id_tickets et id_nourriture sont vides" });
+        .send({ message: "les champs id_tickets et id_article sont vides" });
     }
 
     if (commandeId[0] === -2) {
       const outOfStockItems = (commandeId[1] as any[])
-        .map(
-          (item) => `id_nourriture: ${item.id_nourriture}, diff: ${item.diff}`
-        )
+        .map((item) => `id_article: ${item.id_article}, diff: ${item.diff}`)
         .join("; ");
 
       return res.status(422).send({

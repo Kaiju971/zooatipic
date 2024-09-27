@@ -17,7 +17,7 @@ const Reglement: React.FC = () => {
         jusqu’à la sortie du Parc afin de répondre à toute demande de contrôle.
         2. Comportement respectueux : • Il est demandé aux visiteurs d’adopter
         un comportement compatible avec le bien-être des animaux. Il est
-        interdit d’introduire de la nourriture pour les animaux, des armes, des
+        interdit d’introduire de la article pour les animaux, des armes, des
         produits dangereux, des objets roulants (vélos, trottinettes, rollers,
         hoverboard, ballon, etc…), des instruments sonores (radio, enceinte
         portable, pétard, etc…), ou tout objet susceptible de perturber le
@@ -30,8 +30,8 @@ const Reglement: React.FC = () => {
         strictement interdit de fumer à l’intérieur des bâtiments. • La
         Direction se réserve le droit de refuser l’entrée du Parc à toute
         personne ne respectant pas ces consignes 3. Respect du bien-être
-        animal :Le régime alimentaire des animaux étant soigneusement étudié,
-        il est de ce fait interdit de les nourrir. Il est formellement interdit
+        animal :Le régime alimentaire des animaux étant soigneusement étudié, il
+        est de ce fait interdit de les nourrir. Il est formellement interdit
         d’exciter les animaux, de les effrayer en frappant sur les vitres, en
         faisant du bruit ou en les poursuivant ; interdit de chercher à les
         toucher, de les maltraiter ou de les perturber de quelque façon que ce

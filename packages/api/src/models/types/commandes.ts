@@ -1,6 +1,6 @@
 export type Commandes = {
   id: number;
-  id_nourriture: number;
+  id_article: number;
   id_ticket: number;
   numero: number;
   date: Date;
@@ -11,8 +11,8 @@ export type Commandes = {
 
 export type CommandesUpd = {
   id: number;
-  id_nourriture: number;
-  nourriture: string;
+  id_article: number;
+  article: string;
   id_ticket: number;
   ticket: string;
   numero: number;

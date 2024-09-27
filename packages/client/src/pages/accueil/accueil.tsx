@@ -26,7 +26,7 @@ const Home: React.FC = () => {
             Notre parc est ouvert à tout public, il vous permettra de vous
             balader en famille ou seul, vous pourrez également vous occuper d’un
             animal de votre choix pendant votre visite si vous le souhaitez.
-            Notre parc vous permet de confectionner vous même la nourriture de
+            Notre parc vous permet de confectionner vous même la article de
             votre animal de compagnie, qui vous attend sagement à la maison,
             mais également notre parc dispose d’un laboratoire où sont
             confectionnés les repas pour que vous puissiez être livré à domicile

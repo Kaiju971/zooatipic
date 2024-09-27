@@ -15,9 +15,9 @@ export const getPhotosCategorie =
     res.send({ results: photos });
   };
 
-export const getPhotosNourritures =
+export const getPhotosarticles =
   (model: Photos) => async (req: Request, res: Response) => {
-    const photos = await model.getPhotosNourritures();
+    const photos = await model.getPhotosarticles();
 
     if (!photos) {
       return res.status(404).send({ message: "Pas de photo" });
@@ -59,9 +59,9 @@ export const uploadImage =
         photo.principale === "false" || photo.principale === false
           ? false
           : true,
-      id_nourriture:
-        photo.id_nourriture !== undefined && photo.id_nourriture !== null
-          ? Number(photo.id_nourriture)
+      id_article:
+        photo.id_article !== undefined && photo.id_article !== null
+          ? Number(photo.id_article)
           : null,
     };
 

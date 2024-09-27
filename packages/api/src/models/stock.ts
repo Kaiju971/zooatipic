@@ -1,5 +1,5 @@
 import { knex } from "../../db";
-import { getNourritures } from "./nourritures";
+import { getarticles } from "./articles";
 import { Stock, StockUpd } from "./types/stock";
 
 export const table = "stock";
@@ -7,7 +7,7 @@ export const table = "stock";
 export const getStock = async () => {
   const results = await knex<Stock>(table)
     .select("*")
-    .innerJoin("nourritures", "nourritures.id", "stock.id_nourriture");
+    .innerJoin("articles", "articles.id", "stock.id_article");
 
   if (results && results.length) {
     return results;
@@ -52,23 +52,20 @@ export const putStockById = async (data: Partial<StockUpd>) => {
   }
 
   if (
-    Number(data.id_nourriture) !== 0 &&
-    data.id_nourriture !== undefined &&
-    Number(data.id_nourriture) !== existingStock.id_nourriture
+    Number(data.id_article) !== 0 &&
+    data.id_article !== undefined &&
+    Number(data.id_article) !== existingStock.id_article
   ) {
-    updatedFields.id_nourriture = data.id_nourriture;
-  } else if (data.nourriture && data.nourriture !== "") {
-    const nourriture = await getNourritures();
+    updatedFields.id_article = data.id_article;
+  } else if (data.article && data.article !== "") {
+    const article = await getarticles();
 
-    if (nourriture) {
-      const nourritureIndex = nourriture.find(
-        (nourritureObj) => nourritureObj.nourriture === data.nourriture
+    if (article) {
+      const articleIndex = article.find(
+        (articleObj) => articleObj.article === data.article
       );
-      if (
-        nourritureIndex &&
-        nourritureIndex?.id !== existingStock.id_nourriture
-      )
-        updatedFields.id_nourriture = nourritureIndex?.id;
+      if (articleIndex && articleIndex?.id !== existingStock.id_article)
+        updatedFields.id_article = articleIndex?.id;
       else return -3;
     }
   }
@@ -104,16 +101,16 @@ export const StockRestant = async () => {
   const formattedMonday = monday.toISOString().split("T")[0];
   const results: number[] = await knex<Stock>(table)
     .leftJoin("commandes", function () {
-      this.on("commandes.id_nourriture", "=", "stock.id_nourriture").andOn(
+      this.on("commandes.id_article", "=", "stock.id_article").andOn(
         "commandes.date",
         ">=",
         knex.raw("?", [formattedMonday])
       );
     })
     .where("stock.date", ">=", formattedMonday)
-    .groupBy("stock.id_nourriture")
+    .groupBy("stock.id_article")
     .select(
-      "stock.id_nourriture",
+      "stock.id_article",
       knex.raw("SUM(stock.quantité) as stock_quantité"),
       knex.raw("COALESCE(SUM(commandes.quantité), 0) as commande_quantité"),
       knex.raw(

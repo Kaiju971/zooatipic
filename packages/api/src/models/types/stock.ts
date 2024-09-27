@@ -1,5 +1,5 @@
 export type Stock = {
-  id_nourriture: number;
+  id_article: number;
   quantité: number;
   prix: number;
   date: Date;
@@ -8,8 +8,8 @@ export type Stock = {
 
 export type StockUpd = {
   id: number;
-  id_nourriture: number;
-  nourriture: string;
+  id_article: number;
+  article: string;
   quantité: number;
   prix: number;
   date: Date;
