@@ -1,6 +1,6 @@
 export type Panier = {
-  id_nourriture: number;
+  id_article: number;
   prix: number;
-  nourriture: string;
+  article: string;
   quantité: number;
 };

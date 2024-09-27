@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import storage from "../firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAllRaces, getAnimaux } from "./races";
-import { getNourritures } from "./nourritures";
+import { getarticles } from "./articles";
 
 export const table = "photos";
 
@@ -32,7 +32,7 @@ export const getPhotosCategorie = async () => {
     .where({ principale: true })
     .leftJoin("animaux as a", "id_animal", "a.id")
     .whereNotNull("id_animal")
-    .andWhere({ id_nourriture: null });
+    .andWhere({ id_article: null });
 
   if (results && results.length) {
     return results;
@@ -41,18 +41,18 @@ export const getPhotosCategorie = async () => {
   return null;
 };
 
-export const getPhotosNourritures = async () => {
+export const getPhotosarticles = async () => {
   const results = await knex<DataImages>(table)
     .select(
       `${table}.id`,
       `${table}.lien`,
       `n.id_animaux`,
-      `${table}.id_nourriture`,
-      `n.nourriture`,
+      `${table}.id_article`,
+      `n.article`,
       `n.prix`
     )
-    .leftJoin("nourritures as n", "id_nourriture", "n.id")
-    .whereNotNull("id_nourriture")
+    .leftJoin("articles as n", "id_article", "n.id")
+    .whereNotNull("id_article")
     .andWhere({ id_animal: null });
 
   if (results && results.length) {
@@ -219,23 +219,20 @@ export const putPhoto = async (
   }
 
   if (
-    Number(data.id_nourriture) !== 0 &&
-    data.id_nourriture !== undefined &&
-    Number(data.id_nourriture) !== existingPhoto.id_nourriture
+    Number(data.id_article) !== 0 &&
+    data.id_article !== undefined &&
+    Number(data.id_article) !== existingPhoto.id_article
   ) {
-    updatedFields.id_nourriture = data.id_nourriture;
-  } else if (data.nourriture && data.nourriture !== "") {
-    const nourriture = await getNourritures();
+    updatedFields.id_article = data.id_article;
+  } else if (data.article && data.article !== "") {
+    const article = await getarticles();
 
-    if (nourriture) {
-      const nourritureIndex = nourriture.find(
-        (nourritureObj) => nourritureObj.nourriture === data.nourriture
+    if (article) {
+      const articleIndex = article.find(
+        (articleObj) => articleObj.article === data.article
       );
-      if (
-        nourritureIndex &&
-        nourritureIndex?.id !== existingPhoto.id_nourriture
-      )
-        updatedFields.id_nourriture = nourritureIndex?.id;
+      if (articleIndex && articleIndex?.id !== existingPhoto.id_article)
+        updatedFields.id_article = articleIndex?.id;
       else return -4;
     }
   }

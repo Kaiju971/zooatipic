@@ -171,8 +171,8 @@ const Faq: React.FC = () => {
         animaux, leur donner des soins et entretenir les locaux ? Cet argent
         vient de vous. Le Parc de Thoiry étant un parc privé, il ne reçoit
         aucune subvention de la part d’organismes extérieurs. Les fonds récoltés
-        grâce à la vente des tickets d’entrée servent à acheter la nourriture,
-        le matériel, à construire de nouveaux bâtiments, et à payer le personnel
+        grâce à la vente des tickets d’entrée servent à acheter la article, le
+        matériel, à construire de nouveaux bâtiments, et à payer le personnel
         (animalier et administratif). En achetant votre billet, vous faites
         vous-même une action en faveur de la conservation de la nature, en nous
         permettant de continuer à élever nos animaux dans les meilleures

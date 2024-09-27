@@ -8,15 +8,15 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import { NourritureWithPhoto } from "../../types/produits";
+import { articleWithPhoto } from "../../types/produits";
 
 import * as S from "./laboratoire.styled";
 import PrimaryButton from "../../components/buttonPrincipale";
 import { Panier } from "../../types/panier";
-import { fetchNourritures } from "../../api/fetchers/nourriture";
+import { fetcharticles } from "../../api/fetchers/article";
 
 interface ProductsData {
-  results: NourritureWithPhoto[];
+  results: articleWithPhoto[];
 }
 
 const Laboratoire: React.FC = () => {
@@ -26,7 +26,7 @@ const Laboratoire: React.FC = () => {
     isError,
   } = useQuery<ProductsData>({
     queryKey: ["photosproduitsbycategorie"],
-    queryFn: fetchNourritures,
+    queryFn: fetcharticles,
   });
 
   const saveBasket = (basket: Panier) => {
@@ -86,10 +86,10 @@ const Laboratoire: React.FC = () => {
                     label="Acheter"
                     onClick={() =>
                       saveBasket({
-                        id_nourriture: item.id_nourriture,
+                        id_article: item.id_article,
                         prix: item.prix,
                         quantité: item.quantité,
-                        nourriture: item.nourriture,
+                        article: item.article,
                       })
                     }
                   />

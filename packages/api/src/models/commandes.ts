@@ -1,5 +1,5 @@
 import { knex } from "../../db";
-import { getNourritures } from "./nourritures";
+import { getarticles } from "./articles";
 import { getTickets } from "./tickets";
 import { Commandes, CommandesUpd } from "./types/commandes";
 
@@ -8,7 +8,7 @@ export const table = "commandes";
 export const getCommandes = async () => {
   const results = await knex<Commandes>(table)
     .select("*")
-    .leftJoin("nourritures", "nourritures.id", "commandes.id_nourriture")
+    .leftJoin("articles", "articles.id", "commandes.id_article")
     .leftJoin("tickets", "tickets.id", "commandes.id_ticket");
 
   if (results && results.length) {
@@ -22,9 +22,9 @@ export const deleteCommandeById = async (id: string) => {
 };
 
 export const createCommande = async (data: Partial<Commandes>[]) => {
-  const idNourritureList: number[] = data
-    .filter((item) => item.id_nourriture !== undefined)
-    .map((item) => item.id_nourriture as number);
+  const idarticleList: number[] = data
+    .filter((item) => item.id_article !== undefined)
+    .map((item) => item.id_article as number);
 
   const diff = await knex
     .with("commandes_temp", (qb) => {
@@ -32,35 +32,35 @@ export const createCommande = async (data: Partial<Commandes>[]) => {
         knex.raw(
           `(
               VALUES ${data
-                .filter((item) => item.id_nourriture !== undefined)
+                .filter((item) => item.id_article !== undefined)
                 .map(
-                  (item) => `( ${item.id_nourriture}, ${Number(item.quantité)})`
+                  (item) => `( ${item.id_article}, ${Number(item.quantité)})`
                 )
                 .join(", ")}
-            ) AS t(id_nourriture, quantité)`
+            ) AS t(id_article, quantité)`
         )
       );
     })
     .select(
-      "s.id_nourriture",
+      "s.id_article",
       "s.total_quantité as stock_quantité",
       "c.quantité as commandes_quantité",
       knex.raw("CAST(s.total_quantité AS INTEGER) - c.quantité as difference")
     )
     .from(
       knex("stock")
-        .select("id_nourriture")
+        .select("id_article")
         .sum("quantité as total_quantité")
-        .groupBy("id_nourriture")
-        .whereIn("id_nourriture", idNourritureList)
+        .groupBy("id_article")
+        .whereIn("id_article", idarticleList)
         .as("s")
     )
-    .join("commandes_temp as c", "s.id_nourriture", "c.id_nourriture")
+    .join("commandes_temp as c", "s.id_article", "c.id_article")
     .whereRaw("CAST(s.total_quantité AS INTEGER) < c.quantité");
 
   if (diff && diff.length) {
     const outOfStockItems = diff.map((item) => ({
-      id_nourriture: item.id_nourriture,
+      id_article: item.id_article,
       diff: item.difference,
     }));
 
@@ -107,23 +107,20 @@ export const putCommandeById = async (data: Partial<CommandesUpd>) => {
   }
 
   if (
-    Number(data.id_nourriture) !== 0 &&
-    data.id_nourriture !== undefined &&
-    Number(data.id_nourriture) !== existingCommandes.id_nourriture
+    Number(data.id_article) !== 0 &&
+    data.id_article !== undefined &&
+    Number(data.id_article) !== existingCommandes.id_article
   ) {
-    updatedFields.id_nourriture = data.id_nourriture;
-  } else if (data.nourriture && data.nourriture !== "") {
-    const nourriture = await getNourritures();
+    updatedFields.id_article = data.id_article;
+  } else if (data.article && data.article !== "") {
+    const article = await getarticles();
 
-    if (nourriture) {
-      const nourritureIndex = nourriture.find(
-        (nourritureObj) => nourritureObj.nourriture === data.nourriture
+    if (article) {
+      const articleIndex = article.find(
+        (articleObj) => articleObj.article === data.article
       );
-      if (
-        nourritureIndex &&
-        nourritureIndex?.id !== existingCommandes.id_nourriture
-      )
-        updatedFields.id_nourriture = nourritureIndex?.id;
+      if (articleIndex && articleIndex?.id !== existingCommandes.id_article)
+        updatedFields.id_article = articleIndex?.id;
       else return -3;
     }
   }

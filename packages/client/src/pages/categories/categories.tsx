@@ -111,8 +111,8 @@ const Categories: React.FC = () => {
               <Typography variant="h6">Nos propositions</Typography>
               <Typography variant="h6">
                 Venez voir nos animaux vous pourrez également leurs donner de la
-                nourriture mais pas que, vous pourrez également confectionner de
-                la nourriture spécialement pour votre animal de compagnie
+                article mais pas que, vous pourrez également confectionner de la
+                article spécialement pour votre animal de compagnie
               </Typography>
             </S.ContainerTexte>
           </S.StyledFlexBox>

@@ -21,14 +21,14 @@ export type Images = {
   id_race: number;
   principale: boolean;
   lien: string;
-  id_nourriture: number;
+  id_article: number;
 };
 
 export type DataImages = {
   id_animal: number | null;
   id_race: number | null;
   principale: boolean;
-  id_nourriture: number | null;
+  id_article: number | null;
 };
 
 export type ImagesUpd = {
@@ -37,8 +37,8 @@ export type ImagesUpd = {
   id_animal: number | null;
   id_race: number | null;
   race: string;
-  id_nourriture: number | null;
-  nourriture: string;
+  id_article: number | null;
+  article: string;
   principale: boolean;
   lien: string;
 };
