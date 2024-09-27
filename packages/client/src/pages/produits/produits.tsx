@@ -14,7 +14,6 @@ import { fetchProducts } from "../../api/fetchers/produit";
 
 import * as S from "./produits.styled";
 import PrimaryButton from "../../components/buttonPrincipale";
-import { Panier } from "../../types/panier";
 
 interface ProductsData {
   results: ProduitsWithPhoto[];
@@ -36,10 +35,6 @@ const Produits: React.FC = () => {
     queryFn: () => fetchProducts({ animalId: animalId ?? "" }),
     enabled: !!animalId,
   });
-
-  const saveBasket = (basket: Panier) => {
-    localStorage.setItem("basket", JSON.stringify(basket));
-  };
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading products</p>;

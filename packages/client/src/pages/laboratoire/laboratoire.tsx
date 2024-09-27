@@ -12,8 +12,9 @@ import { articleWithPhoto } from "../../types/produits";
 
 import * as S from "./laboratoire.styled";
 import PrimaryButton from "../../components/buttonPrincipale";
-import { Panier } from "../../types/panier";
+
 import { fetcharticles } from "../../api/fetchers/article";
+import { addBasket } from "../../utils/basket";
 
 interface ProductsData {
   results: articleWithPhoto[];
@@ -28,10 +29,6 @@ const Laboratoire: React.FC = () => {
     queryKey: ["photosproduitsbycategorie"],
     queryFn: fetcharticles,
   });
-
-  const saveBasket = (basket: Panier) => {
-    localStorage.setItem("basket", JSON.stringify(basket));
-  };
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading products</p>;
@@ -85,7 +82,7 @@ const Laboratoire: React.FC = () => {
                   <PrimaryButton
                     label="Acheter"
                     onClick={() =>
-                      saveBasket({
+                      addBasket({
                         id_article: item.id_article,
                         prix: item.prix,
                         quantité: item.quantité,
