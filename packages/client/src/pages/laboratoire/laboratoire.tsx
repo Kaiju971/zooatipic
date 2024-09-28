@@ -85,7 +85,7 @@ const Laboratoire: React.FC = () => {
                       addBasket({
                         id_article: item.id_article,
                         prix: item.prix,
-                        quantité: item.quantité,
+                        quantite: item.quantite,
                         article: item.article,
                       })
                     }

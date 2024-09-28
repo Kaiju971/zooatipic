@@ -28,7 +28,7 @@ export type articleWithPhoto = {
   id_article: number;
   article: string;
   prix: number;
-  quantité: number;
+  quantite: number;
 };
 
 export type ProduitsWithPhoto = {

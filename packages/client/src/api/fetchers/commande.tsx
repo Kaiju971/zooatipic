@@ -1,9 +1,8 @@
 import axios from "../../axios";
-import { CommandesReponse } from "../../types/commandes";
-import { Basket } from "../../types/panier";
+import { Commandes, CommandesReponse } from "../../types/commandes";
 
 export const fetchCommande = async (
-  data: Basket
+  data: Commandes[]
 ): Promise<CommandesReponse> => {
   const response = await axios.post<CommandesReponse>("/createcommande", data);
   return response.data;

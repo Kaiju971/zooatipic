@@ -1,31 +1,75 @@
-// import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
-import * as S from "./panier.styled";
+import { useContext, useEffect, useState } from "react";
 import { getBasket } from "../../utils/basket";
-import { Basket } from "../../types/panier";
-import { useQuery } from "@tanstack/react-query";
-import { CommandesReponse } from "../../types/commandes";
+import { useMutation } from "@tanstack/react-query";
+import { Commandes, CommandesReponse } from "../../types/commandes";
 import { fetchCommande } from "../../api/fetchers/commande";
+import PrimaryButton from "../../components/buttonPrincipale";
+import { useNavigate } from "react-router";
+import { Routes } from "../../app/routes";
+import AuthContext from "../../store/auth/AuthContextProvider";
+
+import * as S from "./panier.styled";
+import { useSnackbar } from "notistack";
+import { AxiosError } from "axios";
+
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = currentDate.getMonth() + 1;
+const day = currentDate.getDate();
+
+const currentCommandeDate = `${day}/${month}/${year}`;
 
 const Panier: React.FC = () => {
-  const [dataPanier, setDataPanier] = useState<Basket[]>();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const { authState } = useContext(AuthContext);
+  const [dataPanier, setDataPanier] = useState<Commandes[]>();
 
   useEffect(() => {
-    setDataPanier(getBasket());
-  }, []);
+    const basket = getBasket();
+    const commande =
+      basket &&
+      basket.map((item: Commandes) => ({
+        ...item,
+        id_user: authState.userId ?? 0,
+        date: currentCommandeDate,
+        date_visite: item.date_visite ?? null,
+        numéro: 0,
+      }));
 
-  // const {
-  //   data: commandesdata,
-  //   isLoading,
-  //   isError,
-  // } = useQuery<CommandesReponse>({
-  //   params: {data: dataPanier},
-  //   queryKey: ["createcommande"],
-  //   queryFn: fetchCommande,
-  // });
+    setDataPanier(commande);
+  }, [authState.userId]);
 
-  // if (isLoading) return <p>Loading...</p>;
-  // if (isError) return <p>Error loading products</p>;
+  const { mutate: savePanier } = useMutation<
+    CommandesReponse,
+    AxiosError,
+    Commandes[]
+  >({
+    mutationFn: fetchCommande,
+    onSuccess: () => {
+      navigate(Routes.accueil);
+    },
+    onError: (error: AxiosError) => {
+      console.error(error.response);
+      const errorMessage =
+        (error.response?.data as { message?: string })?.message ||
+        error.message;
+      enqueueSnackbar(errorMessage, {
+        variant: "error",
+      });
+    },
+  });
+
+  const TraiterPanier = () => {
+    if (authState.userId !== undefined && Number(authState.userId) > 0) {
+      if (dataPanier) {
+        savePanier(dataPanier);
+      }
+    } else
+      enqueueSnackbar("Connectez-vous avec votre compte ou inscrivez-vous", {
+        variant: "error",
+      });
+  };
 
   return (
     <S.MainContainer>
@@ -40,10 +84,11 @@ const Panier: React.FC = () => {
           <br />
           {item.prix}
           <br />
-          {item.quantité}
+          {item.quantite}
           <br />
         </div>
       ))}
+      <PrimaryButton label="Acheter" onClick={() => TraiterPanier()} />
     </S.MainContainer>
   );
 };

@@ -1,7 +1,14 @@
 import { knex } from "../../db";
-import { getarticles } from "./articles";
+import { getarticles, putArticleById } from "./articles";
 import { getTickets } from "./tickets";
-import { Commandes, CommandesUpd } from "./types/commandes";
+import { ArticlesUpd } from "./types/articles";
+import {
+  Commandes,
+  CommandesHead,
+  CommandesRows,
+  CommandesUpd,
+} from "./types/commandes";
+import { TVA } from "../constants";
 
 export const table = "commandes";
 
@@ -17,14 +24,31 @@ export const getCommandes = async () => {
   return null;
 };
 
+const getLastNumber = async (): Promise<number> => {
+  const results = await knex<Commandes>(table)
+    .select("numero")
+    .orderBy("numero", "desc");
+
+  if (results && results.length > 0) {
+    return results[0].numero;
+  }
+
+  return -1;
+};
+
 export const deleteCommandeById = async (id: string) => {
   return knex<number>(table).where("id", id).del();
 };
 
-export const createCommande = async (data: Partial<Commandes>[]) => {
-  const idarticleList: number[] = data
+export const createCommande = async (data: Commandes[]) => {
+  const idArticleList: number[] = data
     .filter((item) => item.id_article !== undefined)
     .map((item) => item.id_article as number);
+
+  const articleStockSubquery = knex("articles")
+    .select("id", "article", "stock")
+    .whereIn("id", idArticleList)
+    .as("a");
 
   const diff = await knex
     .with("commandes_temp", (qb) => {
@@ -34,44 +58,109 @@ export const createCommande = async (data: Partial<Commandes>[]) => {
               VALUES ${data
                 .filter((item) => item.id_article !== undefined)
                 .map(
-                  (item) => `( ${item.id_article}, ${Number(item.quantité)})`
+                  (item) => `( ${item.id_article}, ${Number(item.quantite)})`
                 )
                 .join(", ")}
-            ) AS t(id_article, quantité)`
+            ) AS t(id_article, quantite)`
         )
       );
     })
     .select(
-      "s.id_article",
-      "s.total_quantité as stock_quantité",
-      "c.quantité as commandes_quantité",
-      knex.raw("CAST(s.total_quantité AS INTEGER) - c.quantité as difference")
+      "a.id",
+      "a.article",
+      "a.stock as stock_quantite",
+      "c.quantite as commandes_quantite",
+      knex.raw("CAST(a.stock AS INTEGER) - c.quantite as difference")
     )
-    .from(
-      knex("stock")
-        .select("id_article")
-        .sum("quantité as total_quantité")
-        .groupBy("id_article")
-        .whereIn("id_article", idarticleList)
-        .as("s")
-    )
-    .join("commandes_temp as c", "s.id_article", "c.id_article")
-    .whereRaw("CAST(s.total_quantité AS INTEGER) < c.quantité");
+    .from(articleStockSubquery)
+    .join("commandes_temp as c", "a.id", "c.id_article")
+    .whereRaw("CAST(a.stock AS INTEGER) < c.quantite");
 
   if (diff && diff.length) {
     const outOfStockItems = diff.map((item) => ({
-      id_article: item.id_article,
+      article: item.article,
       diff: item.difference,
     }));
 
     return [-2, outOfStockItems];
   }
 
-  const results: number[] = await knex<Commandes>(table)
-    .insert(data)
+  //const lastNumber = await getLastNumber();
+
+  const dataCommande: CommandesHead = data.reduce(
+    (acc, item) => {
+      acc.quantite = (acc.quantite ?? 0) + (item?.quantite ?? 0);
+      const currentSum = item.prix * item.quantite;
+      acc.somme = (acc.somme ?? 0) + currentSum;
+      const currentTVA = item.prix * item.quantite * TVA;
+      acc.tva = (acc.tva ?? 0) + currentTVA;
+      return {
+        ...acc,
+        id_user: item.id_user ?? 1,
+        // numero: lastNumber + 1,
+        date: item.date,
+        date_visite: item.date_visite,
+      };
+    },
+    {
+      id_user: 1,
+      // numero: 0,
+      date: new Date(),
+      date_visite: new Date(),
+      quantite: 0,
+      somme: 0,
+      tva: 0,
+    }
+  );
+
+  dataCommande.somme = Number(dataCommande.somme.toFixed(2));
+  dataCommande.tva = Number(dataCommande.tva.toFixed(2));
+
+  const results: { id: number }[] = await knex<CommandesHead>(table)
+    .insert(dataCommande)
     .returning("id");
 
-  return results;
+  if (results) {
+    const commandedId = Number(results[0].id);
+    const dataRows: CommandesRows[] = data.map((item) => ({
+      id_commande: commandedId,
+      id_article: item.id_article,
+      prix: item.prix,
+      quantite: item.quantite,
+      somme: Number((item.prix * item.quantite).toFixed(2)),
+      tva: Number((item.prix * item.quantite * TVA).toFixed(2)),
+    }));
+
+    const resultsRow: number[] = await knex<CommandesRows[]>("commandesRows")
+      .insert(dataRows)
+      .returning("id");
+
+    const articleStockResults = await articleStockSubquery;
+
+    const dataForStock: Partial<ArticlesUpd>[] = data.map((item) => ({
+      id: item.id_article,
+      stock:
+        articleStockResults.filter((el) => el.id === item.id_article)[0].stock -
+        item.quantite,
+    }));
+
+    if (resultsRow && resultsRow.length > 0) {
+      const resultsPutArticle = await Promise.all(
+        dataForStock.map((item) => putArticleById(item))
+      );
+
+      const allSuccess = resultsPutArticle.every((result) => result);
+      if (allSuccess) {
+        return results;
+      } else {
+        return [-3];
+      }
+    } else {
+      return [-4];
+    }
+  }
+
+  return null;
 };
 
 export const putCommandeById = async (data: Partial<CommandesUpd>) => {
@@ -148,8 +237,8 @@ export const putCommandeById = async (data: Partial<CommandesUpd>) => {
     updatedFields.prix = data.prix;
   }
 
-  if (data.quantité && data.quantité !== existingCommandes.quantité) {
-    updatedFields.quantité = data.quantité;
+  if (data.quantite && data.quantite !== existingCommandes.quantite) {
+    updatedFields.quantite = data.quantite;
   }
 
   if (Object.keys(updatedFields).length === 0) {

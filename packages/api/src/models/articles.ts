@@ -1,11 +1,11 @@
 import { knex } from "../../db";
 import { getAnimaux } from "./races";
-import { articles, articlesUpd } from "./types/articles";
+import { Articles, ArticlesUpd } from "./types/articles";
 
-export const table = "article";
+export const table = "articles";
 
 export const getarticles = async () => {
-  const results = await knex<articles>(table)
+  const results = await knex<Articles>(table)
     .select("*")
     .innerJoin("animaux", "animaux.id", "articles.id_animaux");
 
@@ -29,16 +29,16 @@ export const deletearticleById = async (id: string) => {
 };
 
 export const createarticle = async (data: any) => {
-  const results: number[] = await knex<articles>(table)
+  const results: number[] = await knex<Articles>(table)
     .insert({ ...data })
     .returning("id");
 
   return results[0];
 };
 
-export const putarticleById = async (data: Partial<articlesUpd>) => {
+export const putArticleById = async (data: Partial<ArticlesUpd>) => {
   const id = Number(data.id);
-  const existingarticle = await knex<articles>(table)
+  const existingarticle = await knex<Articles>(table)
     .select("*")
     .where({ id })
     .first();
@@ -46,7 +46,7 @@ export const putarticleById = async (data: Partial<articlesUpd>) => {
   if (!existingarticle) {
     return null;
   }
-  const updatedFields: Partial<articlesUpd> = {};
+  const updatedFields: Partial<ArticlesUpd> = {};
 
   if (data.article !== existingarticle.article && data.article !== "") {
     updatedFields.article = data.article;
@@ -58,6 +58,10 @@ export const putarticleById = async (data: Partial<articlesUpd>) => {
 
   if (data.disponible !== existingarticle.disponible) {
     updatedFields.disponible = data.disponible;
+  }
+
+  if (data.stock !== existingarticle.stock && data.stock !== 0) {
+    updatedFields.stock = data.stock;
   }
 
   if (
@@ -83,7 +87,7 @@ export const putarticleById = async (data: Partial<articlesUpd>) => {
     return null;
   }
 
-  const results = await knex<articles>(table)
+  const results = await knex<Articles>(table)
     .update(updatedFields)
     .where({ id })
     .returning("id");

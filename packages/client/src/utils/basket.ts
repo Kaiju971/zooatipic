@@ -26,9 +26,9 @@ export const addBasket = (product: Basket) => {
     );
   }
   if (foundProduct !== undefined) {
-    foundProduct.quantité++;
+    foundProduct.quantite++;
   } else {
-    product.quantité = 1;
+    product.quantite = 1;
     basket.push(product);
   }
   saveBasket(basket);
