@@ -41,19 +41,21 @@ export const getPhotosCategorie = async () => {
   return null;
 };
 
-export const getPhotosarticles = async () => {
+export const getPhotosArticles = async (categorieVentes: string) => {
   const results = await knex<DataImages>(table)
     .select(
       `${table}.id`,
       `${table}.lien`,
-      `n.id_animaux`,
+      `a.id_animaux`,
       `${table}.id_article`,
-      `n.article`,
-      `n.prix`
+      `a.article`,
+      `a.prix`,
+      `a.stock`
     )
-    .leftJoin("articles as n", "id_article", "n.id")
+    .leftJoin("articles as a", "id_article", "a.id")
+    .leftJoin("categorie_ventes as c", "id_categorie_vente", "c.id")
     .whereNotNull("id_article")
-    .andWhere({ id_animal: null });
+    .andWhere({ categorie_vente: categorieVentes });
 
   if (results && results.length) {
     return results;

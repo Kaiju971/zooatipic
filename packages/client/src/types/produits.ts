@@ -21,14 +21,15 @@ export type CategorieWithPhoto = {
   background: string;
 };
 
-export type articleWithPhoto = {
-  id: number;
+export type ArticleWithPhoto = {
+  id: number; //id photo
   lien: string;
   id_animal: number;
   id_article: number;
   article: string;
   prix: number;
   quantite: number;
+  stock: number;
 };
 
 export type ProduitsWithPhoto = {

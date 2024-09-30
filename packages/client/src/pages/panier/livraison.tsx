@@ -8,7 +8,7 @@ const Panier: React.FC = () => {
   const navigate = useNavigate();
   return (
     <S.MainContainer>
-      <S.Page variant="h1">PANIER</S.Page>
+      <S.PageTitle variant="h1">PANIER</S.PageTitle>
       <S.Title>Méthode de livraison</S.Title>
 
       <PrimaryButton

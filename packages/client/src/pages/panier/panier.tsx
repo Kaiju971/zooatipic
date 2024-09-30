@@ -7,10 +7,12 @@ import PrimaryButton from "../../components/buttonPrincipale";
 import { useNavigate } from "react-router";
 import { Routes } from "../../app/routes";
 import AuthContext from "../../store/auth/AuthContextProvider";
-
-import * as S from "./panier.styled";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
+import { Basket } from "../../types/panier";
+import { Typography } from "@mui/material";
+
+import * as S from "./panier.styled";
 
 const currentDate = new Date();
 const year = currentDate.getFullYear();
@@ -23,21 +25,12 @@ const Panier: React.FC = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { authState } = useContext(AuthContext);
-  const [dataPanier, setDataPanier] = useState<Commandes[]>();
+  const [dataComande, setDataCommande] = useState<Commandes[]>();
+  const [dataPanier, setDataPanier] = useState<Basket[]>();
 
   useEffect(() => {
     const basket = getBasket();
-    const commande =
-      basket &&
-      basket.map((item: Commandes) => ({
-        ...item,
-        id_user: authState.userId ?? 0,
-        date: currentCommandeDate,
-        date_visite: item.date_visite ?? null,
-        numéro: 0,
-      }));
-
-    setDataPanier(commande);
+    setDataPanier(basket);
   }, [authState.userId]);
 
   const { mutate: savePanier } = useMutation<
@@ -60,10 +53,35 @@ const Panier: React.FC = () => {
     },
   });
 
+  const updateQuantity = (id_article: number, newQuantity: number) => {
+    setDataPanier((prevDataPanier) =>
+      prevDataPanier
+        ?.map((item) =>
+          item.id_article === id_article
+            ? { ...item, quantite: Math.max(0, newQuantity) }
+            : item
+        )
+        .filter((item) => item.quantite > 0)
+    );
+
+    const commande =
+      dataPanier &&
+      dataPanier.map((item: Basket) => ({
+        ...item,
+        id_user: Number(authState.userId) ?? 0,
+        date: currentCommandeDate,
+        date_visite: item.date_visite ?? null,
+        numéro: 0,
+      }));
+
+    setDataCommande(commande);
+  };
+
   const TraiterPanier = () => {
+    console.log(dataComande);
     if (authState.userId !== undefined && Number(authState.userId) > 0) {
-      if (dataPanier) {
-        savePanier(dataPanier);
+      if (dataComande) {
+        savePanier(dataComande);
       }
     } else
       enqueueSnackbar("Connectez-vous avec votre compte ou inscrivez-vous", {
@@ -73,22 +91,80 @@ const Panier: React.FC = () => {
 
   return (
     <S.MainContainer>
-      <S.Page variant="h1">PANIER</S.Page>
-      <S.Title>Liste du panier</S.Title>
-
-      {dataPanier?.map((item) => (
-        <div key={item.id_article}>
-          {item.id_article}
-          <br />
-          {item.article}
-          <br />
-          {item.prix}
-          <br />
-          {item.quantite}
-          <br />
-        </div>
-      ))}
-      <PrimaryButton label="Acheter" onClick={() => TraiterPanier()} />
+      <S.PageTitle variant="h1">PANIER</S.PageTitle>
+      <S.Title variant="h2">Liste du panier</S.Title>
+      <S.BaskeContainer>
+        {dataPanier?.map((item) => (
+          <S.BasketRow key={item.id_article}>
+            <img src={`${item.photo}`} alt="" width="50rem" />
+            <S.Article variant="h6"> {item.article}</S.Article>
+            <S.Calculator>
+              <S.StyledButtonMoins
+                variant="text"
+                color="secondary"
+                onClick={() =>
+                  updateQuantity(item.id_article, item.quantite - 1)
+                }
+              >
+                -
+              </S.StyledButtonMoins>
+              {item.quantite}
+              <S.StyledButton
+                variant="text"
+                color="secondary"
+                onClick={() =>
+                  updateQuantity(item.id_article, item.quantite + 1)
+                }
+              >
+                +
+              </S.StyledButton>
+            </S.Calculator>
+            <div>Stock:</div>
+            <div>{item.stock}</div>
+            <div>{item.prix} € PU HT</div>
+            <S.Article> {item.prix * item.quantite} € PU HT</S.Article>
+          </S.BasketRow>
+        ))}
+        <S.Total>
+          <Typography variant="h5" fontWeight="900">
+            Hors taxe
+          </Typography>
+          <Typography variant="h5" fontWeight="900">
+            {dataPanier
+              ?.reduce((sum, item) => sum + item.prix * item.quantite, 0)
+              .toFixed(2)}
+            € HT
+          </Typography>
+          <Typography variant="h6" fontWeight="900">
+            Taxe/VA 20%
+          </Typography>
+          <Typography variant="h6" fontWeight="900">
+            {dataPanier
+              ?.reduce((acc, item) => acc + (item.prix * item.quantite) / 5, 0)
+              .toFixed(2)}
+            € HT
+          </Typography>
+          <Typography variant="h5" fontWeight="900">
+            Toutes taxes comprises
+          </Typography>
+          <Typography variant="h5" fontWeight="900">
+            {dataPanier
+              ?.reduce(
+                (acc, item) =>
+                  acc +
+                  item.prix * item.quantite +
+                  (item.prix * item.quantite) / 5,
+                0
+              )
+              .toFixed(2)}
+            € HT
+          </Typography>
+        </S.Total>
+      </S.BaskeContainer>
+      <PrimaryButton
+        label="Confirmer le commande"
+        onClick={() => TraiterPanier()}
+      />
     </S.MainContainer>
   );
 };
