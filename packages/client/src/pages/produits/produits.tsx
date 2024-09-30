@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Breadcrumbs,
-  ImageListItem,
-  Link,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Breadcrumbs, ImageListItem, Link, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { ProduitsWithPhoto } from "../../types/produits";
@@ -13,7 +7,6 @@ import { useParams } from "react-router";
 import { fetchProducts } from "../../api/fetchers/produit";
 
 import * as S from "./produits.styled";
-import PrimaryButton from "../../components/buttonPrincipale";
 
 interface ProductsData {
   results: ProduitsWithPhoto[];

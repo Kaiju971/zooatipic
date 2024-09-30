@@ -15,9 +15,12 @@ export const getPhotosCategorie =
     res.send({ results: photos });
   };
 
-export const getPhotosarticles =
+export const getPhotosArticles =
   (model: Photos) => async (req: Request, res: Response) => {
-    const photos = await model.getPhotosarticles();
+    const { params } = req;
+    const categorieVentes = params.categorieVentes;
+
+    const photos = await model.getPhotosArticles(categorieVentes);
 
     if (!photos) {
       return res.status(404).send({ message: "Pas de photo" });

@@ -8,26 +8,25 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import { articleWithPhoto } from "../../types/produits";
-
-import * as S from "./laboratoire.styled";
+import { ArticleWithPhoto } from "../../types/produits";
 import PrimaryButton from "../../components/buttonPrincipale";
-
-import { fetcharticles } from "../../api/fetchers/article";
+import { fetchArticlesWithPhotos } from "../../api/fetchers/articlesWithPhotos";
 import { addBasket } from "../../utils/basket";
 
+import * as S from "./laboratoire.styled";
+
 interface ProductsData {
-  results: articleWithPhoto[];
+  results: ArticleWithPhoto[];
 }
 
 const Laboratoire: React.FC = () => {
   const {
-    data: productdata,
+    data: articlesdata,
     isLoading,
     isError,
   } = useQuery<ProductsData>({
-    queryKey: ["photosproduitsbycategorie"],
-    queryFn: fetcharticles,
+    queryKey: ["photosarticles"],
+    queryFn: () => fetchArticlesWithPhotos({ categorieVentes: "nourriture" }),
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -66,9 +65,9 @@ const Laboratoire: React.FC = () => {
       <S.StyledImageBox>
         <Typography variant="h1">LABORATOIRE DE CONFISERIES</Typography>
         <S.StyledImageList cols={4}>
-          {productdata !== undefined &&
-            productdata?.results?.length > 0 &&
-            productdata?.results?.map((item) => (
+          {articlesdata !== undefined &&
+            articlesdata?.results?.length > 0 &&
+            articlesdata?.results?.map((item) => (
               <>
                 <ImageListItem key={item.id}>
                   <S.Image
@@ -85,8 +84,11 @@ const Laboratoire: React.FC = () => {
                       addBasket({
                         id_article: item.id_article,
                         prix: item.prix,
-                        quantité: item.quantité,
+                        quantite: item.quantite,
                         article: item.article,
+                        photo: item.lien,
+                        stock: item.stock,
+                        date_visite: "",
                       })
                     }
                   />

@@ -44,7 +44,7 @@ export const updatearticleById =
   (model: article) => async (req: Request, res: Response) => {
     const data = req.body;
 
-    const nourritrureId = await model.putarticleById(data as any);
+    const nourritrureId = await model.putArticleById(data as any);
 
     if (!nourritrureId) {
       return res.status(400).send({ message: "L'article n'a pas été modifié" });

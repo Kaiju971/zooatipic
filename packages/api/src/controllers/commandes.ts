@@ -33,11 +33,6 @@ export const createNewCommande =
     const data = req.body as Commandes[];
 
     data.forEach((item: Partial<Commandes>) => {
-      if (item.id_ticket && item.id_article) {
-        return res.status(422).send({
-          message: "La commande ne peut contenir qu'un champ d'id_",
-        });
-      }
       if (
         (item.id_ticket && !item.date_visite) ||
         (!item.id_ticket && item.date_visite)
@@ -48,26 +43,34 @@ export const createNewCommande =
       }
     });
 
-    const commandeId = await model.createCommande(data as Partial<Commandes>[]);
+    const commandeId = await model.createCommande(data as Commandes[]);
 
-    if (commandeId[0] === -1) {
-      return res
-        .status(422)
-        .send({ message: "les champs id_tickets et id_article sont vides" });
+    if (!commandeId) {
+      return res.status(404).send({ message: "La commande n'a pas été créé" });
     }
 
     if (commandeId[0] === -2) {
-      const outOfStockItems = (commandeId[1] as any[])
-        .map((item) => `id_article: ${item.id_article}, diff: ${item.diff}`)
+      const outOfStockItems = (
+        commandeId[1] as { article: string; diff: number }[]
+      )
+        .map((item) => `article: ${item.article}, manque: ${-item.diff}`)
         .join("; ");
 
-      return res.status(422).send({
+      return res.status(422).json({
         message: `Pas de stock pour les articles: ${outOfStockItems}`,
       });
     }
 
-    if (!commandeId) {
-      return res.status(404).send({ message: "La commande n'a pas été créé" });
+    if (commandeId[0] === -3) {
+      return res.status(422).json({
+        message: `Impossible d'enregistrer la modification du stock`,
+      });
+    }
+
+    if (commandeId[0] === -4) {
+      return res.status(422).json({
+        message: `Impossible  d'enregistrer les lignes de commande`,
+      });
     }
 
     res.send({ results: [commandeId] });

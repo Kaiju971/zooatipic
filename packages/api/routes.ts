@@ -6,6 +6,7 @@ import {
   deleteUser,
   getAllRoles,
   getAllUsers,
+  login,
 } from "./src/controllers/user";
 import * as userModel from "./src/models/user";
 import * as racesModel from "./src/models/races";
@@ -52,7 +53,7 @@ import {
   deletePhoto,
   getAllPhotos,
   getPhotosCategorie,
-  getPhotosarticles,
+  getPhotosArticles,
   getPhotosProduitsByCategorie,
   uploadImage,
 } from "./src/controllers/photos";
@@ -89,9 +90,13 @@ router.get("/stock", getAllStock(stockModel));
 router.get("/commandes", getAllCommandes(commandesModel));
 router.get("/stockactuel", getStockActuel(stockModel));
 router.get("/photoscategorie", getPhotosCategorie(photosModel));
-router.get("/getphotosarticles", getPhotosarticles(photosModel));
+router.get(
+  "/getphotosarticles/:categorieVentes",
+  getPhotosArticles(photosModel)
+);
 router.get("/photosproduits/:id", getPhotosProduitsByCategorie(photosModel));
 
+router.post("/login", login(userModel));
 router.post("/createuser", upload.single("file"), createNewUser(userModel));
 router.post("/createrole", createNewRole(userModel));
 router.post("/createrace", createNewRace(racesModel));

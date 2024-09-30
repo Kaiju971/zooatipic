@@ -1,13 +1,13 @@
 export type Commandes = {
-  id: number;
   id_user: number;
-  date: Date;
-  date_visite: Date;
+  date: string;
+  date_visite: string;
   numéro: number;
   id_article: number;
   prix: number;
   article: string;
-  quantité: number;
+  quantite: number;
+  stock: number;
 };
 
 export type CommandesReponse = {

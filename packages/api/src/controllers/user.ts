@@ -8,6 +8,65 @@ type User = typeof userModel;
 
 const { ENCRYPTION_KEY, AUTH_TOKEN_KEY } = process.env;
 
+export const login = (model: User) => async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if user exist AND password supplied is correct
+
+    const id = "";
+    const user = await model.getUserBy(id as string, email as string);
+
+    if (!user) {
+      return res.status(404).send({ message: "L'utilisateur n'existe pas" });
+    }
+
+    const userExists = !!user;
+    const passwordCorrect =
+      userExists && (await bcrypt.compare(password as string, user.password));
+
+    if (passwordCorrect) {
+      const jwtOptions = {
+        expiresIn: "24h", // Expire token in 24 hours
+      };
+
+      const userDataWithoutImage = {
+        id: user.id,
+        email: user.email,
+        nom: user.nom,
+        prenom: user.prenom,
+        password: user.password,
+        id_role: user.id_role,
+        role: user.role,
+      };
+
+      const authToken = jwt.sign(
+        userDataWithoutImage,
+        AUTH_TOKEN_KEY!,
+        jwtOptions
+      );
+
+      return res.status(200).json({
+        success: true,
+        user: {
+          user_id: user.id,
+          email: user.email,
+          nom: user.nom,
+          prenom: user.prenom,
+          auth_token: authToken,
+          id_role: user.id_role,
+          role: user.role,
+        },
+      });
+    }
+
+    return res.status(400).json({ error: "Mot de passe invalide" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: `Erreur serveur` });
+  }
+};
+
 export const getAllUsers =
   (model: User) => async (req: Request, res: Response) => {
     const user = await model.getUsers();

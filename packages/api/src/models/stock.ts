@@ -111,10 +111,10 @@ export const StockRestant = async () => {
     .groupBy("stock.id_article")
     .select(
       "stock.id_article",
-      knex.raw("SUM(stock.quantité) as stock_quantité"),
-      knex.raw("COALESCE(SUM(commandes.quantité), 0) as commande_quantité"),
+      knex.raw("SUM(stock.quantite) as stock_quantite"),
+      knex.raw("COALESCE(SUM(commandes.quantite), 0) as commande_quantite"),
       knex.raw(
-        "SUM(stock.quantité) - COALESCE(SUM(commandes.quantité), 0) as quantité"
+        "SUM(stock.quantite) - COALESCE(SUM(commandes.quantite), 0) as quantite"
       )
     );
 
