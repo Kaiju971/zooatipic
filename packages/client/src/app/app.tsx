@@ -50,7 +50,7 @@ export let theme = createTheme({
       main: "#9c050593",
     },
     colorGris: {
-      main: "#d9d9d96e",
+      main: "#d9d9d9",
     },
     colorBackgroundForm1: {
       main: "#00000027",
@@ -69,6 +69,15 @@ export let theme = createTheme({
     },
     textBlue: {
       main: "#DDFFFF",
+    },
+    rouge: {
+      main: "#ff0000",
+    },
+    vert: {
+      main: "#929763",
+    },
+    vert2: {
+      main: "#74861A",
     },
   },
   typography: {

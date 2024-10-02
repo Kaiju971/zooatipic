@@ -11,6 +11,7 @@ import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
 import { Basket } from "../../types/panier";
 import { Typography } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import * as S from "./panier.styled";
 
@@ -92,12 +93,43 @@ const Panier: React.FC = () => {
   return (
     <S.MainContainer>
       <S.PageTitle variant="h1">PANIER</S.PageTitle>
-      <S.Title variant="h2">Liste du panier</S.Title>
-      <S.BaskeContainer>
+      <S.BasketContainer>
+        <S.Triangle />
+        <S.Triangle2 />
+        <S.BasketRow>
+          <div></div>
+          <Typography variant="h4" fontWeight="900">
+            Produits
+          </Typography>
+          <Typography variant="h4" fontWeight="900">
+            Prix
+          </Typography>
+          <Typography variant="h4" fontWeight="900">
+            Quantité
+          </Typography>
+          <Typography variant="h4" fontWeight="900">
+            Total
+          </Typography>
+          <b></b>
+        </S.BasketRow>
         {dataPanier?.map((item) => (
           <S.BasketRow key={item.id_article}>
-            <img src={`${item.photo}`} alt="" width="50rem" />
-            <S.Article variant="h6"> {item.article}</S.Article>
+            <S.ImageStock>
+              <img src={`${item.photo}`} alt="" width="70rem" />
+              <div>
+                {item.stock > 0 ? (
+                  <Typography variant="body1" color="colorVertMenu.main">
+                    en stock
+                  </Typography>
+                ) : (
+                  <Typography variant="body1" color="rouge.main">
+                    rupture de stock
+                  </Typography>
+                )}
+              </div>
+            </S.ImageStock>
+            <S.Article variant="h4"> {item.article}</S.Article>
+            <div>{item.prix} € PU HT</div>
             <S.Calculator>
               <S.StyledButtonMoins
                 variant="text"
@@ -119,35 +151,40 @@ const Panier: React.FC = () => {
                 +
               </S.StyledButton>
             </S.Calculator>
-            <div>Stock:</div>
-            <div>{item.stock}</div>
-            <div>{item.prix} € PU HT</div>
             <S.Article> {item.prix * item.quantite} € PU HT</S.Article>
+            <S.FlexBox>
+              <DeleteForeverIcon
+                color="error"
+                onClick={() => updateQuantity(item.id_article, 0)}
+                sx={{ cursor: "pointer", zIndex: 10 }}
+              />
+            </S.FlexBox>
           </S.BasketRow>
         ))}
+        <S.Title variant="h2">TOTAL ACHAT</S.Title>
         <S.Total>
           <Typography variant="h5" fontWeight="900">
             Hors taxe
           </Typography>
-          <Typography variant="h5" fontWeight="900">
+          <Typography variant="h5">
             {dataPanier
               ?.reduce((sum, item) => sum + item.prix * item.quantite, 0)
               .toFixed(2)}
-            € HT
+            €
           </Typography>
           <Typography variant="h6" fontWeight="900">
-            Taxe/VA 20%
+            TVA 20%
           </Typography>
-          <Typography variant="h6" fontWeight="900">
+          <Typography variant="h6">
             {dataPanier
               ?.reduce((acc, item) => acc + (item.prix * item.quantite) / 5, 0)
               .toFixed(2)}
-            € HT
+            €
           </Typography>
           <Typography variant="h5" fontWeight="900">
-            Toutes taxes comprises
+            Total TTC
           </Typography>
-          <Typography variant="h5" fontWeight="900">
+          <Typography variant="h5">
             {dataPanier
               ?.reduce(
                 (acc, item) =>
@@ -157,10 +194,10 @@ const Panier: React.FC = () => {
                 0
               )
               .toFixed(2)}
-            € HT
+            €
           </Typography>
         </S.Total>
-      </S.BaskeContainer>
+      </S.BasketContainer>
       <PrimaryButton
         label="Confirmer le commande"
         onClick={() => TraiterPanier()}
