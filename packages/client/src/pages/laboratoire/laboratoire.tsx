@@ -5,6 +5,7 @@ import {
   Link,
   ListItemText,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
@@ -14,12 +15,15 @@ import { fetchArticlesWithPhotos } from "../../api/fetchers/articlesWithPhotos";
 import { addBasket } from "../../utils/basket";
 
 import * as S from "./laboratoire.styled";
+import { theme } from "../../app/app";
 
 interface ProductsData {
   results: ArticleWithPhoto[];
 }
 
 const Laboratoire: React.FC = () => {
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchDownMd = useMediaQuery(theme.breakpoints.down("md"));
   const {
     data: articlesdata,
     isLoading,
@@ -64,11 +68,11 @@ const Laboratoire: React.FC = () => {
 
       <S.StyledImageBox>
         <Typography variant="h1">LABORATOIRE DE CONFISERIES</Typography>
-        <S.StyledImageList cols={4}>
+        <S.StyledImageList cols={matchDownSm ? 1 : matchDownMd ? 2 : 3}>
           {articlesdata !== undefined &&
             articlesdata?.results?.length > 0 &&
             articlesdata?.results?.map((item) => (
-              <>
+              <S.ListItemContainer>
                 <ImageListItem key={item.id}>
                   <S.Image
                     srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
@@ -79,7 +83,12 @@ const Laboratoire: React.FC = () => {
                 </ImageListItem>
                 <ListItemText>
                   <PrimaryButton
-                    label="Acheter"
+                    // label={
+                    //   <>
+                    //     {item.prix} € <br /> Acheter
+                    //   </>
+                    // }
+                    label={"Acheter"}
                     onClick={() =>
                       addBasket({
                         id_article: item.id_article,
@@ -93,7 +102,18 @@ const Laboratoire: React.FC = () => {
                     }
                   />
                 </ListItemText>
-              </>
+                <ListItemText>
+                  {item.stock > 0 ? (
+                    <Typography variant="body1" color="colorVertButton.main">
+                      en stock
+                    </Typography>
+                  ) : (
+                    <Typography variant="body1" color="rouge.main">
+                      rupture de stock
+                    </Typography>
+                  )}
+                </ListItemText>
+              </S.ListItemContainer>
             ))}
         </S.StyledImageList>
       </S.StyledImageBox>

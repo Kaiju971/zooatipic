@@ -22,6 +22,13 @@ export const BreadcrumbsContainer = styled("div")`
   width: 4vw;
 `;
 
+export const ListItemContainer = styled("div")`
+display: flex;
+flex-direction: column;
+align-items:center;
+justify-content:space-evenly;
+`;
+
 export const Image = styled("img")`
   width: 22vw;
   border-radius: 10%;

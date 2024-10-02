@@ -32,6 +32,7 @@ const Panier: React.FC = () => {
   useEffect(() => {
     const basket = getBasket();
     setDataPanier(basket);
+    créerCommande();
   }, [authState.userId]);
 
   const { mutate: savePanier } = useMutation<
@@ -54,17 +55,7 @@ const Panier: React.FC = () => {
     },
   });
 
-  const updateQuantity = (id_article: number, newQuantity: number) => {
-    setDataPanier((prevDataPanier) =>
-      prevDataPanier
-        ?.map((item) =>
-          item.id_article === id_article
-            ? { ...item, quantite: Math.max(0, newQuantity) }
-            : item
-        )
-        .filter((item) => item.quantite > 0)
-    );
-
+  const créerCommande = () => {
     const commande =
       dataPanier &&
       dataPanier.map((item: Basket) => ({
@@ -78,7 +69,34 @@ const Panier: React.FC = () => {
     setDataCommande(commande);
   };
 
+  const updateQuantity = (id_article: number, newQuantity: number) => {
+    setDataPanier((prevDataPanier) =>
+      prevDataPanier
+        ?.map((item) =>
+          item.id_article === id_article
+            ? { ...item, quantite: Math.max(0, newQuantity) }
+            : item
+        )
+        .filter((item) => item.quantite > 0)
+    );
+
+    créerCommande();
+
+    // const commande =
+    //   dataPanier &&
+    //   dataPanier.map((item: Basket) => ({
+    //     ...item,
+    //     id_user: Number(authState.userId) ?? 0,
+    //     date: currentCommandeDate,
+    //     date_visite: item.date_visite ?? null,
+    //     numéro: 0,
+    //   }));
+
+    // setDataCommande(commande);
+  };
+
   const TraiterPanier = () => {
+    console.log("dataComande");
     console.log(dataComande);
     if (authState.userId !== undefined && Number(authState.userId) > 0) {
       if (dataComande) {
@@ -129,7 +147,7 @@ const Panier: React.FC = () => {
               </div>
             </S.ImageStock>
             <S.Article variant="h4"> {item.article}</S.Article>
-            <div>{item.prix} € PU HT</div>
+            <div>{item.prix} €</div>
             <S.Calculator>
               <S.StyledButtonMoins
                 variant="text"
@@ -151,7 +169,7 @@ const Panier: React.FC = () => {
                 +
               </S.StyledButton>
             </S.Calculator>
-            <S.Article> {item.prix * item.quantite} € PU HT</S.Article>
+            <S.Article> {item.prix * item.quantite} €</S.Article>
             <S.FlexBox>
               <DeleteForeverIcon
                 color="error"
@@ -202,6 +220,7 @@ const Panier: React.FC = () => {
         label="Confirmer le commande"
         onClick={() => TraiterPanier()}
       />
+      <button onClick={TraiterPanier}>Click</button>
     </S.MainContainer>
   );
 };

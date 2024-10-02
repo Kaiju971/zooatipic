@@ -31,7 +31,7 @@ export const deleteCommande =
 export const createNewCommande =
   (model: CommandesModel) => async (req: Request, res: Response) => {
     const data = req.body as Commandes[];
-
+    console.log(data);
     data.forEach((item: Partial<Commandes>) => {
       if (
         (item.id_ticket && !item.date_visite) ||
