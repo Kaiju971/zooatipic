@@ -15,6 +15,9 @@ declare module "@mui/material/styles" {
     colorJauneBorder: Palette["primary"];
     buttonNoir: Palette["primary"];
     textBlue: Palette["primary"];
+    rouge: Palette["primary"];
+    vert: Palette["primary"];
+    vert2: Palette["primary"];
   }
 
   interface PaletteOptions {
@@ -31,5 +34,8 @@ declare module "@mui/material/styles" {
     colorJauneBorder?: PaletteOptions["primary"];
     buttonNoir?: PaletteOptions["primary"];
     textBlue?: PaletteOptions["primary"];
+    rouge?: PaletteOptions["primary"];
+    vert?: PaletteOptions["primary"];
+    vert2?: PaletteOptions["primary"];
   }
 }
