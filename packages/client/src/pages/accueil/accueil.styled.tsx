@@ -85,20 +85,4 @@ export const Img = styled("img")`
   height: 100%;
 `;
 
-// export const CarouselContainer = styled("div")`
-//   @media (max-width: 1200px) {
-//     padding-top: 10vh;
-//     padding-bottom: 50vh;
-//   }
 
-//   @media (max-width: 750px) {
-//     padding-top: 8vh;
-//     padding-bottom: 30vh;
-//   }
-
-//   @media (max-width: 550px) {
-//     padding-bottom: 20vh;
-//   }
-// `;
-
-// export const CookieContainer = styled("div")``;
