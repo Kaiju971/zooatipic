@@ -5,11 +5,15 @@ type article = typeof articlesModel;
 
 export const getAllarticles =
   (model: article) => async (req: Request, res: Response) => {
-    const article = await model.getarticles();
-    if (!article) {
+    const { params } = req;
+    const categorieVentes = params.categorieVentes;
+
+    const articles = await model.getArticles(categorieVentes);
+    if (!articles) {
       return res.status(404).send({ message: "Aucun article" });
     }
-    res.send({ results: [article] });
+
+    res.send({ results: articles });
   };
 
 export const deletearticle =

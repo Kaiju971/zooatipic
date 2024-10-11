@@ -32,6 +32,17 @@ export type ArticleWithPhoto = {
   stock: number;
 };
 
+export type Articles = {
+  id: number; //id article
+  lien: string;
+  id_animal: number;
+  article: string;
+  prix: number;
+  quantite: number;
+  stock: number;
+  groupe_tickets: string;
+};
+
 export type ProduitsWithPhoto = {
   id: number;
   lien: string;
@@ -62,15 +73,6 @@ export type CarouselImg = {
   id: number;
   src: string;
   alt: string;
-};
-
-export type ProduitWithPhoto = {
-  id: number;
-  titre: string;
-  id_categorie: number;
-  description: string;
-  photo: string;
-  categorie: string;
 };
 
 export type Roles = {

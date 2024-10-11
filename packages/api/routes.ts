@@ -84,7 +84,7 @@ router.get("/animaux", getAllAnimaux(racesModel));
 router.get("/avis", getAllAvis(avisModel));
 router.get("/sujets", getAllSujets(avisModel));
 router.get("/tickets", getAllTickets(ticketsModel));
-router.get("/articles", getAllarticles(articlesModel));
+router.get("/articles/:categorieVentes?", getAllarticles(articlesModel));
 router.get("/photos", getAllPhotos(photosModel));
 router.get("/stock", getAllStock(stockModel));
 router.get("/commandes", getAllCommandes(commandesModel));

@@ -1,5 +1,5 @@
 import { knex } from "../../db";
-import { getarticles, putArticleById } from "./articles";
+import { getArticles, putArticleById } from "./articles";
 import { getTickets } from "./tickets";
 import { ArticlesUpd } from "./types/articles";
 import {
@@ -202,7 +202,7 @@ export const putCommandeById = async (data: Partial<CommandesUpd>) => {
   ) {
     updatedFields.id_article = data.id_article;
   } else if (data.article && data.article !== "") {
-    const article = await getarticles();
+    const article = await getArticles();
 
     if (article) {
       const articleIndex = article.find(
