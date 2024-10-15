@@ -83,12 +83,12 @@ const Laboratoire: React.FC = () => {
                 </ImageListItem>
                 <ListItemText>
                   <PrimaryButton
-                    // label={
-                    //   <>
-                    //     {item.prix} € <br /> Acheter
-                    //   </>
-                    // }
-                    label={"Acheter"}
+                    label={
+                      <>
+                        {item.prix} € <br /> Acheter
+                      </>
+                    }
+                    
                     onClick={() =>
                       addBasket({
                         id_article: item.id_article,

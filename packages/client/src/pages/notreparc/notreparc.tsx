@@ -6,15 +6,18 @@ import { fetchCategories } from "../../api/fetchers/categories";
 import { CategorieWithPhoto } from "../../types/produits";
 import { useQuery } from "@tanstack/react-query";
 import PrimaryButton from "../../components/buttonPrincipale";
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, Typography } from "@mui/material";
 
-import * as S from "./apropos.styled";
+import * as S from "./notreparc.styled";
+import { Routes } from "../../app/routes";
+import { useNavigate } from "react-router";
 
 interface ProductsData {
   results: CategorieWithPhoto[];
 }
 
-const Apropos: React.FC = () => {
+const Notreparc: React.FC = () => {
+  const navigate = useNavigate();
   const {
     data: categoriedata,
     isLoading,
@@ -35,43 +38,50 @@ const Apropos: React.FC = () => {
 
   return (
     <S.MainContainer>
+      <Typography variant="h1">NOTRE PARC</Typography>
       <S.FlexContainer>
         <S.ImageButtonContainer>
           <S.StyledImage src={parc} alt="parc" />
           <S.ButtonContainer>
-            <PrimaryButton label="Réserver" />
+            <PrimaryButton
+              label="Réserver"
+              onClick={() => navigate(Routes.billets)}
+            />
           </S.ButtonContainer>
         </S.ImageButtonContainer>
         <S.ImageButtonContainer>
           <S.StyledImage src={cottage} alt="cottage" />
           <S.TextContainer>
-            <S.StyledTypography variant="h6">NOS COTTAGES</S.StyledTypography>
-            <S.StyledTypography variant="body1">
+            <S.StyledTypography1 variant="h6">NOS COTTAGES</S.StyledTypography1>
+            <S.StyledTypography1 variant="body1">
               Réservez nos cottages sur mesures :
-            </S.StyledTypography>
-            <List sx={{ textAlign: "center" }}>
-              <ListItem>
-                <S.StyledTypography variant="body1">
-                  - la famille ours;
-                </S.StyledTypography>
+            </S.StyledTypography1>
+            <List disablePadding sx={{ textAlign: "center" }}>
+              <ListItem sx={{ p: 0 }}>
+                <S.StyledTypography1 variant="body1">
+                  - la famille ours
+                </S.StyledTypography1>
               </ListItem>
-              <ListItem>
-                <S.StyledTypography variant="body1">
-                  - la famille loup;
-                </S.StyledTypography>
+              <ListItem sx={{ p: 0 }}>
+                <S.StyledTypography1 variant="body1">
+                  - la famille loup
+                </S.StyledTypography1>
               </ListItem>
-              <ListItem>
-                <S.StyledTypography variant="body1">
-                  - la famille lion;
-                </S.StyledTypography>
+              <ListItem sx={{ p: 0 }}>
+                <S.StyledTypography1 variant="body1">
+                  - la famille lion
+                </S.StyledTypography1>
               </ListItem>
             </List>
-            <S.StyledTypography variant="body1">
+            <S.StyledTypography1 variant="body1">
               et ainsi profitez d’instants privilegié avec vos animaux préférés
-            </S.StyledTypography>
+            </S.StyledTypography1>
           </S.TextContainer>
           <S.ButtonContainer>
-            <PrimaryButton label="Réserver" />
+            <PrimaryButton
+              label="Réserver"
+              onClick={() => navigate(Routes.billets)}
+            />
           </S.ButtonContainer>
         </S.ImageButtonContainer>
         <S.ImageButtonContainer>
@@ -90,7 +100,10 @@ const Apropos: React.FC = () => {
             </S.StyledTypography>
           </S.TextContainer>
           <S.ButtonContainer>
-            <PrimaryButton label="Réserver" />
+            <PrimaryButton
+              label="Réserver"
+              onClick={() => navigate(Routes.billets)}
+            />
           </S.ButtonContainer>
         </S.ImageButtonContainer>
       </S.FlexContainer>
@@ -101,4 +114,4 @@ const Apropos: React.FC = () => {
   );
 };
 
-export default Apropos;
+export default Notreparc;

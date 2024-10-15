@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import storage from "../firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAllRaces, getAnimaux } from "./races";
-import { getarticles } from "./articles";
+import { getArticles } from "./articles";
 
 export const table = "photos";
 
@@ -227,7 +227,7 @@ export const putPhoto = async (
   ) {
     updatedFields.id_article = data.id_article;
   } else if (data.article && data.article !== "") {
-    const article = await getarticles();
+    const article = await getArticles();
 
     if (article) {
       const articleIndex = article.find(

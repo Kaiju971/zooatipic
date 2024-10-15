@@ -11,13 +11,13 @@ import { useNavigate } from "react-router";
 import { Routes } from "../../app/routes";
 import { fetchCategories } from "../../api/fetchers/categories";
 
-import * as S from "./categories.styled";
+import * as S from "./nosresidents.styled";
 
 interface ProductsData {
   results: CategorieWithPhoto[];
 }
 
-const Categories: React.FC = () => {
+const Nosrésidents: React.FC = () => {
   const navigate = useNavigate();
   const {
     data: categoriedata,
@@ -61,7 +61,7 @@ const Categories: React.FC = () => {
                 Accueil
               </Typography>
             </Link>
-            <Typography variant="body2">Produits</Typography>
+            <Typography variant="body2">Nos résidents</Typography>
           </Breadcrumbs>
         </S.BreadcrumbsContainer>
         <S.StyledImageBox>
@@ -122,4 +122,4 @@ const Categories: React.FC = () => {
   );
 };
 
-export default Categories;
+export default Nosrésidents;

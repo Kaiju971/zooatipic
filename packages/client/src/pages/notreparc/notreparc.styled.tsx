@@ -6,7 +6,7 @@ export const MainContainer = styled("div")`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16rem;
+  margin-top: 10rem;
   padding-bottom: 2rem;
   background-image: linear-gradient(
     180deg,
@@ -17,6 +17,7 @@ export const MainContainer = styled("div")`
 `;
 
 export const FlexContainer = styled("div")`
+  margin-top: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,6 +37,8 @@ export const ImageButtonContainer = styled("div")`
 `;
 
 export const StyledImage = styled("img")`
+  grid-column: 1;
+  grid-row: 1;
   width: 100%;
   height: 100%;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
@@ -43,20 +46,21 @@ export const StyledImage = styled("img")`
 `;
 
 export const ButtonContainer = styled("div")`
-  position: absolute;
-  bottom: -2rem;
-  left: 30%;
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-bottom: -2rem;
 `;
 
 export const TextContainer = styled("div")`
+  grid-column: 1;
+  grid-row: 1;
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   background-color: #00000075;
-  grid-row: 1;
-  grid-column: 1;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,8 +73,14 @@ export const StyledTypography = styled(Typography)`
   width: 100%;
 `;
 
+export const StyledTypography1 = styled(Typography)`
+  color: ${({ theme }) => theme.palette.textBlue.main};
+  text-align: center;
+  width: 100%;
+`;
+
 export const CarouselContainer = styled("div")`
-  margin-top: 2vh;
+  margin-top: 8vh;
   padding-top: 2vh;
   padding-bottom: 2vh;
   background: linear-gradient(

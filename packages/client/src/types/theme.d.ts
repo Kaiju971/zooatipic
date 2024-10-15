@@ -18,6 +18,7 @@ declare module "@mui/material/styles" {
     rouge: Palette["primary"];
     vert: Palette["primary"];
     vert2: Palette["primary"];
+    gradient1: Palette["primary"];
   }
 
   interface PaletteOptions {
@@ -37,5 +38,6 @@ declare module "@mui/material/styles" {
     rouge?: PaletteOptions["primary"];
     vert?: PaletteOptions["primary"];
     vert2?: PaletteOptions["primary"];
+    gradient1?: PaletteOptions["primary"];
   }
 }
