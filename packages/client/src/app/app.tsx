@@ -58,7 +58,6 @@ export let theme = createTheme({
     colorBackgroundForm: {
       main: "#d0d0d0f3",
     },
-
     colorVertButton: {
       main: "#23F800",
     },
@@ -79,6 +78,9 @@ export let theme = createTheme({
     },
     vert2: {
       main: "#74861A",
+    },
+    gradient1: {
+      main: "#7382004",
     },
   },
   typography: {

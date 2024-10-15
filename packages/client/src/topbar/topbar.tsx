@@ -91,7 +91,7 @@ const TopBar: React.FC = () => {
           <ListItem key={item}>
             <ListItemButton selected={isSelected(item)}>
               <ListItemText
-                primary={item === MenuItems.APROPOS ? "A propos" : item}
+                primary={item === MenuItems.NOTREPARC ? "NOTRE PARC" : item}
                 onClick={() => handleItemMenu(item)}
                 primaryTypographyProps={{
                   fontSize: { xxs: "3vh", xs: "4vh", sm: "4vh", md: "4vh" },
@@ -190,11 +190,7 @@ const TopBar: React.FC = () => {
                   }}
                 >
                   <ListItemText
-                    primary={
-                      item === MenuItems.APROPOS
-                        ? "A propos"
-                        : (menuItemColor[item].text as string)
-                    }
+                    primary={menuItemColor[item].text as string}
                     onClick={() => handleItemMenu(item)}
                     primaryTypographyProps={{
                       fontSize: { xs: "4vw", sm: "4vw", md: "2vw" },

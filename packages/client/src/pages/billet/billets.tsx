@@ -8,6 +8,7 @@ import { fetchArticles } from "../../api/fetchers/articles";
 import * as S from "./billets.styled";
 import PrimaryButton from "../../components/buttonPrincipale";
 import TicketBouton from "../../components/ticketBouton";
+import { splitLineAtParenthesis } from "../../utils/utils";
 
 const groupes = [
   "Billet 1 journée",
@@ -43,29 +44,43 @@ const Billets: React.FC = () => {
 
       <S.GridContainer>
         <S.Ticket134>
-          <Typography variant="h5" color="primary">
+          <S.TitleTicket variant="h5" color="primary">
             {groupes[0]}
-          </Typography>
+          </S.TitleTicket>
           {articlesdata !== undefined &&
             articlesdata?.results.length > 0 &&
             articlesdata?.results
               .filter((el) => el.groupe_tickets === groupes[0])
               .map((item) => (
-                <>
-                  <Typography variant="h6" color="primary">
-                    {item.article} :
-                  </Typography>
+                <S.FlexBox>
+                  {item.article.indexOf("(") === -1 ? (
+                    <Typography variant="h6" color="primary">
+                      {item.article}:
+                    </Typography>
+                  ) : (
+                    <S.FlexBoxColumn>
+                      <Typography variant="h5" color="primary">
+                        {splitLineAtParenthesis(item.article)[0]}:
+                      </Typography>
+
+                      <Typography variant="body1" color="primary">
+                        {splitLineAtParenthesis(item.article)[1]}
+                      </Typography>
+                    </S.FlexBoxColumn>
+                  )}
+
                   <Typography variant="h6" color="primary">
                     {item.prix}€
                   </Typography>
-                </>
+                </S.FlexBox>
               ))}
+          <S.StyledButton>
+            <TicketBouton label="Acheter" />
+          </S.StyledButton>
         </S.Ticket134>
-        <S.ButtonContainer1>
-          <TicketBouton label="Acheter" />
-        </S.ButtonContainer1>
+
         <S.Ticket25>
-          <Typography variant="h5">{groupes[1]}</Typography>
+          <S.TitleTicket variant="h5">{groupes[1]}</S.TitleTicket>
           <>
             <Typography variant="body1">
               Contactez-nous pour toutes modalitées personnelles.
@@ -77,27 +92,41 @@ const Billets: React.FC = () => {
           </>
         </S.Ticket25>
         <S.Ticket134>
-          <Typography variant="h5" color="primary">
+          <S.TitleTicket variant="h5" color="primary">
             {groupes[2]}
-          </Typography>
+          </S.TitleTicket>
           {articlesdata !== undefined &&
             articlesdata?.results.length > 0 &&
             articlesdata?.results
               .filter((el) => el.groupe_tickets === groupes[2])
               .map((item) => (
-                <>
-                  <Typography variant="h6" color="primary">
-                    {item.article}
-                  </Typography>
+                <S.FlexBox>
+                  {item.article.indexOf("(") === -1 ? (
+                    <Typography variant="h6" color="primary">
+                      {item.article}:
+                    </Typography>
+                  ) : (
+                    <S.FlexBoxColumn>
+                      <Typography variant="h5" color="primary">
+                        {splitLineAtParenthesis(item.article)[0]}:
+                      </Typography>
+
+                      <Typography variant="body1" color="primary">
+                        {splitLineAtParenthesis(item.article)[1]}
+                      </Typography>
+                    </S.FlexBoxColumn>
+                  )}
+
                   <Typography variant="h6" color="primary">
                     {item.prix}€
                   </Typography>
-                </>
+                </S.FlexBox>
               ))}
+          <S.StyledButton>
+            <TicketBouton label="Acheter" />
+          </S.StyledButton>
         </S.Ticket134>
-        <S.ButtonContainer2>
-          <TicketBouton label="Acheter" />
-        </S.ButtonContainer2>
+
         <S.TicketContainer>
           <S.Ticket4>
             {articlesdata !== undefined &&
@@ -106,18 +135,19 @@ const Billets: React.FC = () => {
                 .filter((el) => el.groupe_tickets === groupes[3])
                 .map((item) => (
                   <>
-                    <Typography variant="h6" color="primary">
+                    <S.TitleTicket variant="h6" color="primary">
                       {item.article}
-                    </Typography>
+                    </S.TitleTicket>
                     <Typography variant="h6" color="primary">
                       {item.prix}€
                     </Typography>
                   </>
                 ))}
+            <S.StyledButton>
+              <TicketBouton label="Acheter" />
+            </S.StyledButton>
           </S.Ticket4>
-          <S.ButtonContainer3>
-            <TicketBouton label="Acheter" />
-          </S.ButtonContainer3>
+
           <S.Ticket5>
             {articlesdata !== undefined &&
               articlesdata?.results.length > 0 &&
@@ -125,14 +155,14 @@ const Billets: React.FC = () => {
                 .filter((el) => el.groupe_tickets === groupes[4])
                 .map((item) => (
                   <>
-                    <Typography variant="h6">{item.article}</Typography>
+                    <S.TitleTicket variant="h6">{item.article}</S.TitleTicket>
                     <Typography variant="h6">{item.prix}€</Typography>
                   </>
                 ))}
+            <S.StyledButton>
+              <TicketBouton label="Acheter" />
+            </S.StyledButton>
           </S.Ticket5>
-          <S.ButtonContainer4>
-            <TicketBouton label="Acheter" />
-          </S.ButtonContainer4>
         </S.TicketContainer>
       </S.GridContainer>
     </S.MainContainer>

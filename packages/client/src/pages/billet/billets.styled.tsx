@@ -4,30 +4,21 @@ import Button from "@mui/material/Button";
 
 export const MainContainer = styled("div")`
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   text-align: center;
-  margin-bottom: 10rem;
+  margin-bottom: 7rem;
 
-  @media (max-width: 750px) {
+  /* @media (max-width: 750px) {
     display: block;
-  }
+  } */
 `;
 export const Title = styled("div")`
   padding-top: 9rem;
 `;
 
-export const TypographyStyled = styled(Typography)`
-  border-radius: 5px;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  box-shadow: inset 1px -1px 5px 1px rgba(217, 217, 217, 0.25); /* Ombre intérieure */
-`;
-
 export const GridContainer = styled("div")`
   width: 100%;
-  height: 100%;
+  height: 60vh;
   display: grid;
   grid-template-columns: 24% 24% 24% 28%;
   padding-left: 2rem;
@@ -40,8 +31,8 @@ export const TicketContainer = styled("div")`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 6rem;
-  /* padding-top: 3rem; */
+  margin-top: 2rem;
+  position: relative;
 `;
 
 export const Ticket134 = styled(TicketContainer)`
@@ -62,37 +53,46 @@ export const Ticket25 = styled(TicketContainer)`
   border-radius: 10px;
 `;
 
+export const TypographyStyled = styled(Typography)`
+  border-radius: 5px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  box-shadow: inset 1px -1px 5px 1px rgba(217, 217, 217, 0.25); /* Ombre intérieure */
+`;
+
 export const Ticket4 = styled(Ticket134)`
   height: 80%;
+  margin-top: 0;
 `;
 
 export const Ticket5 = styled(Ticket25)`
   height: 80%;
+  margin-top: 2rem;
+`;
+
+export const TitleTicket = styled(Typography)`
+  position: absolute;
+  top: 1rem;
 `;
 
 export const StyledButton = styled(Button)`
-/* 
-  padding-top: 2rem;
-  box-shadow: "none"; */
-`;
-export const ButtonContainer1 = styled("div")`
   position: absolute;
-  bottom: -3rem;
-  left: 4rem;
+  bottom: -1.5rem;
 `;
-export const ButtonContainer2 = styled("div")`
-  position: absolute;
-  bottom: -3rem;
-  right: 29rem;
+
+export const FlexBox = styled("div")`
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
-export const ButtonContainer3 = styled("div")`
-  position: absolute;
-  bottom: -3rem;
-  right: 6rem;
-  bottom: 10rem;
-`;
-export const ButtonContainer4 = styled("div")`
-  position: absolute;
-  bottom: -3rem;
-  right: 6rem;
+
+export const FlexBoxColumn = styled("div")`
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 `;

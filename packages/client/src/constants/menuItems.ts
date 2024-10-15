@@ -1,5 +1,5 @@
 export enum MenuItems {
   ACCUEIL = "accueil",
-  APROPOS = "apropos",
-  PRODUITS = "categories",
+  NOTREPARC = "notreparc",
+  NOSRESIDENTS = "nosrésidents",
 }

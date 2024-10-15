@@ -3,15 +3,17 @@ import Button from "@mui/material/Button";
 
 export const StyledButton = styled(Button)`
   position: relative;
-  padding: 1rem 4rem; /* Pour ajuster les dimensions du bouton */
+  padding: 0rem 2rem; /* Pour ajuster les dimensions du bouton */
   background-color: black;
   color: white;
   border: 4px solid;
+  border-radius: 10px;
   border-top-color: #382004;
   border-inline-color: #ca7d23;
   border-bottom-color: #fcaa30;
   box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  text-transform: none;
 
   /* Pseudo-élément pour la bordure en gradient */
   &::before {
@@ -31,8 +33,8 @@ export const StyledButton = styled(Button)`
     background: linear-gradient(
       to bottom,
       #fcaa30 0%,
-      /* Couleur en haut */ #ca7d23 50%,
-      /* Couleur des côtés */ #382004 100% /* Couleur en bas */
+      #ca7d23 50%,
+      #382004 100%
     );
   }
 
@@ -47,6 +49,6 @@ export const StyledButton = styled(Button)`
   &:disabled {
     background-color: ${({ theme }) => theme.palette.grey[400]};
     color: ${({ theme }) => theme.palette.text.disabled};
-    cursor:not-allowed;
+    cursor: not-allowed;
   }
 `;

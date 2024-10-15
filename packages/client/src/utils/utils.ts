@@ -13,3 +13,15 @@ export const hexToRgba = (hex: string, alpha: number) => {
   }
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
+
+export const splitLineAtParenthesis = (text: string) => {
+  // Divise le texte en deux parties à partir de "("
+  const parts = text.split("(");
+
+  // Si la ligne contient le caractère "(", ajoute "(" à la deuxième partie
+  if (parts.length > 1) {
+    parts[1] = "(" + parts[1];
+  }
+
+  return parts;
+};

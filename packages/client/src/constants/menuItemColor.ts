@@ -5,7 +5,7 @@ type ItemsMap = {
 };
 
 export const menuItemColor: ItemsMap = {
-  [MenuItems.ACCUEIL]: { text: "Accueil", color: "colorOrangeMenu.main" },
-  [MenuItems.APROPOS]: { text: "A propos", color: "colorVertMenu.main" },
-  [MenuItems.PRODUITS]: { text: "Produits", color: "colorMarronMenu.main" },
+  [MenuItems.ACCUEIL]: { text: "ACCUEIL", color: "colorOrangeMenu.main" },
+  [MenuItems.NOTREPARC]: { text: "NOTRE PARC", color: "colorVertMenu.main" },
+  [MenuItems.NOSRESIDENTS]: { text: "NOS RESIDENTS", color: "colorMarronMenu.main" },
 };
