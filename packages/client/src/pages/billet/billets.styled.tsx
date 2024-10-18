@@ -90,7 +90,7 @@ export const FlexBox = styled("div")`
 `;
 
 export const FlexBoxColumn = styled("div")`
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

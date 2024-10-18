@@ -8,14 +8,16 @@ import * as S from "./primaryButton.styled";
 type Props = {
   label: ReactNode;
   isLoading?: boolean;
+  mode?: string;
 };
 
 export const PrimaryButton: React.FC<ButtonProps & Props> = ({
   label,
   isLoading,
+  mode,
   ...rest
 }) => (
-  <S.StyledButton {...rest}>
+  <S.StyledButton mode={mode ?? ""} {...rest}>
     <Typography variant="h5" component="span">
       {label}
     </Typography>
