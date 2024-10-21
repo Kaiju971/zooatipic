@@ -1,4 +1,4 @@
-import { Button, OutlinedInput, TextField, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { hexToRgba } from "../../utils/utils";
 
@@ -67,44 +67,6 @@ export const FlexBox = styled("div")`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-`;
-
-export const TextFieldContainer = styled("div")<Props>(({ show = false }) => ({
-  display: show ? "flex" : "none",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
-}));
-
-export const TextFieldBox = styled("div")`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  @media (max-width: 762px) {
-    width: 91.5%;
-    margin-left: 3%;
-  }
-  @media (max-width: 530px) {
-    width: 90%;
-  }
-`;
-
-export const StyledTextField = styled(TextField)`
-  & .MuiOutlinedInput-root {
-    &:hover .MuiOutlinedInput-notchedOutline {
-      border-color: ${({ theme }) => theme.palette.colorJauneBorder.main};
-    }
-  }
-`;
-
-export const StyledOutlinedInput = styled(OutlinedInput)`
-  & .MuiFormControl-root {
-    &:hover .MuiOutlinedInput-notchedOutline {
-      border-color: ${({ theme }) => theme.palette.colorJauneBorder.main};
-    }
-  }
 `;
 
 export const Buttons = styled("div")`

@@ -1,107 +1,56 @@
 import { useContext, useEffect, useState } from "react";
-import { getBasket } from "../../utils/basket";
-import { useMutation } from "@tanstack/react-query";
-import { Commandes, CommandesReponse } from "../../types/commandes";
-import { fetchCommande } from "../../api/fetchers/commande";
+import { changeQuantity, getBasket } from "../../utils/basket";
 import PrimaryButton from "../../components/buttonPrincipale";
-import { useNavigate } from "react-router";
-import { Routes } from "../../app/routes";
+import { useLocation } from "react-router";
 import AuthContext from "../../store/auth/AuthContextProvider";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
 import { Basket } from "../../types/panier";
 import { Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import * as S from "./panier.styled";
 
-const currentDate = new Date();
-const year = currentDate.getFullYear();
-const month = currentDate.getMonth() + 1;
-const day = currentDate.getDate();
+interface PanierProps {
+  onNext: () => void;
+}
 
-const currentCommandeDate = `${day}/${month}/${year}`;
-
-const Panier: React.FC = () => {
-  const navigate = useNavigate();
+const Panier: React.FC<PanierProps> = ({ onNext }) => {
+  const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
   const { authState } = useContext(AuthContext);
-  const [dataComande, setDataCommande] = useState<Commandes[]>();
   const [dataPanier, setDataPanier] = useState<Basket[]>();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
 
   useEffect(() => {
     const basket = getBasket();
     setDataPanier(basket);
-    créerCommande();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState.userId]);
 
-  const { mutate: savePanier } = useMutation<
-    CommandesReponse,
-    AxiosError,
-    Commandes[]
-  >({
-    mutationFn: fetchCommande,
-    onSuccess: () => {
-      navigate(Routes.accueil);
-    },
-    onError: (error: AxiosError) => {
-      console.error(error.response);
-      const errorMessage =
-        (error.response?.data as { message?: string })?.message ||
-        error.message;
-      enqueueSnackbar(errorMessage, {
-        variant: "error",
-      });
-    },
-  });
-
-  const créerCommande = () => {
-    const commande =
-      dataPanier &&
-      dataPanier.map((item: Basket) => ({
-        ...item,
-        id_user: Number(authState.userId) ?? 0,
-        date: currentCommandeDate,
-        date_visite: item.date_visite ?? null,
-        numéro: 0,
-      }));
-
-    setDataCommande(commande);
-  };
-
   const updateQuantity = (id_article: number, newQuantity: number) => {
-    setDataPanier((prevDataPanier) =>
-      prevDataPanier
-        ?.map((item) =>
-          item.id_article === id_article
-            ? { ...item, quantite: Math.max(0, newQuantity) }
-            : item
-        )
-        .filter((item) => item.quantite > 0)
-    );
+    const updatedPanier = dataPanier
+      ?.map((item) =>
+        item.id_article === id_article
+          ? { ...item, quantite: Math.max(0, newQuantity) }
+          : item
+      )
+      .filter((item) => item.quantite > 0);
 
-    créerCommande();
-
-    // const commande =
-    //   dataPanier &&
-    //   dataPanier.map((item: Basket) => ({
-    //     ...item,
-    //     id_user: Number(authState.userId) ?? 0,
-    //     date: currentCommandeDate,
-    //     date_visite: item.date_visite ?? null,
-    //     numéro: 0,
-    //   }));
-
-    // setDataCommande(commande);
+    setDataPanier(updatedPanier);
+    changeQuantity(id_article, newQuantity);
   };
 
   const TraiterPanier = () => {
-    console.log("dataComande");
-    console.log(dataComande);
     if (authState.userId !== undefined && Number(authState.userId) > 0) {
-      if (dataComande) {
-        savePanier(dataComande);
-      }
+      if (dataPanier) onNext();
     } else
       enqueueSnackbar("Connectez-vous avec votre compte ou inscrivez-vous", {
         variant: "error",
@@ -215,12 +164,18 @@ const Panier: React.FC = () => {
             €
           </Typography>
         </S.Total>
+        <S.ButtonContainer>
+          <PrimaryButton
+            label={
+              <Typography variant="h6" textTransform="none">
+                Choisisr ma livraison
+              </Typography>
+            }
+            colorVert
+            onClick={() => TraiterPanier()}
+          />
+        </S.ButtonContainer>
       </S.BasketContainer>
-      <PrimaryButton
-        label="Confirmer le commande"
-        onClick={() => TraiterPanier()}
-      />
-      <button onClick={TraiterPanier}>Click</button>
     </S.MainContainer>
   );
 };

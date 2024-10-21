@@ -1,5 +1,6 @@
 /////basket//////
 
+import { CommandesHead } from "../types/commandes";
 import { Basket } from "../types/panier";
 
 function saveBasket(basket: Basket) {
@@ -40,15 +41,13 @@ const removeFromBasket = (product: Basket) => {
   saveBasket(basket);
 };
 
-export const changeQuantity = (product: Basket, quantity: number) => {
+export const changeQuantity = (id_product: number, quantity: number) => {
   let basket = getBasket();
-  let foundProduct = basket.find(
-    (p: Basket) => p.id_article === product.id_article
-  );
+  let foundProduct = basket.find((p: Basket) => p.id_article === id_product);
   if (foundProduct !== undefined) {
-    foundProduct.quantity += quantity;
+    foundProduct.quantite = quantity;
 
-    if (foundProduct.quantity <= 0) {
+    if (foundProduct.quantite <= 0) {
       removeFromBasket(foundProduct);
     } else {
       saveBasket(basket);
@@ -56,24 +55,53 @@ export const changeQuantity = (product: Basket, quantity: number) => {
   }
 };
 
-export const getNumberProduct = () => {
+export const addPropertyToBasket = (
+  id_product: number,
+  property: string,
+  value: string
+) => {
+  let basket = getBasket();
+  let foundProduct = basket.find((p: Basket) => p.id_article === id_product);
+  if (foundProduct !== undefined) {
+    foundProduct[property] = value;
+    saveBasket(basket);
+  }
+};
+
+export const getNumberProducts = () => {
   let basket = getBasket();
   let number = 0;
   for (let product of basket) {
-    number += product.quantity;
+    number += product.quantite;
   }
   return number;
 };
 
-export const getTotalPrice = () => {
+export const getTotalSum = () => {
   let basket = getBasket();
   let total = 0;
   for (let product of basket) {
-    total += product.quantity * product.price;
+    total += product.quantite * product.prix;
   }
   return total;
 };
 
 export const emptyBasket = () => {
   localStorage.clear();
+};
+
+/////commandeHead//////
+
+export function saveCommandeHead(commandeHead: CommandesHead) {
+  localStorage.setItem("commandeHead", JSON.stringify(commandeHead));
+}
+
+export const getCommandeHead = () => {
+  let commandeHead = localStorage.getItem("commandeHead");
+
+  if (commandeHead == null) {
+    return [];
+  } else {
+    return JSON.parse(commandeHead);
+  }
 };

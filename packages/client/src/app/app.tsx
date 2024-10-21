@@ -59,7 +59,7 @@ export let theme = createTheme({
       main: "#d0d0d0f3",
     },
     colorVertButton: {
-      main: "#23F800",
+      main: "#2C9F19",
     },
     colorVertMenu: {
       main: "#489F80",
@@ -159,7 +159,7 @@ const App: React.FC = () => (
   <ThemeProvider theme={responsiveFontSizes(theme)}>
     {/* <FaviconTheme /> */}
     <Topbar />
-    <Banniere />
+    {/* <Banniere /> */}
     <SnackbarProvider>
       <AppRoutes />
       <ScrollButton />

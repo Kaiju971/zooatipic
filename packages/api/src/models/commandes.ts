@@ -1,6 +1,5 @@
 import { knex } from "../../db";
 import { getArticles, putArticleById } from "./articles";
-import { getTickets } from "./tickets";
 import { ArticlesUpd } from "./types/articles";
 import {
   Commandes,
@@ -40,9 +39,12 @@ export const deleteCommandeById = async (id: string) => {
   return knex<number>(table).where("id", id).del();
 };
 
-export const createCommande = async (data: Commandes[]) => {
-  const idArticleList: number[] = data
-    .filter((item) => item.id_article !== undefined)
+export const createCommande = async (
+  dataCommande: CommandesHead,
+  commandeRows: CommandesRows[]
+) => {
+  const idArticleList: number[] = commandeRows
+    .filter((item) => item.categorie_ventes === "nourriture")
     .map((item) => item.id_article as number);
 
   const articleStockSubquery = knex("articles")
@@ -55,7 +57,7 @@ export const createCommande = async (data: Commandes[]) => {
       qb.select("*").from(
         knex.raw(
           `(
-              VALUES ${data
+              VALUES ${commandeRows
                 .filter((item) => item.id_article !== undefined)
                 .map(
                   (item) => `( ${item.id_article}, ${Number(item.quantite)})`
@@ -87,32 +89,6 @@ export const createCommande = async (data: Commandes[]) => {
 
   //const lastNumber = await getLastNumber();
 
-  const dataCommande: CommandesHead = data.reduce(
-    (acc, item) => {
-      acc.quantite = (acc.quantite ?? 0) + (item?.quantite ?? 0);
-      const currentSum = item.prix * item.quantite;
-      acc.somme = (acc.somme ?? 0) + currentSum;
-      const currentTVA = item.prix * item.quantite * TVA;
-      acc.tva = (acc.tva ?? 0) + currentTVA;
-      return {
-        ...acc,
-        id_user: item.id_user ?? 1,
-        // numero: lastNumber + 1,
-        date: item.date,
-        date_visite: item.date_visite,
-      };
-    },
-    {
-      id_user: 1,
-      // numero: 0,
-      date: new Date(),
-      date_visite: new Date(),
-      quantite: 0,
-      somme: 0,
-      tva: 0,
-    }
-  );
-
   dataCommande.somme = Number(dataCommande.somme.toFixed(2));
   dataCommande.tva = Number(dataCommande.tva.toFixed(2));
 
@@ -122,13 +98,14 @@ export const createCommande = async (data: Commandes[]) => {
 
   if (results) {
     const commandedId = Number(results[0].id);
-    const dataRows: CommandesRows[] = data.map((item) => ({
+    const dataRows: CommandesRows[] = commandeRows.map((item) => ({
       id_commande: commandedId,
       id_article: item.id_article,
       prix: item.prix,
       quantite: item.quantite,
       somme: Number((item.prix * item.quantite).toFixed(2)),
       tva: Number((item.prix * item.quantite * TVA).toFixed(2)),
+      categorie_ventes: item.categorie_ventes,
     }));
 
     const resultsRow: number[] = await knex<CommandesRows[]>("commandesRows")
@@ -137,7 +114,7 @@ export const createCommande = async (data: Commandes[]) => {
 
     const articleStockResults = await articleStockSubquery;
 
-    const dataForStock: Partial<ArticlesUpd>[] = data.map((item) => ({
+    const dataForStock: Partial<ArticlesUpd>[] = commandeRows.map((item) => ({
       id: item.id_article,
       stock:
         articleStockResults.filter((el) => el.id === item.id_article)[0].stock -
@@ -221,16 +198,15 @@ export const putCommandeById = async (data: Partial<CommandesUpd>) => {
   ) {
     updatedFields.id_ticket = data.id_ticket;
   } else if (data.ticket && data.ticket !== "") {
-    const ticket = await getTickets();
-
-    if (ticket) {
-      const ticketIndex = ticket.find(
-        (ticketObj) => ticketObj.tickets === data.ticket
-      );
-      if (ticketIndex && ticketIndex?.id !== existingCommandes.id_ticket)
-        updatedFields.id_ticket = ticketIndex?.id;
-      else return -3;
-    }
+    // const ticket = await getTickets();
+    // if (ticket) {
+    //   const ticketIndex = ticket.find(
+    //     (ticketObj) => ticketObj.tickets === data.ticket
+    //   );
+    //   if (ticketIndex && ticketIndex?.id !== existingCommandes.id_ticket)
+    //     updatedFields.id_ticket = ticketIndex?.id;
+    //   else return -3;
+    // }
   }
 
   if (data.prix && data.prix !== existingCommandes.prix) {

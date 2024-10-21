@@ -30,20 +30,9 @@ export const deleteCommande =
 
 export const createNewCommande =
   (model: CommandesModel) => async (req: Request, res: Response) => {
-    const data = req.body as Commandes[];
-    console.log(data);
-    data.forEach((item: Partial<Commandes>) => {
-      if (
-        (item.id_ticket && !item.date_visite) ||
-        (!item.id_ticket && item.date_visite)
-      ) {
-        return res.status(422).send({
-          message: "La commande doit avoir un id_ticket et une date_visite",
-        });
-      }
-    });
+    const { commande, commandeRows } = req.body;
 
-    const commandeId = await model.createCommande(data as Commandes[]);
+    const commandeId = await model.createCommande(commande, commandeRows);
 
     if (!commandeId) {
       return res.status(404).send({ message: "La commande n'a pas été créé" });
@@ -64,12 +53,6 @@ export const createNewCommande =
     if (commandeId[0] === -3) {
       return res.status(422).json({
         message: `Impossible d'enregistrer la modification du stock`,
-      });
-    }
-
-    if (commandeId[0] === -4) {
-      return res.status(422).json({
-        message: `Impossible  d'enregistrer les lignes de commande`,
       });
     }
 

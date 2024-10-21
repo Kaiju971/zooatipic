@@ -8,14 +8,16 @@ import * as S from "./primaryButton.styled";
 type Props = {
   label: ReactNode;
   isLoading?: boolean;
+  colorVert?: boolean;
 };
 
 export const PrimaryButton: React.FC<ButtonProps & Props> = ({
   label,
   isLoading,
+  colorVert,
   ...rest
 }) => (
-  <S.StyledButton {...rest}>
+  <S.StyledButton {...rest} colorVert={colorVert}>
     <Typography variant="h5" component="span">
       {label}
     </Typography>

@@ -14,11 +14,12 @@ const Admin = lazy(() => import("../pages/admin/admin"));
 const Notreparc = lazy(() => import("../pages/notreparc/notreparc"));
 const Nosrésidents = lazy(() => import("../pages/nosresidents"));
 const Produits = lazy(() => import("../pages/produits"));
-const Panier = lazy(() => import("../pages/panier"));
+const Panier = lazy(() => import("../pages/panier/panierStepper"));
 const Vente = lazy(() => import("../pages/vente"));
 const Profil = lazy(() => import("../pages/profil"));
 const Laboratoire = lazy(() => import("../pages/laboratoire"));
 const Billets = lazy(() => import("../pages/billet"));
+const Livraison = lazy(() => import("../pages/panier/livraison"));
 
 const Auth = lazy(() => import("../pages/admin/auth"));
 
@@ -40,6 +41,7 @@ export const AppRoutes: React.FunctionComponent = () => {
       <Route path={Routes.profil} element={withSuspense(Profil)} />
       <Route path={Routes.laboratoire} element={withSuspense(Laboratoire)} />
       <Route path={Routes.billets} element={withSuspense(Billets)} />
+      <Route path={Routes.livrasion} element={withSuspense(Livraison)} />
 
       <Route path="*" element={<NotFound />} />
     </Router>

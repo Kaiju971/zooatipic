@@ -25,6 +25,7 @@ export type CommandesHead = {
 export type CommandesRows = {
   id_commande: number;
   id_article: number;
+  categorie_ventes: string;
   prix: number;
   quantite: number;
   somme: number;
