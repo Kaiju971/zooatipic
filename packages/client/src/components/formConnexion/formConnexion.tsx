@@ -1,6 +1,6 @@
 import React, { FormEventHandler, useState } from "react";
 import { Typography } from "@mui/material";
-import TextFieldValidated from "./textFieldValidated";
+import TextFieldValidated from "../textFildValidated";
 import { ValidationGroup } from "mui-validate";
 
 import * as S from "./formConnexion.styled";
@@ -49,6 +49,12 @@ const FormConnection: React.FC<Props> = (props: Props) => {
 
   const addValidationForm = (event: React.FormEvent<HTMLFormElement>) => {
     if (validationForm) onSubmit(event);
+  };
+
+  const onInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(event.target?.value);
   };
 
   return (
@@ -123,7 +129,7 @@ const FormConnection: React.FC<Props> = (props: Props) => {
               controled
               show={true}
               setValidationField={setValidationPassword}
-              setFieldValue={setPassword}
+              setFieldValue={onInputChange}
             />
             <TextFieldValidated
               nameField="passwordConf"

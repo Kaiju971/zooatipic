@@ -11,4 +11,5 @@ export enum Routes {
   connexion = "/connexion",
   laboratoire = "/laboratoire",
   billets = "/billets",
+  livrasion = "/livrasion",
 }

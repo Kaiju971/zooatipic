@@ -76,6 +76,27 @@ export const getAllUsers =
     res.send({ results: [user] });
   };
 
+export const getUserBy =
+  (model: User) => async (req: Request, res: Response) => {
+    try {
+      const { id, email, password } = req.query;
+
+      const user = await model.getUserBy(
+        id as string,
+        email as string,
+        password as string
+      );
+
+      if (!user) {
+        return res.status(404).send({ message: "Aucun utilisateur trouvé" });
+      }
+
+      res.send({ results: [user] });
+    } catch (error) {
+      res.status(500).send({ message: "Erreur serveur" });
+    }
+  };
+
 export const deleteRole =
   (model: User) => async (req: Request, res: Response) => {
     const id = req.params.id;

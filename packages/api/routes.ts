@@ -6,12 +6,13 @@ import {
   deleteUser,
   getAllRoles,
   getAllUsers,
+  getUserBy,
   login,
 } from "./src/controllers/user";
 import * as userModel from "./src/models/user";
 import * as racesModel from "./src/models/races";
 import * as avisModel from "./src/models/avis";
-import * as ticketsModel from "./src/models/tickets";
+import * as adresseModel from "./src/models/adresses";
 import * as articlesModel from "./src/models/articles";
 import * as photosModel from "./src/models/photos";
 import * as stockModel from "./src/models/stock";
@@ -38,11 +39,11 @@ import {
   updateSujetById,
 } from "./src/controllers/avis";
 import {
-  createNewTicket,
-  deleteTicket,
-  getAllTickets,
-  updateTicketById,
-} from "./src/controllers/tickets";
+  createNewAdresse,
+  deleteAdresse,
+  getAllAdresses,
+  updateAdressetById,
+} from "./src/controllers/adresses";
 import {
   createNewarticle,
   deletearticle,
@@ -78,12 +79,13 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.get("/users", getAllUsers(userModel));
+router.get("/getuserby", getUserBy(userModel));
 router.get("/roles", getAllRoles(userModel));
 router.get("/races", getAllRaces(racesModel));
 router.get("/animaux", getAllAnimaux(racesModel));
 router.get("/avis", getAllAvis(avisModel));
 router.get("/sujets", getAllSujets(avisModel));
-router.get("/tickets", getAllTickets(ticketsModel));
+router.get("/adresses", getAllAdresses(adresseModel));
 router.get("/articles/:categorieVentes?", getAllarticles(articlesModel));
 router.get("/photos", getAllPhotos(photosModel));
 router.get("/stock", getAllStock(stockModel));
@@ -103,7 +105,7 @@ router.post("/createrace", createNewRace(racesModel));
 router.post("/createanimal", createNewAnimal(racesModel));
 router.post("/createavis", createNewAvis(avisModel));
 router.post("/createsujet", createNewSujet(avisModel));
-router.post("/createticket", createNewTicket(ticketsModel));
+router.post("/createadresse", createNewAdresse(adresseModel));
 router.post("/createarticle", createNewarticle(articlesModel));
 router.post("/uploadfile", upload.single("file"), uploadImage(photosModel));
 router.post("/createstock", createNewStock(stockModel));
@@ -111,7 +113,7 @@ router.post("/createcommande", createNewCommande(commandesModel));
 
 router.post("/updaterace", updateRaceById(racesModel));
 router.post("/updateanimal", updateAnimalById(racesModel));
-router.post("/updateticket", updateTicketById(ticketsModel));
+router.post("/updateadresse", updateAdressetById(adresseModel));
 router.post("/updateavis", updateAvisById(avisModel));
 router.post("/updatesujet", updateSujetById(avisModel));
 router.post("/updatearticle", updatearticleById(articlesModel));
@@ -124,7 +126,7 @@ router.delete("/delrace/:id", deleteRace(racesModel));
 router.delete("/delanimal/:id", deleteAnimal(racesModel));
 router.delete("/delavis/:id", deleteAvis(avisModel));
 router.delete("/delsujet/:id", deleteSujet(avisModel));
-router.delete("/delticket/:id", deleteTicket(ticketsModel));
+router.delete("/deladresse/:id", deleteAdresse(adresseModel));
 router.delete("/delarticle/:id", deletearticle(articlesModel));
 router.delete("/delphotos/:id", deletePhoto(photosModel));
 router.delete("/delstock/:id", deleteStock(stockModel));

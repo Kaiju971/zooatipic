@@ -34,9 +34,15 @@ export const getUserBy = async (
       `${table}.id_role`,
       `${table}.password`,
       `${table}.image`,
-      "roles.role"
+      `${table}.id_adresse`,
+      "roles.role",
+      "a.numero",
+      "a.adresse",
+      "a.code_postal",
+      "a.ville"
     )
-    .innerJoin("roles", "roles.id", "users.id_role");
+    .innerJoin("roles", "roles.id", "users.id_role")
+    .leftJoin("adresses as a", "a.id", "users.id_adresse");
 
   if (id && !email && !password) {
     query.where("users.id", id);

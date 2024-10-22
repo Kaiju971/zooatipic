@@ -13,9 +13,9 @@ import { ArticleWithPhoto } from "../../types/produits";
 import PrimaryButton from "../../components/buttonPrincipale";
 import { fetchArticlesWithPhotos } from "../../api/fetchers/articlesWithPhotos";
 import { addBasket } from "../../utils/basket";
+import { theme } from "../../app/app";
 
 import * as S from "./laboratoire.styled";
-import { theme } from "../../app/app";
 
 interface ProductsData {
   results: ArticleWithPhoto[];
@@ -88,7 +88,6 @@ const Laboratoire: React.FC = () => {
                         {item.prix} € <br /> Acheter
                       </>
                     }
-                    
                     onClick={() =>
                       addBasket({
                         id_article: item.id_article,
@@ -98,8 +97,10 @@ const Laboratoire: React.FC = () => {
                         photo: item.lien,
                         stock: item.stock,
                         date_visite: "",
+                        categorie_ventes: "nourriture",
                       })
                     }
+                    disabled={item.stock <= 0}
                   />
                 </ListItemText>
                 <ListItemText>

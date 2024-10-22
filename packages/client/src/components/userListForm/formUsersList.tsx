@@ -53,6 +53,11 @@ const FormUsers: React.FC = () => {
     role: "",
     id_role: 0,
     image: { data: null },
+    id_adresse: 0,
+    numero: "",
+    adresse: "",
+    code_postal: 0,
+    ville: "",
   });
   const [userId, setUserId] = useState(0);
   const [userIdDel, setUserIdDel] = useState(0);
