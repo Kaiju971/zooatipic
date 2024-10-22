@@ -5,7 +5,8 @@ import { DataImages } from "../models/types/races";
 type Photos = typeof imagesModel;
 
 export const getPhotosCategorie =
-  (model: Photos) => async (req: Request, res: Response) => {
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
     const photos = await model.getPhotosCategorie();
 
     if (!photos) {
@@ -16,7 +17,8 @@ export const getPhotosCategorie =
   };
 
 export const getPhotosArticles =
-  (model: Photos) => async (req: Request, res: Response) => {
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
     const { params } = req;
     const categorieVentes = params.categorieVentes;
 
@@ -30,7 +32,8 @@ export const getPhotosArticles =
   };
 
 export const getPhotosProduitsByCategorie =
-  (model: Photos) => async (req: Request, res: Response) => {
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
     const { params } = req;
     const animalId = Number(params.id ?? -1);
 
@@ -44,7 +47,8 @@ export const getPhotosProduitsByCategorie =
   };
 
 export const uploadImage =
-  (model: Photos) => async (req: Request, res: Response) => {
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
     const filePicture = req.file;
 
     const photo = req.body;
@@ -152,7 +156,8 @@ export const uploadImage =
   };
 
 export const getAllPhotos =
-  (model: Photos) => async (req: Request, res: Response) => {
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
     const photos = await model.getPhotos();
 
     if (!photos) {
@@ -163,7 +168,8 @@ export const getAllPhotos =
   };
 
 export const deletePhoto =
-  (model: Photos) => async (req: Request, res: Response) => {
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
     const { id } = req.params;
 
     const produitId = await model.deletePhotoById(id as string);

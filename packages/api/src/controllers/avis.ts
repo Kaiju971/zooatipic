@@ -5,7 +5,8 @@ import { Sujets } from "../models/types/avis";
 type Avis = typeof avisModel;
 
 export const getAllAvis =
-  (model: Avis) => async (req: Request, res: Response) => {
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
     const avis = await model.getAvis();
     if (!avis) {
       return res.status(404).send({ message: "Aucun avis" });
@@ -14,7 +15,8 @@ export const getAllAvis =
   };
 
 export const deleteAvis =
-  (model: Avis) => async (req: Request, res: Response) => {
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const avisId = await model.deleteAvisById(id as string);
@@ -27,7 +29,8 @@ export const deleteAvis =
   };
 
 export const createNewAvis =
-  (model: Avis) => async (req: Request, res: Response) => {
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const avisId = await model.createAvis(data as any);
@@ -39,23 +42,23 @@ export const createNewAvis =
     res.send({ results: [avisId] });
   };
 
-  export const updateAvisById =
-    (model: Avis) => async (req: Request, res: Response) => {
-      const data = req.body;
+export const updateAvisById =
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
+    const data = req.body;
 
-      const avisId = await model.putAvisById(data as any);
+    const avisId = await model.putAvisById(data as any);
 
-      if (!avisId) {
-        return res
-          .status(400)
-          .send({ message: "L'avis n'a pas été modifié" });
-      }
+    if (!avisId) {
+      return res.status(400).send({ message: "L'avis n'a pas été modifié" });
+    }
 
-      res.send({ results: [avisId] });
-    };
+    res.send({ results: [avisId] });
+  };
 
 export const getAllSujets =
-  (model: Avis) => async (req: Request, res: Response) => {
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
     const sujet = await model.getSujets();
     if (!sujet) {
       return res.status(404).send({ message: "Aucun sujet" });
@@ -64,7 +67,8 @@ export const getAllSujets =
   };
 
 export const deleteSujet =
-  (model: Avis) => async (req: Request, res: Response) => {
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const sujetId = await model.deleteAvisById(id as string);
@@ -77,7 +81,8 @@ export const deleteSujet =
   };
 
 export const createNewSujet =
-  (model: Avis) => async (req: Request, res: Response) => {
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const sujetId = await model.createSujet(data as any);
@@ -89,17 +94,16 @@ export const createNewSujet =
     res.send({ results: [sujetId] });
   };
 
-  export const updateSujetById =
-    (model: Avis) => async (req: Request, res: Response) => {
-      const data = req.body;
+export const updateSujetById =
+  (model: Avis) =>
+  async (req: Request, res: Response): Promise<any> => {
+    const data = req.body;
 
-      const sujetId = await model.putSujetById(data as any);
+    const sujetId = await model.putSujetById(data as any);
 
-      if (!sujetId) {
-        return res
-          .status(400)
-          .send({ message: "Le sujet n'a pas été modifié" });
-      }
+    if (!sujetId) {
+      return res.status(400).send({ message: "Le sujet n'a pas été modifié" });
+    }
 
-      res.send({ results: [sujetId] });
-    };
+    res.send({ results: [sujetId] });
+  };

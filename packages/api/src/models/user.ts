@@ -17,7 +17,7 @@ export const getUsers = async () => {
   if (results && results.length) {
     return results;
   }
-  return null;
+  return;
 };
 
 export const getUserBy = async (

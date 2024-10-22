@@ -5,7 +5,8 @@ import * as raceModel from "../models/races";
 type Race = typeof raceModel;
 
 export const getAllRaces =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const race = await model.getAllRaces();
     if (!race) {
       return res.status(404).send({ message: "Aucune race" });
@@ -14,7 +15,8 @@ export const getAllRaces =
   };
 
 export const updateRaceById =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const raceId = await model.putRaceById(data as any);
@@ -27,7 +29,8 @@ export const updateRaceById =
   };
 
 export const deleteRace =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const raceId = await model.deleteRaceById(id as string);
@@ -40,7 +43,8 @@ export const deleteRace =
   };
 
 export const createNewRace =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const raceId = await model.createRace(data as any);
@@ -53,7 +57,8 @@ export const createNewRace =
   };
 
 export const getAllAnimaux =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const animaux = await model.getAnimaux();
     if (!animaux) {
       return res.status(404).send({ message: "Aucun animal" });
@@ -62,7 +67,8 @@ export const getAllAnimaux =
   };
 
 export const deleteAnimal =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const animalId = await model.deleteAnimalById(id as string);
@@ -75,7 +81,8 @@ export const deleteAnimal =
   };
 
 export const updateAnimalById =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const animalId = await model.putAnimalById(data as any);
@@ -88,7 +95,8 @@ export const updateAnimalById =
   };
 
 export const createNewAnimal =
-  (model: Race) => async (req: Request, res: Response) => {
+  (model: Race) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const animalId = await model.createAnimal(data as any);

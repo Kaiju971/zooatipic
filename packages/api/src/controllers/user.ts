@@ -8,76 +8,80 @@ type User = typeof userModel;
 
 const { ENCRYPTION_KEY, AUTH_TOKEN_KEY } = process.env;
 
-export const login = (model: User) => async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+export const login =
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
+    const { email, password } = req.body;
 
-  try {
-    // Check if user exist AND password supplied is correct
+    try {
+      // Check if user exist AND password supplied is correct
 
-    const id = "";
-    const user = await model.getUserBy(id as string, email as string);
+      const id = "";
+      const user = await model.getUserBy(id as string, email as string);
 
-    if (!user) {
-      return res.status(404).send({ message: "L'utilisateur n'existe pas" });
-    }
+      if (!user) {
+        return res.status(404).send({ message: "L'utilisateur n'existe pas" });
+      }
 
-    const userExists = !!user;
-    const passwordCorrect =
-      userExists && (await bcrypt.compare(password as string, user.password));
+      const userExists = !!user;
+      const passwordCorrect =
+        userExists && (await bcrypt.compare(password as string, user.password));
 
-    if (passwordCorrect) {
-      const jwtOptions = {
-        expiresIn: "24h", // Expire token in 24 hours
-      };
+      if (passwordCorrect) {
+        const jwtOptions = {
+          expiresIn: "24h", // Expire token in 24 hours
+        };
 
-      const userDataWithoutImage = {
-        id: user.id,
-        email: user.email,
-        nom: user.nom,
-        prenom: user.prenom,
-        password: user.password,
-        id_role: user.id_role,
-        role: user.role,
-      };
-
-      const authToken = jwt.sign(
-        userDataWithoutImage,
-        AUTH_TOKEN_KEY!,
-        jwtOptions
-      );
-
-      return res.status(200).json({
-        success: true,
-        user: {
-          user_id: user.id,
+        const userDataWithoutImage = {
+          id: user.id,
           email: user.email,
           nom: user.nom,
           prenom: user.prenom,
-          auth_token: authToken,
+          password: user.password,
           id_role: user.id_role,
           role: user.role,
-        },
-      });
-    }
+        };
 
-    return res.status(400).json({ error: "Mot de passe invalide" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: `Erreur serveur` });
-  }
-};
+        const authToken = jwt.sign(
+          userDataWithoutImage,
+          AUTH_TOKEN_KEY!,
+          jwtOptions
+        );
+
+        return res.status(200).json({
+          success: true,
+          user: {
+            user_id: user.id,
+            email: user.email,
+            nom: user.nom,
+            prenom: user.prenom,
+            auth_token: authToken,
+            id_role: user.id_role,
+            role: user.role,
+          },
+        });
+      }
+
+      return res.status(400).json({ error: "Mot de passe invalide" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: `Erreur serveur` });
+    }
+  };
 
 export const getAllUsers =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     const user = await model.getUsers();
     if (!user) {
       return res.status(404).send({ message: "Aucun utilisateur" });
     }
-    res.send({ results: [user] });
+    res.status(200).send({ results: [user] });
   };
 
 export const getUserBy =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     try {
       const { id, email, password } = req.query;
 
@@ -98,7 +102,8 @@ export const getUserBy =
   };
 
 export const deleteRole =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const roleId = await model.deleteRoleById(id as string);
@@ -113,7 +118,8 @@ export const deleteRole =
   };
 
 export const getAllRoles =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     const role = await model.getRoles();
     if (!role) {
       return res.status(404).send({ message: "Aucun role" });
@@ -122,7 +128,8 @@ export const getAllRoles =
   };
 
 export const createNewRole =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.query;
 
     const roleId = await model.createRole(data as any);
@@ -135,7 +142,8 @@ export const createNewRole =
   };
 
 export const deleteUser =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const userId = await model.deleteUserById(id as string);
@@ -150,7 +158,8 @@ export const deleteUser =
   };
 
 export const createNewUser =
-  (model: User) => async (req: Request, res: Response) => {
+  (model: User) =>
+  async (req: Request, res: Response): Promise<any> => {
     const avatar = req.file;
     const data = req.body;
 
