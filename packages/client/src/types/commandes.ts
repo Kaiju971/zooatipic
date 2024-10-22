@@ -13,7 +13,7 @@ export type Commandes = {
 
 export type CommandesReponse = {
   id: number;
-  numéro: number;
+  numero: number;
 };
 
 export type CommandesHead = {

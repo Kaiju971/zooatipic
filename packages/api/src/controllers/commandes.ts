@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import * as CommandesModel from "../models/commandes";
-import { Commandes } from "../models/types/commandes";
 
 type CommandesModel = typeof CommandesModel;
 
 interface CommandeResult {
-  commandeId?: number;
+  result?: {
+    id?: number;
+    numero?: number;
+  };
   error?: number;
   outOfStockItems?: { article: any; diff: any }[];
 }
@@ -38,12 +40,10 @@ export const createNewCommande =
   (model: CommandesModel) => async (req: Request, res: Response) => {
     const { commande, commandeRows } = req.body;
 
-    console.log("Request received"); // Лог получения запроса
     const result: CommandeResult = await model.createCommande(
       commande,
       commandeRows
     );
-    console.log("Result from model:", result); // Лог результата из модели
 
     if (result?.error === -1) {
       return res.status(404).send({ message: "La commande n'a pas été créé" });
@@ -67,7 +67,7 @@ export const createNewCommande =
       });
     }
 
-    res.send({ results: result?.commandeId });
+    res.send({ id: result.result?.id, numero: result.result?.numero });
   };
 
 export const updateCommandeById =

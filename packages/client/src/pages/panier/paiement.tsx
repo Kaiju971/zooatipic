@@ -52,7 +52,7 @@ const Paiement: React.FC = () => {
   >({
     mutationFn: fetchCommande,
     onSuccess: (result) => {
-      console.log(result);
+      console.log("Result from mutation:", result);
     },
     onError: (error: AxiosError) => {
       console.error(error.response);
