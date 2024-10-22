@@ -22,6 +22,15 @@ export type CommandesHead = {
   tva: number;
 };
 
+export type DataRows = {
+  id_commande: number;
+  id_article: number;
+  prix: number;
+  quantite: number;
+  somme: number;
+  tva: number;
+};
+
 export type CommandesRows = {
   id_commande: number;
   id_article: number;

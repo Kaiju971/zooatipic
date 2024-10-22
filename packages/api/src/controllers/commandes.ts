@@ -4,6 +4,12 @@ import { Commandes } from "../models/types/commandes";
 
 type CommandesModel = typeof CommandesModel;
 
+interface CommandeResult {
+  commandeId?: number;
+  error?: number;
+  outOfStockItems?: { article: any; diff: any }[];
+}
+
 export const getAllCommandes =
   (model: CommandesModel) => async (req: Request, res: Response) => {
     const commandes = await model.getCommandes();
@@ -32,15 +38,20 @@ export const createNewCommande =
   (model: CommandesModel) => async (req: Request, res: Response) => {
     const { commande, commandeRows } = req.body;
 
-    const commandeId = await model.createCommande(commande, commandeRows);
+    console.log("Request received"); // Лог получения запроса
+    const result: CommandeResult = await model.createCommande(
+      commande,
+      commandeRows
+    );
+    console.log("Result from model:", result); // Лог результата из модели
 
-    if (!commandeId) {
+    if (result?.error === -1) {
       return res.status(404).send({ message: "La commande n'a pas été créé" });
     }
 
-    if (commandeId[0] === -2) {
+    if (result?.error === -2) {
       const outOfStockItems = (
-        commandeId[1] as { article: string; diff: number }[]
+        result.outOfStockItems as { article: string; diff: number }[]
       )
         .map((item) => `article: ${item.article}, manque: ${-item.diff}`)
         .join("; ");
@@ -50,13 +61,13 @@ export const createNewCommande =
       });
     }
 
-    if (commandeId[0] === -3) {
+    if (result?.error === -3) {
       return res.status(422).json({
         message: `Impossible d'enregistrer la modification du stock`,
       });
     }
 
-    res.send({ results: [commandeId] });
+    res.send({ results: result?.commandeId });
   };
 
 export const updateCommandeById =

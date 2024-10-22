@@ -97,6 +97,7 @@ const Laboratoire: React.FC = () => {
                         photo: item.lien,
                         stock: item.stock,
                         date_visite: "",
+                        categorie_ventes: "nourriture",
                       })
                     }
                     disabled={item.stock <= 0}

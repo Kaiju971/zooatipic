@@ -6,4 +6,5 @@ export type Basket = {
   photo: string;
   stock: number;
   date_visite: string;
+  categorie_ventes: string;
 };

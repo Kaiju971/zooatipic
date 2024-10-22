@@ -40,6 +40,7 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { authState } = useContext(AuthContext);
   const [validationForm, setValidationForm] = useState(true);
+  const [livraisonDom, setLivraisonDom] = useState(true);
   const [formData, setFormData] = useState({
     numero: "",
     adresse: "",
@@ -123,7 +124,7 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
     mutationFn: fetchAdresses,
     onSuccess: (response) => {
       const adresseId = response.results[0].id;
-      créerHeadCommande(adresseId);
+      créerHeadCommande(adresseId, livraisonDom);
       onNext();
     },
     onError: (error: AxiosError) => {
@@ -138,6 +139,7 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log(validationForm);
     if (validationForm) {
       event.preventDefault();
 
@@ -146,20 +148,21 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
       const deliveryMethodValue = (
         form.elements.namedItem("livraison_dom") as RadioNodeList
       ).value;
-      const livraison_dom = deliveryMethodValue === "domicile";
+      setLivraisonDom(deliveryMethodValue === "domicile");
 
       if (
         formData.numero === user?.results[0].numero.trim() &&
-        formData.adresse === user.results[0].adresse.trim() &&
-        formData.codePostal === Number(user.results[0].code_postal) &&
-        formData.ville === user.results[0].ville.trim()
-      )
-        créerHeadCommande(user?.results[0].id_adresse);
-      else {
+        formData.adresse === user?.results[0].adresse.trim() &&
+        formData.codePostal === Number(user?.results[0].code_postal) &&
+        formData.ville === user?.results[0].ville.trim()
+      ) {
+        créerHeadCommande(user?.results[0].id_adresse, livraisonDom);
+        onNext();
+      } else {
         const DataAdresse = {
           ...formData,
           id_adresse_type: 2,
-          livraison_dom,
+          livraison_dom: livraisonDom,
           id_adresse: user?.results[0].id_adresse,
         };
 
@@ -171,7 +174,7 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
       });
   };
 
-  const créerHeadCommande = (idAdresse: number) => {
+  const créerHeadCommande = (idAdresse: number, livraison_dom: boolean) => {
     const basket = getBasket();
 
     const commande = {
@@ -179,6 +182,7 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
       date: currentCommandeDate,
       date_visite: basket[0].date_visite ?? null,
       id_adresse: idAdresse,
+      livraison_dom: livraison_dom,
       quantite: getNumberProducts(),
       somme: getTotalSum(),
       tva: getTotalSum() * TVA,

@@ -33,4 +33,5 @@ export type CommandesRows = {
   quantite: number;
   somme: number;
   tva: number;
+  categorie_ventes: string;
 };
