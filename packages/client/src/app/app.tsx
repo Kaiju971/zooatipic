@@ -4,8 +4,8 @@ import { SnackbarProvider } from "notistack";
 import Footer from "../footer/footer";
 import { AppRoutes } from "./appRoutes";
 import ScrollButton from "../components/scrollButton";
-// import { LocalizationProvider } from "@mui/x-date-pickers";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Banniere from "../components/banniere/banniere";
 
 //  import FaviconTheme from "../shared/faviconTheme";
@@ -157,16 +157,16 @@ theme = responsiveFontSizes(theme);
 
 const App: React.FC = () => (
   <ThemeProvider theme={responsiveFontSizes(theme)}>
-    {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
-    {/* <FaviconTheme /> */}
-    <Topbar />
-    {/* <Banniere /> */}
-    <SnackbarProvider>
-      <AppRoutes />
-      <ScrollButton />
-    </SnackbarProvider>
-    <Footer />
-    {/* </LocalizationProvider> */}
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {/* <FaviconTheme /> */}
+      <Topbar />
+      {/* <Banniere /> */}
+      <SnackbarProvider>
+        <AppRoutes />
+        <ScrollButton />
+      </SnackbarProvider>
+      <Footer />
+    </LocalizationProvider>
   </ThemeProvider>
 );
 
