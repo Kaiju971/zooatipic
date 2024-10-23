@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Articles } from "../../types/produits";
+import dayjs, { Dayjs } from "dayjs";
 import { useQuery } from "@tanstack/react-query";
-import { Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 
 import { fetchArticles } from "../../api/fetchers/articles";
 
@@ -9,6 +17,8 @@ import * as S from "./billets.styled";
 
 import TicketBouton from "../../components/ticketBouton";
 import { splitLineAtParenthesis } from "../../utils/utils";
+import Calendrier from "../../components/calendrier";
+import { addBasket } from "../../utils/basket";
 
 const groupes = [
   "Billet 1 journée",
@@ -23,6 +33,8 @@ interface ProductsData {
 }
 
 const Billets: React.FC = () => {
+  const [open, setOpen] = useState(false); // État pour contrôler l'ouverture de la modale
+  const [dateValue, setDateValue] = useState<string>("");
   const {
     data: articlesdata,
     isLoading,
@@ -35,6 +47,29 @@ const Billets: React.FC = () => {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading products</p>;
 
+  const handleClickOpen = () => {
+    setOpen(true); // Ouvrir la modale
+  };
+
+  const handleClose = (): void => {
+    setOpen(false); // Fermer la modale
+  };
+
+  const handleBuyClick = (item: Articles) => {
+    handleClickOpen(); // Ouvrir la modale après l'ajout au panier
+
+    addBasket({
+      id_article: item.id,
+      prix: item.prix,
+      quantite: 1,
+      article: item.article,
+      photo: "",
+      stock: 1,
+      date_visite: dateValue,
+      categorie_ventes: "ticket",
+    });
+  };
+  console.log("dateValue" + dateValue);
   return (
     <S.MainContainer>
       <S.Title>
@@ -157,14 +192,32 @@ const Billets: React.FC = () => {
                   <>
                     <S.TitleTicket variant="h6">{item.article}</S.TitleTicket>
                     <Typography variant="h6">{item.prix}€</Typography>
+
+                    <S.StyledButton>
+                      <TicketBouton
+                        label="Acheter"
+                        onClick={() => handleBuyClick(item)}
+                      />
+                    </S.StyledButton>
                   </>
                 ))}
-            <S.StyledButton>
-              <TicketBouton label="Acheter" />
-            </S.StyledButton>
           </S.Ticket5>
         </S.TicketContainer>
       </S.GridContainer>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Sélectionnez une date</DialogTitle>
+        <DialogContent>
+          <Calendrier setDataValue={setDateValue} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Annuler
+          </Button>
+          <Button onClick={handleClose} color="secondary">
+            Confirmer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </S.MainContainer>
   );
 };
