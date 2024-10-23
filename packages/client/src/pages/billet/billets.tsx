@@ -2,11 +2,11 @@ import React from "react";
 import { Articles } from "../../types/produits";
 import { useQuery } from "@tanstack/react-query";
 import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
+
 import { fetchArticles } from "../../api/fetchers/articles";
 
 import * as S from "./billets.styled";
-import PrimaryButton from "../../components/buttonPrincipale";
+
 import TicketBouton from "../../components/ticketBouton";
 import { splitLineAtParenthesis } from "../../utils/utils";
 

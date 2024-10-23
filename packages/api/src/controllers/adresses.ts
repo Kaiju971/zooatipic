@@ -5,7 +5,8 @@ import { AdresseType } from "../models/types/adresses";
 type Adresse = typeof AdressesModel;
 
 export const getAllAdresses =
-  (model: Adresse) => async (req: Request, res: Response) => {
+  (model: Adresse) =>
+  async (req: Request, res: Response): Promise<any> => {
     const adresses = await model.getAdresses;
     if (!adresses) {
       return res.status(404).send({ message: "Aucun adresse" });
@@ -14,7 +15,8 @@ export const getAllAdresses =
   };
 
 export const deleteAdresse =
-  (model: Adresse) => async (req: Request, res: Response) => {
+  (model: Adresse) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const adressetId = await model.deleteAdresseById(id as string);
@@ -29,7 +31,8 @@ export const deleteAdresse =
   };
 
 export const createNewAdresse =
-  (model: Adresse) => async (req: Request, res: Response) => {
+  (model: Adresse) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const dataAdresse: Partial<AdresseType> = {
@@ -50,7 +53,8 @@ export const createNewAdresse =
   };
 
 export const updateAdressetById =
-  (model: Adresse) => async (req: Request, res: Response) => {
+  (model: Adresse) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const adressetId = await model.putAdresseById(data as any);

@@ -13,7 +13,8 @@ interface CommandeResult {
 }
 
 export const getAllCommandes =
-  (model: CommandesModel) => async (req: Request, res: Response) => {
+  (model: CommandesModel) =>
+  async (req: Request, res: Response): Promise<any> => {
     const commandes = await model.getCommandes();
     if (!commandes) {
       return res.status(404).send({ message: "Aucune commande" });
@@ -22,7 +23,8 @@ export const getAllCommandes =
   };
 
 export const deleteCommande =
-  (model: CommandesModel) => async (req: Request, res: Response) => {
+  (model: CommandesModel) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const commandeId = await model.deleteCommandeById(id as string);
@@ -37,7 +39,8 @@ export const deleteCommande =
   };
 
 export const createNewCommande =
-  (model: CommandesModel) => async (req: Request, res: Response) => {
+  (model: CommandesModel) =>
+  async (req: Request, res: Response): Promise<any> => {
     const { commande, commandeRows } = req.body;
 
     const result: CommandeResult = await model.createCommande(
@@ -71,7 +74,8 @@ export const createNewCommande =
   };
 
 export const updateCommandeById =
-  (model: CommandesModel) => async (req: Request, res: Response) => {
+  (model: CommandesModel) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const commandeId = await model.putCommandeById(data as any);

@@ -4,12 +4,12 @@ import { SnackbarProvider } from "notistack";
 import Footer from "../footer/footer";
 import { AppRoutes } from "./appRoutes";
 import ScrollButton from "../components/scrollButton";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Banniere from "../components/banniere/banniere";
 
 //  import FaviconTheme from "../shared/faviconTheme";
 import React from "react";
-
-import "@mui/material";
-import Banniere from "../components/banniere/banniere";
 
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
@@ -157,6 +157,7 @@ theme = responsiveFontSizes(theme);
 
 const App: React.FC = () => (
   <ThemeProvider theme={responsiveFontSizes(theme)}>
+    {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
     {/* <FaviconTheme /> */}
     <Topbar />
     {/* <Banniere /> */}
@@ -165,6 +166,7 @@ const App: React.FC = () => (
       <ScrollButton />
     </SnackbarProvider>
     <Footer />
+    {/* </LocalizationProvider> */}
   </ThemeProvider>
 );
 

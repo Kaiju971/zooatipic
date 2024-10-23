@@ -4,7 +4,8 @@ import * as StockModel from "../models/stock";
 type Stock = typeof StockModel;
 
 export const getAllStock =
-  (model: Stock) => async (req: Request, res: Response) => {
+  (model: Stock) =>
+  async (req: Request, res: Response): Promise<any> => {
     const stock = await model.getStock();
     if (!stock) {
       return res.status(404).send({ message: "Aucun stock" });
@@ -13,7 +14,8 @@ export const getAllStock =
   };
 
 export const deleteStock =
-  (model: Stock) => async (req: Request, res: Response) => {
+  (model: Stock) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const stockId = await model.deleteStockById(id as string);
@@ -26,7 +28,8 @@ export const deleteStock =
   };
 
 export const createNewStock =
-  (model: Stock) => async (req: Request, res: Response) => {
+  (model: Stock) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const stockId = await model.createStock(data as any);
@@ -39,7 +42,8 @@ export const createNewStock =
   };
 
 export const updateStockById =
-  (model: Stock) => async (req: Request, res: Response) => {
+  (model: Stock) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const stockId = await model.putStockById(data as any);
@@ -52,7 +56,8 @@ export const updateStockById =
   };
 
 export const getStockActuel =
-  (model: Stock) => async (req: Request, res: Response) => {
+  (model: Stock) =>
+  async (req: Request, res: Response): Promise<any> => {
     const stock = await model.StockRestant();
 
     if (!stock) {

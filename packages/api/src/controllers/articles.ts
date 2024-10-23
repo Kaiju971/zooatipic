@@ -4,7 +4,8 @@ import * as articlesModel from "../models/articles";
 type article = typeof articlesModel;
 
 export const getAllarticles =
-  (model: article) => async (req: Request, res: Response) => {
+  (model: article) =>
+  async (req: Request, res: Response): Promise<any> => {
     const { params } = req;
     const categorieVentes = params.categorieVentes;
 
@@ -17,7 +18,8 @@ export const getAllarticles =
   };
 
 export const deletearticle =
-  (model: article) => async (req: Request, res: Response) => {
+  (model: article) =>
+  async (req: Request, res: Response): Promise<any> => {
     const id = req.params.id;
 
     const articleId = await model.deletearticleById(id as string);
@@ -32,7 +34,8 @@ export const deletearticle =
   };
 
 export const createNewarticle =
-  (model: article) => async (req: Request, res: Response) => {
+  (model: article) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const articleId = await model.createarticle(data as any);
@@ -45,7 +48,8 @@ export const createNewarticle =
   };
 
 export const updatearticleById =
-  (model: article) => async (req: Request, res: Response) => {
+  (model: article) =>
+  async (req: Request, res: Response): Promise<any> => {
     const data = req.body;
 
     const nourritrureId = await model.putArticleById(data as any);
