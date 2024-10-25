@@ -1,6 +1,12 @@
-
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+
+export const StyledDateCalendar = styled(DateCalendar)`
+  & .MuiPickersYear-yearButton {
+    font-size: 1rem;
+  }
+`;
 
 export const StyledButton = styled(Button)<{ mode: string }>`
   position: relative;
@@ -40,8 +46,6 @@ export const StyledButton = styled(Button)<{ mode: string }>`
         : "none"};
   }
 
-
-
   &:active::before {
     /* Optionnel : Changement au clic */
     border-top-color: #382004;
@@ -49,5 +53,4 @@ export const StyledButton = styled(Button)<{ mode: string }>`
     border-bottom-color: #fcaa30;
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);
   }
-
 `;

@@ -9,15 +9,13 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-
 import { fetchArticles } from "../../api/fetchers/articles";
-
-import * as S from "./billets.styled";
-
 import TicketBouton from "../../components/ticketBouton";
 import { splitLineAtParenthesis } from "../../utils/utils";
 import Calendrier from "../../components/calendrier";
-import { addBasket } from "../../utils/basket";
+import { addBasket, addPropertyToBasket } from "../../utils/basket";
+
+import * as S from "./billets.styled";
 
 const groupes = [
   "Billet 1 journée",
@@ -34,6 +32,8 @@ interface ProductsData {
 const Billets: React.FC = () => {
   const [open, setOpen] = useState(false); // État pour contrôler l'ouverture de la modale
   const [dateValue, setDateValue] = useState<string>("");
+  const [idTicket, setIdTicket] = useState<number>(0);
+
   const {
     data: articlesdata,
     isLoading,
@@ -56,7 +56,7 @@ const Billets: React.FC = () => {
 
   const handleBuyClick = (item: Articles) => {
     handleClickOpen(); // Ouvrir la modale après l'ajout au panier
-
+    setIdTicket(item.id);
     addBasket({
       id_article: item.id,
       prix: item.prix,
@@ -64,18 +64,21 @@ const Billets: React.FC = () => {
       article: item.article,
       photo: "",
       stock: 1,
-      date_visite: dateValue,
+      date_visite: "",
       categorie_ventes: "ticket",
     });
   };
-  console.log("dateValue" + dateValue);
+
+  const handleConfirmed = () => {
+    addPropertyToBasket(idTicket, "date_visite", dateValue);
+    setOpen(false);
+  };
   return (
     <S.MainContainer>
       <S.Title>
         <Typography variant="h1">BILLETS</Typography>
         <Typography variant="body2">NOS BILLETS exclusivité Web</Typography>
       </S.Title>
-
       <S.GridContainer>
         <S.Ticket134>
           <S.TitleTicket variant="h5" color="primary">
@@ -106,13 +109,15 @@ const Billets: React.FC = () => {
                   <Typography variant="h6" color="primary">
                     {item.prix}€
                   </Typography>
+                  <S.StyledButton>
+                    <TicketBouton
+                      label="Acheter"
+                      onClick={() => handleBuyClick(item)}
+                    />
+                  </S.StyledButton>
                 </S.FlexBox>
               ))}
-          <S.StyledButton>
-            <TicketBouton label="Acheter" />
-          </S.StyledButton>
         </S.Ticket134>
-
         <S.Ticket25>
           <S.TitleTicket variant="h5">{groupes[1]}</S.TitleTicket>
           <>
@@ -148,6 +153,12 @@ const Billets: React.FC = () => {
                       <Typography variant="body1" color="primary">
                         {splitLineAtParenthesis(item.article)[1]}
                       </Typography>
+                      <S.StyledButton>
+                        <TicketBouton
+                          label="Acheter"
+                          onClick={() => handleBuyClick(item)}
+                        />
+                      </S.StyledButton>
                     </S.FlexBoxColumn>
                   )}
 
@@ -156,11 +167,7 @@ const Billets: React.FC = () => {
                   </Typography>
                 </S.FlexBox>
               ))}
-          <S.StyledButton>
-            <TicketBouton label="Acheter" />
-          </S.StyledButton>
         </S.Ticket134>
-
         <S.TicketContainer>
           <S.Ticket4>
             {articlesdata !== undefined &&
@@ -175,13 +182,15 @@ const Billets: React.FC = () => {
                     <Typography variant="h6" color="primary">
                       {item.prix}€
                     </Typography>
+                    <S.StyledButton>
+                      <TicketBouton
+                        label="Acheter"
+                        onClick={() => handleBuyClick(item)}
+                      />
+                    </S.StyledButton>
                   </>
                 ))}
-            <S.StyledButton>
-              <TicketBouton label="Acheter" />
-            </S.StyledButton>
           </S.Ticket4>
-
           <S.Ticket5>
             {articlesdata !== undefined &&
               articlesdata?.results.length > 0 &&
@@ -212,7 +221,7 @@ const Billets: React.FC = () => {
           <Button onClick={handleClose} color="secondary">
             Annuler
           </Button>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleConfirmed} color="secondary">
             Confirmer
           </Button>
         </DialogActions>
