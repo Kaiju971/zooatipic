@@ -117,6 +117,7 @@ export const createCommande = async (
           quantite: item.quantite,
           somme: Number((item.prix * item.quantite).toFixed(2)),
           tva: Number((item.prix * item.quantite * TVA).toFixed(2)),
+          date_visite: item.date_visite,
         }));
 
         const resultsRow: number[] = await trx<DataRows[]>("commandesRows")
@@ -125,13 +126,15 @@ export const createCommande = async (
 
         const articleStockResults = await articleStockSubquery;
 
-        const dataForStock: Partial<Articles>[] = commandeRows.map((item) => ({
-          id: item.id_article,
-          stock:
-            articleStockResults.filter(
-              (el: Articles) => el.id === item.id_article
-            )[0].stock - item.quantite,
-        }));
+        const dataForStock: Partial<Articles>[] = commandeRows
+          .filter((item) => item.categorie_ventes === "nourriture")
+          .map((item) => ({
+            id: item.id_article,
+            stock:
+              articleStockResults.filter(
+                (el: Articles) => el.id === item.id_article
+              )[0].stock - item.quantite,
+          }));
 
         if (resultsRow && resultsRow.length > 0) {
           const resultsPutArticle = await Promise.all(

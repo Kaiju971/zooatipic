@@ -11,7 +11,6 @@ import { useSnackbar } from "notistack";
 import AuthContext from "../../store/auth/AuthContextProvider";
 import { TVA } from "../../constants";
 import {
-  getBasket,
   getNumberProducts,
   getTotalSum,
   saveCommandeHead,
@@ -139,7 +138,6 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(validationForm);
     if (validationForm) {
       event.preventDefault();
 
@@ -175,12 +173,9 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
   };
 
   const créerHeadCommande = (idAdresse: number, livraison_dom: boolean) => {
-    const basket = getBasket();
-
     const commande = {
       id_user: Number(authState.userId) ?? 0,
       date: currentCommandeDate,
-      date_visite: basket[0].date_visite ?? null,
       id_adresse: idAdresse,
       livraison_dom: livraison_dom,
       quantite: getNumberProducts(),

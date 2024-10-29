@@ -103,7 +103,7 @@ const TextFieldValidated: React.FC<Props> = ({
                 name={nameField}
                 value={value}
                 onChange={handleFieldChange}
-                error={!!errorMessage}
+                error={!errorMessage}
                 sx={sx}
               />
             </S.TextFieldBox>

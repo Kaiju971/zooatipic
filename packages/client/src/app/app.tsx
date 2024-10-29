@@ -6,7 +6,7 @@ import { AppRoutes } from "./appRoutes";
 import ScrollButton from "../components/scrollButton";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import Banniere from "../components/banniere/banniere";
+//import Banniere from "../components/banniere/banniere";
 
 //  import FaviconTheme from "../shared/faviconTheme";
 import React from "react";
@@ -81,6 +81,9 @@ export let theme = createTheme({
     },
     gradient1: {
       main: "#7382004",
+    },
+    textGris: {
+      main: "#8B8E98",
     },
   },
   typography: {

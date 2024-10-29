@@ -12,7 +12,12 @@ import { useLocation } from "react-router";
 import AuthContext from "../../store/auth/AuthContextProvider";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { ValidationGroup } from "mui-validate";
+import TextFieldValidated from "../../components/textFildValidated";
+import Paypal from "../../images/paypal.png";
+import IPay from "../../images/ipay.png";
+import GPay from "../../images/gpay.png";
 
 import * as S from "./panier.styled";
 
@@ -21,12 +26,48 @@ type CommandeData = {
   commandeRows: CommandesRows[];
 };
 
+const PayPal = () => {
+  window.open(
+    "https://www.paypal.com/webapps/mpp/paypal-popup",
+    "WIPaypal",
+    "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700"
+  );
+  return false;
+};
+
 const Paiement: React.FC = () => {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
   const { authState } = useContext(AuthContext);
   const [dataRowComande, setDataRowCommande] = useState<CommandesRows[]>();
   const [dataHeadComande, setDataHeadPanier] = useState<CommandesHead>();
+  const [formData, setFormData] = useState({
+    nom: "",
+    carte: "",
+    codePostal: 0,
+    ville: "",
+  });
+
+  const [validationNumero, setValidationNumero] = useState({
+    valid: true,
+    messages: [],
+    display: true,
+  });
+  const [validationAdresse, setValidationAdresse] = useState({
+    valid: true,
+    messages: [],
+    display: true,
+  });
+  const [validationCodePostal, setValidationCodePostal] = useState({
+    valid: true,
+    messages: [],
+    display: true,
+  });
+  const [validationVille, setValidationVille] = useState({
+    valid: true,
+    messages: [],
+    display: true,
+  });
 
   useEffect(() => {
     if (location.hash) {
@@ -83,22 +124,176 @@ const Paiement: React.FC = () => {
   return (
     <S.MainContainer>
       <S.PageTitle variant="h1">PANIER</S.PageTitle>
-      <S.BasketContainer>
-        <S.Triangle />
-        <S.Triangle2 />
+      <S.PaiementContainer>
+        <S.Triangle3 />
+        <Box
+          component="form"
+          sx={{
+            width: "80%",
+            "& > :not(style)": { m: 1 },
+            "& .MuiFormControl-root": {
+              width: "100%",
+              "& .MuiInputLabel-shrink, .MuiInputLabel-root": {
+                color: "textGris.main",
+              },
+            },
+            " & .MuiOutlinedInput-root": {
+              borderRadius: "12px",
 
-        <S.ButtonContainer>
+              "& fieldset": {
+                borderColor: "colorBackgroundForm.main",
+                backgroundColor: "colorGris.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "colorBackgroundForm.main",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "colorBackgroundForm.main",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "colorBackgroundForm.main",
+              },
+            },
+
+            " & .MuiInputBase-root": {
+              borderColor: "colorGris.main",
+              width: "100%",
+            },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <ValidationGroup>
+            <>
+              <S.StyledTitreFildPaiement variant="body2">
+                Card holder full name
+              </S.StyledTitreFildPaiement>
+              <TextFieldValidated
+                nameField="name"
+                conditionArray={[
+                  [
+                    (value) => {
+                      return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                    },
+                    "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                  ],
+                ]}
+                show
+                setValidationField={setValidationNumero}
+                label={"Enter your full name"}
+              />
+              <S.StyledTitreFildPaiement variant="body2">
+                Card Number
+              </S.StyledTitreFildPaiement>
+              <TextFieldValidated
+                nameField="carte"
+                conditionArray={[
+                  [
+                    (value) => {
+                      return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                    },
+                    "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                  ],
+                ]}
+                show
+                setValidationField={setValidationNumero}
+                label={"0000 0000 0000 0000"}
+              />
+              <S.StyledTitreFildPaiement variant="body2">
+                Expiry Date / CVV
+              </S.StyledTitreFildPaiement>
+              <S.FlexBoxBetween>
+                <TextFieldValidated
+                  nameField="date"
+                  conditionArray={[
+                    [
+                      (value) => {
+                        return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                      },
+                      "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                    ],
+                  ]}
+                  show
+                  setValidationField={setValidationNumero}
+                  label={"01/23"}
+                />
+                <TextFieldValidated
+                  nameField="cvv"
+                  conditionArray={[
+                    [
+                      (value) => {
+                        return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                      },
+                      "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                    ],
+                  ]}
+                  show
+                  setValidationField={setValidationNumero}
+                />
+              </S.FlexBoxBetween>
+            </>
+          </ValidationGroup>
           <PrimaryButton
             label={
               <Typography variant="h6" textTransform="none">
-                TEST COMMANDE
+                Checkout
               </Typography>
             }
-            colorVert
             onClick={() => CreateOrder()}
+            sx={{ width: "100%", borderRadius: "12px" }}
           />
-        </S.ButtonContainer>
-      </S.BasketContainer>
+          <S.FlexBoxCentered sx={{ py: 4 }}>
+            <S.Ligne />
+            <Typography
+              variant="h6"
+              textTransform="none"
+              sx={{ color: "textGris.main" }}
+            >
+              or pay using e-wallet
+            </Typography>
+            <S.Ligne />
+          </S.FlexBoxCentered>
+
+          <S.FlexBoxCentered>
+            <PrimaryButton
+              label={""}
+              onClick={() => PayPal()}
+              sx={{
+                width: "31%",
+                height: "6.5vh",
+                background: `url(${Paypal})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                borderRadius: "11px",
+              }}
+            />
+            <PrimaryButton
+              label={""}
+              onClick={() => CreateOrder()}
+              sx={{
+                width: "31%",
+                height: "6.5vh",
+                background: `url(${IPay})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                borderRadius: "11px",
+              }}
+            />
+            <PrimaryButton
+              label={""}
+              onClick={() => CreateOrder()}
+              sx={{
+                width: "31%",
+                height: "6.5vh",
+                background: `url(${GPay})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                borderRadius: "11px",
+              }}
+            />
+          </S.FlexBoxCentered>
+        </Box>
+      </S.PaiementContainer>
     </S.MainContainer>
   );
 };
