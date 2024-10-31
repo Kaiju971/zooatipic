@@ -19,7 +19,6 @@ export type CommandesReponse = {
 export type CommandesHead = {
   id_user: number;
   date: string;
-  date_visite: string;
   id_adresse: number;
   quantite: number;
   somme: number;
@@ -34,4 +33,5 @@ export type CommandesRows = {
   somme: number;
   tva: number;
   categorie_ventes: string;
+  date_visite: string;
 };

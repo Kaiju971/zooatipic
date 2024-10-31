@@ -16,7 +16,6 @@ export type CommandesHead = {
   id_user: number;
   // numero: number;
   date: Date;
-  date_visite: Date;
   quantite: number;
   somme: number;
   tva: number;
@@ -29,6 +28,7 @@ export type DataRows = {
   quantite: number;
   somme: number;
   tva: number;
+  date_visite: string;
 };
 
 export type CommandesRows = {
@@ -39,6 +39,7 @@ export type CommandesRows = {
   quantite: number;
   somme: number;
   tva: number;
+  date_visite: string;
 };
 
 export type CommandesUpd = {

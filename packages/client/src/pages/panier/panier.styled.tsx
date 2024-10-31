@@ -16,6 +16,13 @@ export const FlexBoxCentered = styled("div")`
   justify-content: space-evenly;
 `;
 
+export const FlexBoxBetween = styled("div")`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 export const MainContainer = styled("div")`
   padding-top: 10vh;
   min-height: 100vh;
@@ -89,6 +96,7 @@ export const Triangle = styled("div")`
   border-right: 200px solid transparent;
   border-bottom: 200px solid;
   border-bottom-color: ${({ theme }) => theme.palette.vert.main};
+  z-index: 10;
 `;
 
 export const Triangle2 = styled("div")`
@@ -102,6 +110,18 @@ export const Triangle2 = styled("div")`
   border-right: 100px solid;
   border-right-color: ${({ theme }) => theme.palette.vert2.main};
   transform: translateY(-50%);
+`;
+
+export const Triangle3 = styled("div")`
+  position: absolute;
+  bottom: -0.5%;
+  left: -0.5%;
+  width: 0;
+  height: 0;
+  border-right: 130px solid transparent;
+  border-bottom: 130px solid;
+  border-bottom-color: ${({ theme }) => theme.palette.vert.main};
+  z-index: 10;
 `;
 
 export const ImageStock = styled(FlexBox)`
@@ -282,4 +302,30 @@ export const Sell7 = styled(Typography)`
 export const Sell8 = styled("div")`
   grid-column: 4;
   grid-row: 3;
+`;
+
+export const PaiementContainer = styled("div")`
+  width: 40%;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background-color: ${({ theme }) => theme.palette.colorBackgroundForm.main};
+  border: solid;
+  border-radius: 26px;
+
+  position: relative;
+  margin-bottom: 3%;
+`;
+
+export const StyledTitreFildPaiement = styled(Typography)`
+  color: ${({ theme }) => theme.palette.textGris.main};
+  margin-bottom: -2vh !important;
+`;
+
+export const Ligne = styled("hr")`
+  width: 20%;
+  color: ${({ theme }) => theme.palette.primary.main};
 `;

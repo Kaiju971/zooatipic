@@ -19,6 +19,7 @@ declare module "@mui/material/styles" {
     vert: Palette["primary"];
     vert2: Palette["primary"];
     gradient1: Palette["primary"];
+    textGris: Palette["primary"];
   }
 
   interface PaletteOptions {
@@ -39,5 +40,6 @@ declare module "@mui/material/styles" {
     vert?: PaletteOptions["primary"];
     vert2?: PaletteOptions["primary"];
     gradient1?: PaletteOptions["primary"];
+    textGris?: PaletteOptions["primary"];
   }
 }

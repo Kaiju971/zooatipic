@@ -103,7 +103,7 @@ const TextFieldValidated: React.FC<Props> = ({
                 name={nameField}
                 value={value}
                 onChange={handleFieldChange}
-                error={!!errorMessage}
+                error={!errorMessage}
                 sx={sx}
               />
             </S.TextFieldBox>
@@ -124,6 +124,7 @@ const TextFieldValidated: React.FC<Props> = ({
                 placeholder={placeholder}
                 name={nameField}
                 onChange={handleFieldChange}
+                sx={sx}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

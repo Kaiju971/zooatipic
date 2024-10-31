@@ -7,6 +7,7 @@ type Props = {
 
 export const MainContainer = styled("div")`
   padding-top: 2vh;
+  width: 100%;
 `;
 
 export const TextFieldContainer = styled("div")<Props>(({ show = false }) => ({
