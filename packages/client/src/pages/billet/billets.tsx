@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Articles } from "../../types/produits";
-import dayjs, { Dayjs } from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 import {
   Button,

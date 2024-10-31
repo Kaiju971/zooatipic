@@ -35,35 +35,39 @@ const PayPal = () => {
   return false;
 };
 
+const IPayHandler = () => {};
+const GPayHandler = () => {};
+
 const Paiement: React.FC = () => {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
   const { authState } = useContext(AuthContext);
+  const [validationForm, setValidationForm] = useState(false);
   const [dataRowComande, setDataRowCommande] = useState<CommandesRows[]>();
   const [dataHeadComande, setDataHeadPanier] = useState<CommandesHead>();
   const [formData, setFormData] = useState({
     nom: "",
     carte: "",
-    codePostal: 0,
-    ville: "",
+    date: "",
+    code: "",
   });
 
-  const [validationNumero, setValidationNumero] = useState({
+  const [validationNom, setValidationNom] = useState({
     valid: true,
     messages: [],
     display: true,
   });
-  const [validationAdresse, setValidationAdresse] = useState({
+  const [validationCarte, setValidationCarte] = useState({
     valid: true,
     messages: [],
     display: true,
   });
-  const [validationCodePostal, setValidationCodePostal] = useState({
+  const [validationDate, setValidationDate] = useState({
     valid: true,
     messages: [],
     display: true,
   });
-  const [validationVille, setValidationVille] = useState({
+  const [validationCode, setValidationCode] = useState({
     valid: true,
     messages: [],
     display: true,
@@ -85,6 +89,44 @@ const Paiement: React.FC = () => {
     const commandeHead = getCommandeHead();
     setDataHeadPanier(commandeHead);
   }, []);
+
+  useEffect(() => {
+    const formAdresse =
+      validationNom.valid &&
+      validationCarte.valid &&
+      validationDate.valid &&
+      validationCode.valid;
+
+    setValidationForm(Object.keys(formData).length !== 0 && !!formAdresse);
+  }, [
+    formData,
+    validationNom.valid,
+    validationCarte.valid,
+    validationDate.valid,
+    validationCode.valid,
+  ]);
+
+  const onInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [event.target?.name]: event.target?.value,
+    }));
+  };
+
+  const handleCardNumberChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const input = event.target.value.replace(/\D/g, ""); // Убираем все нецифровые символы
+    if (input.length <= 16) {
+      const formattedInput = input.match(/.{1,4}/g)?.join(" ") || ""; // Добавляем пробел после каждых 4 цифр
+      setFormData((prev) => ({
+        ...prev,
+        carte: formattedInput,
+      }));
+    }
+  };
 
   const { mutate: saveCommande } = useMutation<
     CommandesReponse,
@@ -121,6 +163,8 @@ const Paiement: React.FC = () => {
       });
   };
 
+  console.log(formData);
+
   return (
     <S.MainContainer>
       <S.PageTitle variant="h1">PANIER</S.PageTitle>
@@ -130,6 +174,7 @@ const Paiement: React.FC = () => {
           component="form"
           sx={{
             width: "80%",
+            color: "secondary.main",
             "& > :not(style)": { m: 1 },
             "& .MuiFormControl-root": {
               width: "100%",
@@ -139,10 +184,8 @@ const Paiement: React.FC = () => {
             },
             " & .MuiOutlinedInput-root": {
               borderRadius: "12px",
-
               "& fieldset": {
                 borderColor: "colorBackgroundForm.main",
-                backgroundColor: "colorGris.main",
               },
               "&:hover fieldset": {
                 borderColor: "colorBackgroundForm.main",
@@ -169,18 +212,19 @@ const Paiement: React.FC = () => {
                 Card holder full name
               </S.StyledTitreFildPaiement>
               <TextFieldValidated
-                nameField="name"
+                nameField="nom"
                 conditionArray={[
                   [
-                    (value) => {
-                      return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
-                    },
-                    "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                    (value) => /^[a-zA-Z\s]+$/.test(value),
+                    "Vous ne pouvez mettre que des lettres majuscules, minuscules et des espaces",
                   ],
                 ]}
                 show
-                setValidationField={setValidationNumero}
+                value={formData.nom}
+                setFieldValue={(e) => onInputChange(e)}
+                setValidationField={setValidationNom}
                 label={"Enter your full name"}
+                sx={{ backgroundColor: "colorGris.main", borderRadius: "12px" }}
               />
               <S.StyledTitreFildPaiement variant="body2">
                 Card Number
@@ -190,14 +234,17 @@ const Paiement: React.FC = () => {
                 conditionArray={[
                   [
                     (value) => {
-                      return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                      return /^\d{4} \d{4} \d{4} \d{4}$/.test(value);
                     },
-                    "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                    "Vous ne pouvez mettre que 16 chiffres séparés par des espaces tous les quatre",
                   ],
                 ]}
                 show
-                setValidationField={setValidationNumero}
+                value={formData.carte}
+                setFieldValue={(e) => handleCardNumberChange(e)}
+                setValidationField={setValidationCarte}
                 label={"0000 0000 0000 0000"}
+                sx={{ backgroundColor: "colorGris.main", borderRadius: "12px" }}
               />
               <S.StyledTitreFildPaiement variant="body2">
                 Expiry Date / CVV
@@ -208,27 +255,40 @@ const Paiement: React.FC = () => {
                   conditionArray={[
                     [
                       (value) => {
-                        return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                        return /^(0[1-9]|1[0-2])\/\d{2}$/.test(value);
                       },
-                      "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                      "Le mois doit être compris entre 01 et 12",
                     ],
                   ]}
                   show
-                  setValidationField={setValidationNumero}
-                  label={"01/23"}
+                  value={formData.date}
+                  setFieldValue={(e) => onInputChange(e)}
+                  setValidationField={setValidationDate}
+                  label={"MM/YY"}
+                  sx={{
+                    backgroundColor: "colorGris.main",
+                    borderRadius: "12px",
+                  }}
                 />
                 <TextFieldValidated
-                  nameField="cvv"
+                  nameField="code"
                   conditionArray={[
                     [
                       (value) => {
-                        return /^[A-Za-z0-9\-./,'\s]+$/.test(value);
+                        return /^\d{3}$/.test(value);
                       },
-                      "Vous ne pouvez mettre que des chiffres, des lettres, des tirets, des points, des slashes, des virgules, des apostrophes et des espaces",
+                      "Vous ne pouvez mettre que trois chiffres",
                     ],
                   ]}
+                  controled
                   show
-                  setValidationField={setValidationNumero}
+                  value={formData.code}
+                  setFieldValue={(e) => onInputChange(e)}
+                  setValidationField={setValidationCode}
+                  sx={{
+                    backgroundColor: "colorGris.main",
+                    borderRadius: "12px",
+                  }}
                 />
               </S.FlexBoxBetween>
             </>
@@ -239,8 +299,15 @@ const Paiement: React.FC = () => {
                 Checkout
               </Typography>
             }
+            disabled={!validationForm}
             onClick={() => CreateOrder()}
-            sx={{ width: "100%", borderRadius: "12px" }}
+            sx={{
+              width: "100%",
+              borderRadius: "12px",
+              "&.Mui-disabled": {
+                backgroundColor: "colorBackgroundForm1.main",
+              },
+            }}
           />
           <S.FlexBoxCentered sx={{ py: 4 }}>
             <S.Ligne />
@@ -269,7 +336,7 @@ const Paiement: React.FC = () => {
             />
             <PrimaryButton
               label={""}
-              onClick={() => CreateOrder()}
+              onClick={() => IPayHandler()}
               sx={{
                 width: "31%",
                 height: "6.5vh",
@@ -281,7 +348,7 @@ const Paiement: React.FC = () => {
             />
             <PrimaryButton
               label={""}
-              onClick={() => CreateOrder()}
+              onClick={() => GPayHandler()}
               sx={{
                 width: "31%",
                 height: "6.5vh",

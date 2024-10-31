@@ -124,6 +124,7 @@ const TextFieldValidated: React.FC<Props> = ({
                 placeholder={placeholder}
                 name={nameField}
                 onChange={handleFieldChange}
+                sx={sx}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
