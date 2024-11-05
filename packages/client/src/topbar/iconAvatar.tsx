@@ -29,10 +29,23 @@ function IconAvatar() {
 
   const handleItemMenu = useCallback(
     (item: MenuItemsAvatar) => {
-      authState.isLoggedIn ? globalLogOutDispatch() : navigate(Routes.login);
+      if (item === MenuItemsAvatar.PROFIL && authState.isLoggedIn) {
+        navigate(Routes.profil);
+      } else if (authState.isLoggedIn) {
+        globalLogOutDispatch();
+      } else {
+        navigate(Routes.login);
+      }
     },
     [authState.isLoggedIn, globalLogOutDispatch, navigate]
   );
+
+  // const handleItemMenu = useCallback(
+  //   (item: MenuItemsAvatar) => {
+  //     authState.isLoggedIn ? globalLogOutDispatch() : navigate(Routes.login);
+  //   },
+  //   [authState.isLoggedIn, globalLogOutDispatch, navigate]
+  // );
 
   return (
     <Box sx={{ flexGrow: 0, width: "5vw" }}>

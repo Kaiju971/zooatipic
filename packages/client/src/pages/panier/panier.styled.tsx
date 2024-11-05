@@ -80,7 +80,7 @@ export const BasketContainer = styled("div")`
 export const BasketRow = styled("div")`
   width: 100%;
   display: grid;
-  grid-template-columns: 20% 30% 15% 15% 15% 5%;
+  grid-template-columns: 15% 15% 20% 15% 15% 15% 5%;
   padding-bottom: 0.5%;
   justify-items: start;
   align-items: center;

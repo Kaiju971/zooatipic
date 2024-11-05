@@ -17,7 +17,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import * as S from "./accordeon.styled";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
+import { BoxContainer } from "./accordeon.styled";
 
 const Accordeon: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -91,8 +92,143 @@ const Accordeon: React.FC = () => {
             background: "rgba(198, 186, 147, 0.5)",
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          <Box
+            component="form"
+            sx={{ "& > :not(style)": { m: 1, width: "15%" } }}
+            noValidate
+            autoComplete="off"
+            display="flex"
+            marginLeft="0%"
+          >
+            <TextField
+              id="standard-basic"
+              label="Numéro de rue"
+              variant="standard"
+              InputLabelProps={{
+                sx: {
+                  color: "orange", // Couleur du label
+                  "&.Mui-focused": {
+                    color: "orange", // Couleur du label lorsque l'input est en focus
+                  },
+                },
+              }}
+              InputProps={{
+                sx: {
+                  color: "black", // Couleur du texte saisi
+                  "&::before": {
+                    borderBottom: "1px solid orange", // Couleur de la ligne avant focus
+                  },
+                  "&:hover:not(.Mui-disabled)::before": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne au survol
+                  },
+                  "&.Mui-focused::after": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne après focus
+                  },
+                },
+              }}
+            />
+          </Box>
+          <Box
+            component="form"
+            sx={{ "& > :not(style)": { m: 1, width: "100%" } }}
+            noValidate
+            autoComplete="off"
+            display="flex"
+            marginLeft="0%"
+          >
+            <TextField
+              id="standard-basic"
+              label="Adresse"
+              variant="standard"
+              InputLabelProps={{
+                sx: {
+                  color: "orange", // Couleur du label
+                  "&.Mui-focused": {
+                    color: "orange", // Couleur du label lorsque l'input est en focus
+                  },
+                },
+              }}
+              InputProps={{
+                sx: {
+                  color: "black", // Couleur du texte saisi
+                  "&::before": {
+                    borderBottom: "1px solid orange", // Couleur de la ligne avant focus
+                  },
+                  "&:hover:not(.Mui-disabled)::before": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne au survol
+                  },
+                  "&.Mui-focused::after": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne après focus
+                  },
+                },
+              }}
+            />
+          </Box>
+          <Box
+            component="form"
+            sx={{ "& > :not(style)": { m: 1, width: "50%" } }}
+            noValidate
+            autoComplete="off"
+            display="flex"
+            marginLeft="0%"
+          >
+            <TextField
+              id="standard-basic"
+              label="Code Postal"
+              variant="standard"
+              InputLabelProps={{
+                sx: {
+                  color: "orange", // Couleur du label
+                  "&.Mui-focused": {
+                    color: "orange", // Couleur du label lorsque l'input est en focus
+                  },
+                },
+              }}
+              InputProps={{
+                sx: {
+                  width: "40%",
+                  color: "black", // Couleur du texte saisi
+                  "&::before": {
+                    borderBottom: "1px solid orange", // Couleur de la ligne avant focus
+                  },
+                  "&:hover:not(.Mui-disabled)::before": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne au survol
+                  },
+                  "&.Mui-focused::after": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne après focus
+                  },
+                },
+              }}
+            />
+
+            <TextField
+              id="standard-basic"
+              label="Ville"
+              variant="standard"
+              InputLabelProps={{
+                sx: {
+                  color: "orange", // Couleur du label
+                  "&.Mui-focused": {
+                    color: "orange", // Couleur du label lorsque l'input est en focus
+                  },
+                },
+              }}
+              InputProps={{
+                sx: {
+                  color: "black", // Couleur du texte saisi
+                  "&::before": {
+                    borderBottom: "1px solid orange", // Couleur de la ligne avant focus
+                  },
+                  "&:hover:not(.Mui-disabled)::before": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne au survol
+                  },
+                  "&.Mui-focused::after": {
+                    borderBottom: "2px solid orange", // Couleur de la ligne après focus
+                  },
+                },
+              }}
+            />
+          </Box>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -133,41 +269,169 @@ const Accordeon: React.FC = () => {
             background: "rgba(198, 186, 147, 0.5)",
           }}
         >
-          <Box
-            component="form"
-            sx={{ "& > :not(style)": { m: 1, width: "15%" } }}
-            noValidate
-            autoComplete="off"
-            display="flex"
-            marginLeft="0%"
-          >
-            <TextField
-              id="standard-basic"
-              label="Numéro de rue"
-              variant="standard"
-              InputLabelProps={{
-                sx: {
-                  color: "orange", // Couleur du label
+          <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                sx={{
+                  color: "#FFC700",
+                  fontSize: "1.2rem",
                   "&.Mui-focused": {
-                    color: "orange", // Couleur du label lorsque l'input est en focus
+                    color: "#FFC700",
                   },
-                },
-              }}
-              InputProps={{
-                sx: {
-                  color: "black", // Couleur du texte saisi
-                  "&::before": {
-                    borderBottom: "1px solid orange", // Couleur de la ligne avant focus
+                  "&.MuiInputLabel-shrink": {
+                    fontSize: "1.2rem", // Ajustez cette valeur pour la taille souhaitée lorsqu'il flotte
                   },
-                  "&:hover:not(.Mui-disabled)::before": {
-                    borderBottom: "2px solid orange", // Couleur de la ligne au survol
+                }}
+              >
+                Ancien mot de passe
+              </InputLabel>
+
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
                   },
-                  "&.Mui-focused::after": {
-                    borderBottom: "2px solid orange", // Couleur de la ligne après focus
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
                   },
-                },
-              }}
-            />
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  input: {
+                    color: "black",
+                    fontSize: "1.2rem", // Ajustez cette valeur pour modifier la taille du texte
+                  },
+                }}
+                label="Ancien mot de passe"
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                sx={{
+                  color: "#FFC700",
+                  fontSize: "1.2rem",
+                  "&.Mui-focused": {
+                    color: "#FFC700",
+                  },
+                  "&.MuiInputLabel-shrink": {
+                    fontSize: "1.2rem", // Ajustez cette valeur pour la taille souhaitée lorsqu'il flotte
+                  },
+                }}
+              >
+                Nouveau mot de passe
+              </InputLabel>
+
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  input: {
+                    color: "black",
+                    fontSize: "1.2rem", // Ajustez cette valeur pour modifier la taille du texte
+                  },
+                }}
+                label="Nouveau mot de passe"
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                sx={{
+                  color: "#FFC700",
+                  fontSize: "1.2rem",
+                  "&.Mui-focused": {
+                    color: "#FFC700",
+                  },
+                  "&.MuiInputLabel-shrink": {
+                    fontSize: "1.2rem", // Ajustez cette valeur pour la taille souhaitée lorsqu'il flotte
+                  },
+                }}
+              >
+                Confirmer le nouveau mot de passe
+              </InputLabel>
+
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#FFC700",
+                  },
+                  input: {
+                    color: "black",
+                    fontSize: "1.2rem", // Ajustez cette valeur pour modifier la taille du texte
+                  },
+                }}
+                label="Confirmer le nouveau mot de passe"
+              />
+            </FormControl>
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -189,10 +453,30 @@ const Accordeon: React.FC = () => {
             borderColor: "7A6E41",
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          <Button
+            variant="contained"
+            disableElevation
+            sx={{
+              height:"8vh",
+              color: "white",
+              borderColor:"black",
+              backgroundColor: "#FF0000",
+              borderRadius: "10px",
+              boxShadow: "0px 4px 10px #A30000",
+              "&:hover": {
+                backgroundColor: "#A30000", // Changer la couleur de fond au survol
+                boxShadow: "1px 6px 16px #black", // Augmenter l'intensité de l'ombre
+                color: "dark", // Changer la couleur du texte au survol
+              },
+            }}
+          >
+            SUPPRIMER MON COMPTE
+          </Button>
+          <BoxContainer>
+            <Typography variant="h6">Light mode/Dark mode</Typography>
+            <Switch />
+          </BoxContainer>
         </AccordionDetails>
-        <Switch />
       </Accordion>
       <Button
         variant="contained"

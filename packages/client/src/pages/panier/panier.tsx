@@ -65,16 +65,19 @@ const Panier: React.FC<PanierProps> = ({ onNext }) => {
         <S.Triangle2 />
         <S.BasketRow>
           <div></div>
-          <Typography variant="h4" fontWeight="900">
+          <Typography variant="h6" fontWeight="900">
+            Date de visite
+          </Typography>
+          <Typography variant="h6" fontWeight="900">
             Produits
           </Typography>
-          <Typography variant="h4" fontWeight="900">
+          <Typography variant="h6" fontWeight="900">
             Prix
           </Typography>
-          <Typography variant="h4" fontWeight="900">
+          <Typography variant="h6" fontWeight="900">
             Quantité
           </Typography>
-          <Typography variant="h4" fontWeight="900">
+          <Typography variant="h6" fontWeight="900">
             Total
           </Typography>
           <b></b>
@@ -95,7 +98,8 @@ const Panier: React.FC<PanierProps> = ({ onNext }) => {
                 )}
               </div>
             </S.ImageStock>
-            <S.Article variant="h4"> {item.article}</S.Article>
+            <div>{item.date_visite} </div>
+            <S.Article variant="h6"> {item.article}</S.Article>
             <div>{item.prix} €</div>
             <S.Calculator>
               <S.StyledButtonMoins
