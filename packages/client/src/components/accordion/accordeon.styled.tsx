@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const MainContainer = styled("div")`
-  background-color: #d95830;
+
   width: 100%;
   height: 30vh;
+ 
 `;
 
 export const Box = styled("div")`
@@ -44,4 +45,16 @@ export const Icon = styled.svg`
   margin-right: 5px;
   filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3)); /* Ombre de l'icône */
 `;
+
+export const BoxContainer = styled("div")`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+  width: 60vw;
+  padding-top: 1rem;
+`;
+
+
 
