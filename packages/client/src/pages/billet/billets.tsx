@@ -68,7 +68,7 @@ const Billets: React.FC = () => {
       categorie_ventes: "ticket",
     });
   };
-  console.log("dateValue" + dateValue);
+
   return (
     <S.MainContainer>
       <S.Title>

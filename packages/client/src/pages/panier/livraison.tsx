@@ -16,7 +16,7 @@ import {
   saveCommandeHead,
 } from "../../utils/basket";
 import { User } from "../../types/users";
-import { fetchUserBy } from "../../api/fetchers/getUser";
+import { getUserBy } from "../../api/fetchers/getUser";
 
 import * as S from "./panier.styled";
 
@@ -74,7 +74,7 @@ const Livraison: React.FC<PanierProps> = ({ onNext }) => {
     isError,
   } = useQuery<UserData>({
     queryKey: ["userby", authState.userId],
-    queryFn: () => fetchUserBy({ userId: authState.userId ?? "" }),
+    queryFn: () => getUserBy({ userId: authState.userId ?? "" }),
     enabled: !!authState.userId,
     gcTime: 2000,
   });

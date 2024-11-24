@@ -11,7 +11,7 @@ type Params = {
   password?: string | undefined;
 };
 
-export const fetchUserBy = async ({
+export const getUserBy = async ({
   userId,
   email,
   password,

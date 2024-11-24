@@ -1,5 +1,4 @@
 import { styled } from "@mui/material/styles";
-import img from "../../images/fon.jpg";
 import { Box, Tab, Tabs } from "@mui/material";
 
 const sharedStyleBox = `
@@ -13,8 +12,6 @@ export const MainContainer = styled("div")`
   padding-bottom: 3vh;
   min-height: 100vh;
   color: ${({ theme }) => theme.palette.colorVertMenu.main};
-  background: url(${img}) no-repeat center center;
-  background-size: cover;
 `;
 
 export const InsidedContainer = styled("div")`

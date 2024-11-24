@@ -30,6 +30,7 @@
     "history": "^5.3.0",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
+    "material-react-table": "^3.0.1",
     "material-ui-audio-player": "^1.7.1",
     "mui-validate": "^1.2.2",
     "notistack": "^3.0.1",

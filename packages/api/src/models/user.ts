@@ -6,14 +6,20 @@ export const table = "users";
 export const getUsers = async () => {
   const results = await knex<User>(table)
     .select(
+      "users.id",
       "users.nom",
       "users.prenom",
       "users.email",
       "users.password",
       "users.image",
-      "roles.role"
+      "roles.role",
+      "adresses.numero",
+      "adresses.adresse",
+      "adresses.code_postal",
+      "adresses.ville"
     )
-    .innerJoin("roles", "roles.id", "users.id_role");
+    .leftJoin("roles", "roles.id", "users.id_role")
+    .leftJoin("adresses", "adresses.id", "users.id_adresse");
   if (results && results.length) {
     return results;
   }

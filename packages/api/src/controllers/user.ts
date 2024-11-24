@@ -76,7 +76,7 @@ export const getAllUsers =
     if (!user) {
       return res.status(404).send({ message: "Aucun utilisateur" });
     }
-    res.status(200).send({ results: [user] });
+    res.status(200).send({ results: user });
   };
 
 export const getUserBy =

@@ -1,91 +1,252 @@
-import { Box, Typography, useMediaQuery } from "@mui/material";
-import { useEffect, useState, useContext, useCallback } from "react";
+import { Box, Typography } from "@mui/material";
+import { useContext, useMemo } from "react";
 import AuthContext from "../../store/auth/AuthContextProvider";
-import Auth from "./auth";
-import CategoryIcon from "@mui/icons-material/Category";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import WallpaperIcon from "@mui/icons-material/Wallpaper";
-import RoofingIcon from "@mui/icons-material/Roofing";
-import HandymanIcon from "@mui/icons-material/Handyman";
-// import PhotoService from "../../components/photoService";
-import axios from "../../axios";
-import { User } from "../../types/users";
-import FormUsersList from "../../components/userListForm/formUsersList";
-// import ProduitService from "../../components/produitService";
-import { useSnackbar } from "notistack";
-// import CardUtilisateur from "./cartUtilisateur";
-import { theme } from "../../app/app";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import {
+  MRT_EditActionButtons,
+  MaterialReactTable,
 
+  // createRow,
+  type MRT_ColumnDef,
+  type MRT_Row,
+  useMaterialReactTable,
+} from "material-react-table";
+
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import HandymanIcon from "@mui/icons-material/Handyman";
+import { User } from "../../types/users";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "../../api/fetchers/getUsers";
 import * as S from "./admin.styled";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+interface UserResponse {
+  results: User[];
 }
 
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-};
-
 const Admin: React.FC = () => {
-  const { enqueueSnackbar } = useSnackbar();
-  const { authState, changeCounter } = useContext(AuthContext);
-  const [value, setValue] = useState(0);
-  const [userdata, setUserdata] = useState<User[]>([]);
-  const matchDownLg = useMediaQuery(theme.breakpoints.down("lg"));
+  const { authState } = useContext(AuthContext);
 
-  const showError = useCallback(
-    (err: any, mess: string) => {
-      enqueueSnackbar(mess, { variant: "error" });
-      console.error(err);
-    },
-    [enqueueSnackbar]
+  const {
+    data: userdata,
+    isLoading: isLoadingUsers,
+    isFetching: isFetchingUsers,
+    isError: isLoadingUsersError,
+    refetch,
+  } = useQuery<UserResponse>({
+    queryKey: ["getallusers"],
+    queryFn: getUsers,
+    enabled: authState.isLoggedIn,
+  });
+
+  //DELETE action
+  const openDeleteConfirmModal = (row: MRT_Row<User>) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      // deleteUser(row.original.id);
+    }
+  };
+
+  const columns = useMemo<MRT_ColumnDef<User>[]>(
+    () => [
+      {
+        accessorKey: "id",
+        header: "Id",
+        enableEditing: false,
+        size: 80,
+      },
+      {
+        accessorKey: "image",
+        header: "Avatar",
+        enableEditing: false,
+        Cell: ({ row }) => {
+          const imageData = row.original.image?.data;
+          if (!imageData) return <span>No Image</span>;
+
+          // Преобразование в Base64
+          const base64String = btoa(
+            String.fromCharCode(...new Uint8Array(imageData))
+          );
+
+          return (
+            <img
+              src={`data:image/png;base64,${base64String}`}
+              alt="Avatar"
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+            />
+          );
+        },
+      },
+      {
+        accessorKey: "nom",
+        header: "Nom",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+      {
+        accessorKey: "prenom",
+        header: "Prènom",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+      {
+        accessorKey: "role",
+        header: "Role",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+      {
+        accessorKey: "email",
+        header: "Email",
+        muiEditTextFieldProps: {
+          type: "email",
+          required: true,
+        },
+      },
+      {
+        accessorKey: "numero",
+        header: "Numéro",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+      {
+        accessorKey: "adresse",
+        header: "Adresse",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+      {
+        accessorKey: "code_postal",
+        header: "Code postal",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+      {
+        accessorKey: "ville",
+        header: "Ville",
+        muiEditTextFieldProps: {
+          required: true,
+        },
+      },
+    ],
+
+    []
   );
 
-  useEffect(() => {
-    const fetchGet = async () => {
-      const headers = {
-        "x-access-token": authState.authToken,
-        "Content-Type": "application/json",
-      };
-      await axios
-        .get(`users`, { headers })
-        .then((response) => {
-          setUserdata(response.data.results[0]);
-        })
-        .catch((error) => {
-          showError(
-            error,
-            error.hasOwnProperty("response")
-              ? error?.response?.data.error
-              : error.toString()
-          );
-        });
-    };
+  const table = useMaterialReactTable({
+    columns,
+    data: userdata?.results ?? [],
+    createDisplayMode: "modal", //default ('row', and 'custom' are also available)
+    editDisplayMode: "modal", //default ('row', 'cell', 'table', and 'custom' are also available)
+    enableEditing: true,
+    getRowId: (row) => row?.id?.toString() ?? "",
+    muiToolbarAlertBannerProps: isLoadingUsersError
+      ? {
+          color: "error",
+          children: "Error loading data",
+        }
+      : undefined,
+    muiTableContainerProps: {
+      sx: {
+        minHeight: "500px",
+      },
+    },
+    // onCreatingRowCancel: () => setValidationErrors({}),
+    // onCreatingRowSave: handleCreateUser,
+    // onEditingRowCancel: () => setValidationErrors({}),
+    // onEditingRowSave: handleSaveUser,
+    //optionally customize modal content
+    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
+      <>
+        <DialogTitle variant="h3">Create New User</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
+          {internalEditComponents} {/* or render custom edit components here */}
+        </DialogContent>
+        <DialogActions>
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
+          <MRT_EditActionButtons variant="text" table={table} row={row} />
+        </DialogActions>
+      </>
+    ),
+    //optionally customize modal content
+    renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
+      <>
+        <DialogTitle variant="h3">Edit User</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+        >
+          {internalEditComponents} {/* or render custom edit components here */}
+        </DialogContent>
+        <DialogActions>
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
+          <MRT_EditActionButtons variant="text" table={table} row={row} />
+        </DialogActions>
+      </>
+    ),
+    renderRowActions: ({ row, table }) => (
+      <Box sx={{ display: "flex", gap: "1rem" }}>
+        <Tooltip title="Edit">
+          <IconButton onClick={() => table.setEditingRow(row)}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton color="error" onClick={() => openDeleteConfirmModal(row)}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    ),
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
+        <Tooltip arrow title="Refresh Data">
+          <IconButton onClick={() => refetch()}>
+            <RefreshIcon />
+          </IconButton>
+        </Tooltip>
+        <Button
+          variant="contained"
+          onClick={() => {
+            table.setCreatingRow(true); //simplest way to open the create row modal with no default values
+            //or you can pass in a row object to set default values with the `createRow` helper function
+            // table.setCreatingRow(
+            //   createRow(table, {
+            //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
+            //   }),
+            // );
+          }}
+        >
+          Create New User
+        </Button>
+      </>
+    ),
+    state: {
+      isLoading: isLoadingUsers,
+      // isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
+      showAlertBanner: isLoadingUsersError,
+      showProgressBars: isFetchingUsers,
+    },
+  });
 
-    fetchGet();
-  }, [authState.authToken, changeCounter, showError]);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  if (isLoadingUsers) return <p>Loading...</p>;
+  if (isLoadingUsersError) return <p>Error loading data</p>;
+  console.log(userdata?.results ?? []);
 
   return (
     <S.MainContainer>
@@ -99,70 +260,10 @@ const Admin: React.FC = () => {
         <Typography variant="body2" sx={{ pl: 24, pb: 4 }}>
           site managment
         </Typography>
-
-        <S.StyledBox>
-          <S.StyledTabs
-            horizontal={matchDownLg}
-            orientation={matchDownLg ? "horizontal" : "vertical"}
-            variant="scrollable"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-          >
-            <S.StyledTab
-              icon={<ManageAccountsIcon />}
-              iconPosition="start"
-              label="Utilisateurs"
-              sx={{
-                justifyContent: "start",
-              }}
-            />
-            <S.StyledTab
-              icon={<WallpaperIcon />}
-              iconPosition="start"
-              label="Photos service"
-              sx={{
-                justifyContent: "start",
-              }}
-            />
-            <S.StyledTab
-              icon={<CategoryIcon />}
-              iconPosition="start"
-              label="Categories"
-              sx={{
-                justifyContent: "start",
-              }}
-            />
-            <S.StyledTab
-              icon={<RoofingIcon />}
-              iconPosition="start"
-              label="Produits"
-              sx={{
-                justifyContent: "start",
-              }}
-            />
-          </S.StyledTabs>
-          <TabPanel value={value} index={0}>
-            <S.StyledTabPanelBox>
-              {/* <S.CartGridContainer horizontal={matchDownLg}>
-                {userdata?.map((item, index) => (
-                  <CardUtilisateur key={index} element={item} />
-                ))}
-              </S.CartGridContainer> */}
-              <Auth />
-              <FormUsersList />
-            </S.StyledTabPanelBox>
-          </TabPanel>
-          {/* <TabPanel value={value} index={1}>
-            <PhotoService />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <ProduitService indexTab={value} />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <ProduitService indexTab={value} />
-          </TabPanel> */}
-        </S.StyledBox>
+        <MaterialReactTable
+          key={userdata ? userdata.results.length : 0}
+          table={table}
+        />
       </S.InsidedContainer>
     </S.MainContainer>
   );

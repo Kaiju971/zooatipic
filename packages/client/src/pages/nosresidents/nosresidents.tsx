@@ -28,6 +28,9 @@ const Nosrésidents: React.FC = () => {
     queryFn: fetchCategories,
   });
 
+  console.log("categoriedata ");
+  console.log(categoriedata);
+
   const openRace = (animalId: number, animal: string, background: string) => {
     if (animal === "LABORATOIRE") navigate(Routes.laboratoire);
     else {
