@@ -7,6 +7,7 @@ import ScrollButton from "../components/scrollButton";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 //import Banniere from "../components/banniere/banniere";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 //  import FaviconTheme from "../shared/faviconTheme";
 import React from "react";
@@ -161,14 +162,23 @@ theme = responsiveFontSizes(theme);
 const App: React.FC = () => (
   <ThemeProvider theme={responsiveFontSizes(theme)}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      {/* <FaviconTheme /> */}
-      <Topbar />
-      {/* <Banniere /> */}
-      <SnackbarProvider>
-        <AppRoutes />
-        <ScrollButton />
-      </SnackbarProvider>
-      <Footer />
+      <PayPalScriptProvider
+        options={{
+          clientId:
+            "AdASPIfPTNuzWoXgZfGlAsYb3mrKFnZi0hlWdL3R2ZXI94w8vpMwvaz2vdC6YnAxADyV8JDxx7Obxsro",
+          currency: "USD",
+        }}
+      >
+        {/* <FaviconTheme /> */}
+        <Topbar />
+        {/* <Banniere /> */}
+        <SnackbarProvider>
+          <AppRoutes />
+
+          <ScrollButton />
+        </SnackbarProvider>
+        <Footer />
+      </PayPalScriptProvider>
     </LocalizationProvider>
   </ThemeProvider>
 );
