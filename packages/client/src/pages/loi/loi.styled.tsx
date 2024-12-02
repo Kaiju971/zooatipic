@@ -1,11 +1,25 @@
+import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const MainContainer = styled("div")`
-  color: darkred;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0;
-  justify-content: center;
-  text-align: center;
+  height: 100%;
+  padding-top: 25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: ${({ theme }) => theme.palette.secondary.main};
+  padding-left: 16px;
+  padding-right: 16px;
+`;
+
+export const ArticleContainer = styled("div")`
+  /* border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center; */
+`;
+
+export const Title = styled(Typography)`
+  padding: 16px;
 `;

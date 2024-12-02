@@ -6,8 +6,6 @@ import NotFound from "../pages/notFound/notFound";
 import AuthContext from "../store/auth/AuthContextProvider";
 import { UserRoles } from "../constants/roles";
 
-// import { UserRoles } from "../constants/roles";
-
 const Accueil = lazy(() => import("../pages/accueil/accueil"));
 const Connexion = lazy(() => import("../pages/connexion"));
 const Admin = lazy(() => import("../pages/admin/admin"));
@@ -20,7 +18,7 @@ const Profil = lazy(() => import("../pages/profil"));
 const Laboratoire = lazy(() => import("../pages/laboratoire"));
 const Billets = lazy(() => import("../pages/billet"));
 const Livraison = lazy(() => import("../pages/panier/livraison"));
-
+const Loi = lazy(() => import("../pages/loi"));
 const Auth = lazy(() => import("../pages/admin/auth"));
 
 export const AppRoutes: React.FunctionComponent = () => {
@@ -42,7 +40,7 @@ export const AppRoutes: React.FunctionComponent = () => {
       <Route path={Routes.laboratoire} element={withSuspense(Laboratoire)} />
       <Route path={Routes.billets} element={withSuspense(Billets)} />
       <Route path={Routes.livrasion} element={withSuspense(Livraison)} />
-
+      <Route path={Routes.loi} element={withSuspense(Loi)} />
       <Route path="*" element={<NotFound />} />
     </Router>
   );
