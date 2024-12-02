@@ -1,6 +1,8 @@
 import { styled } from "@mui/material/styles";
 import panier from "../../images/background_panier.jpg";
 import { Button, Radio, Typography } from "@mui/material";
+import GooglePay from "./GooglePayButton";
+// import GooglePay from "@google-pay/button-react";
 
 export const FlexBox = styled("div")`
   width: 100%;
@@ -305,7 +307,7 @@ export const Sell8 = styled("div")`
 `;
 
 export const PaiementContainer = styled("div")`
-  width: 40%;
+  width: 80%;
   min-height: 70vh;
   display: flex;
   flex-direction: column;
@@ -328,4 +330,8 @@ export const StyledTitreFildPaiement = styled(Typography)`
 export const Ligne = styled("hr")`
   width: 20%;
   color: ${({ theme }) => theme.palette.primary.main};
+`;
+
+export const GooglePayButton = styled(GooglePay)`
+  /* min-width: 140px; */
 `;
