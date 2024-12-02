@@ -15,11 +15,9 @@ import { AxiosError } from "axios";
 import { Box, Typography } from "@mui/material";
 import { ValidationGroup } from "mui-validate";
 import TextFieldValidated from "../../components/textFildValidated";
-// import Paypal from "../../images/paypal.png";
 import IPay from "../../images/ipay.png";
-// import GPay from "../../images/gpay.png";
 import GooglePay from "./GooglePayButton";
-// import ButtonWrapper from "./payPal";
+import ButtonWrapper from "./payPal";
 
 import * as S from "./panier.styled";
 
@@ -28,17 +26,7 @@ type CommandeData = {
   commandeRows: CommandesRows[];
 };
 
-// const PayPal = () => {
-//   window.open(
-//     "https://www.paypal.com/webapps/mpp/paypal-popup",
-//     "WIPaypal",
-//     "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700"
-//   );
-//   return false;
-// };
-
 const IPayHandler = () => {};
-// const GPayHandler = () => {};
 
 const Paiement: React.FC = () => {
   const location = useLocation();
@@ -325,19 +313,7 @@ const Paiement: React.FC = () => {
           </S.FlexBoxCentered>
 
           <S.FlexBoxCentered>
-            {/* <PrimaryButton
-              label={""}
-              onClick={() => PayPal()}
-              sx={{
-                width: "31%",
-                height: "6.5vh",
-                background: `url(${Paypal})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                borderRadius: "11px",
-              }}
-            /> */}
-            {/* <ButtonWrapper /> */}
+            <ButtonWrapper />
             <PrimaryButton
               label={""}
               onClick={() => IPayHandler()}
@@ -350,18 +326,7 @@ const Paiement: React.FC = () => {
                 borderRadius: "11px",
               }}
             />
-            {/* <PrimaryButton
-              label={""}
-              onClick={() => GPayHandler()}
-              sx={{
-                width: "31%",
-                height: "6.5vh",
-                background: `url(${GPay})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                borderRadius: "11px",
-              }}
-            /> */}
+
             <GooglePay />
           </S.FlexBoxCentered>
         </Box>
