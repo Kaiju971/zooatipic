@@ -12,4 +12,5 @@ export enum Routes {
   laboratoire = "/laboratoire",
   billets = "/billets",
   livrasion = "/livrasion",
+  loi = "/loi/:titreLoi",
 }

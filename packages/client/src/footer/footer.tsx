@@ -1,21 +1,14 @@
-// import {  useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import ifaw from "../images/ifaw.png";
 import spa from "../images/SPA.png";
 import wwf from "../images/WWF.png";
 import hirobot from "../images/hi-robot.gif";
-
-// import { Helmet } from "react-helmet";
-// import { useLocation } from "react-router-dom";
-// import { Routes } from "../app/appRoutes";
-// import { theme } from "../../app/app";
 import React from "react";
-
-import * as S from "./footer.styled";
 import { Typography, useMediaQuery } from "@mui/material";
 import { theme } from "../app/app";
-// import { useNavigate } from "react-router";
-// import { Route, Routes } from "react-router";
+import { useNavigate } from "react-router";
+
+import * as S from "./footer.styled";
 
 const getCurrentYear = (): number => {
   const currentDate = new Date();
@@ -23,13 +16,9 @@ const getCurrentYear = (): number => {
 };
 
 const Footer: React.FC = () => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  const mediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate();
 
-  // if (location.pathname === Routes.cartproduit) {
-  //   return null;
-  // }
+  const mediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <S.MainContainer>
@@ -94,12 +83,14 @@ const Footer: React.FC = () => {
             </Typography>
           </S.TextContainer>
         </Grid>
-        <Grid xs={2}>
+        <Grid
+          xs={2}
+          sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
+        >
           <S.Robot src={hirobot} alt="chatbot" />
         </Grid>
       </Grid>
       <Grid
-        // onClick={() => navigate(Routes.vente)}
         container
         sx={{
           " & .MuiGrid-root": {
@@ -113,7 +104,8 @@ const Footer: React.FC = () => {
         <Grid xs={1.5}>
           <Typography
             variant="body1"
-            sx={{ color: "primary.main", width: "100%" }}
+            sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
+            onClick={() => navigate("loi/Mentions Légales")} // Navigue vers la section CGV Billetterie
           >
             Mentions légales
           </Typography>
@@ -121,7 +113,8 @@ const Footer: React.FC = () => {
         <Grid xs={1.5}>
           <Typography
             variant="body1"
-            sx={{ color: "primary.main", width: "100%" }}
+            sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
+            onClick={() => navigate(`loi/Billeterie`)}
           >
             CGV Billetterie
           </Typography>
@@ -129,7 +122,8 @@ const Footer: React.FC = () => {
         <Grid xs={1.5}>
           <Typography
             variant="body1"
-            sx={{ color: "primary.main", width: "100%" }}
+            sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
+            onClick={() => navigate("loi/Hébergement")}
           >
             CGV Hébergement
           </Typography>
@@ -137,7 +131,8 @@ const Footer: React.FC = () => {
         <Grid xs={1.5}>
           <Typography
             variant="body1"
-            sx={{ color: "primary.main", width: "100%" }}
+            sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
+            onClick={() => navigate("loi/Règlement")}
           >
             Règlement Intérieur
           </Typography>
@@ -145,7 +140,8 @@ const Footer: React.FC = () => {
         <Grid xs={1.5}>
           <Typography
             variant="body1"
-            sx={{ color: "primary.main", width: "10%" }}
+            sx={{ color: "primary.main", width: "10%", cursor: "pointer" }}
+            onClick={() => navigate("loi/FAQ")}
           >
             FAQ
           </Typography>
@@ -153,7 +149,8 @@ const Footer: React.FC = () => {
         <Grid xs={1.5}>
           <Typography
             variant="body1"
-            sx={{ color: "primary.main", width: "100%" }}
+            sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
+            onClick={() => navigate("loi/Politique")}
           >
             Politique de Confidentialité
           </Typography>

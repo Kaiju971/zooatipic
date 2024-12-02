@@ -1,1 +1,1 @@
-export { default } from "./billeterie";
+export { default } from "./loi";

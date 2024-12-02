@@ -17,6 +17,7 @@ import * as articlesModel from "./src/models/articles";
 import * as photosModel from "./src/models/photos";
 import * as stockModel from "./src/models/stock";
 import * as commandesModel from "./src/models/commandes";
+import * as loiModel from "./src/models/loi";
 
 import {
   createNewAnimal,
@@ -72,6 +73,7 @@ import {
   getAllCommandes,
   updateCommandeById,
 } from "./src/controllers/commandes";
+import { getLoiByTitre, updateLoiById } from "./src/controllers/loi";
 
 const router = Router();
 
@@ -97,6 +99,7 @@ router.get(
   getPhotosArticles(photosModel)
 );
 router.get("/photosproduits/:id", getPhotosProduitsByCategorie(photosModel));
+router.get("/loi/:titre", getLoiByTitre(loiModel));
 
 router.post("/login", login(userModel));
 router.post("/createuser", upload.single("file"), createNewUser(userModel));
@@ -119,6 +122,7 @@ router.post("/updatesujet", updateSujetById(avisModel));
 router.post("/updatearticle", updatearticleById(articlesModel));
 router.post("/updatestock", updateStockById(stockModel));
 router.post("/updatecommande", updateCommandeById(commandesModel));
+router.post("/updateloi", updateLoiById(loiModel));
 
 router.delete("/deluser/:id", deleteUser(userModel));
 router.delete("/delrole/:id", deleteRole(userModel));
