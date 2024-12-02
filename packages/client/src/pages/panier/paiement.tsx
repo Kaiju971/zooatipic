@@ -15,9 +15,11 @@ import { AxiosError } from "axios";
 import { Box, Typography } from "@mui/material";
 import { ValidationGroup } from "mui-validate";
 import TextFieldValidated from "../../components/textFildValidated";
-import Paypal from "../../images/paypal.png";
+// import Paypal from "../../images/paypal.png";
 import IPay from "../../images/ipay.png";
-import GPay from "../../images/gpay.png";
+// import GPay from "../../images/gpay.png";
+import GooglePay from "./GooglePayButton";
+// import ButtonWrapper from "./payPal";
 
 import * as S from "./panier.styled";
 
@@ -26,22 +28,23 @@ type CommandeData = {
   commandeRows: CommandesRows[];
 };
 
-const PayPal = () => {
-  window.open(
-    "https://www.paypal.com/webapps/mpp/paypal-popup",
-    "WIPaypal",
-    "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700"
-  );
-  return false;
-};
+// const PayPal = () => {
+//   window.open(
+//     "https://www.paypal.com/webapps/mpp/paypal-popup",
+//     "WIPaypal",
+//     "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700"
+//   );
+//   return false;
+// };
 
 const IPayHandler = () => {};
-const GPayHandler = () => {};
+// const GPayHandler = () => {};
 
 const Paiement: React.FC = () => {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
   const { authState } = useContext(AuthContext);
+
   const [validationForm, setValidationForm] = useState(false);
   const [dataRowComande, setDataRowCommande] = useState<CommandesRows[]>();
   const [dataHeadComande, setDataHeadPanier] = useState<CommandesHead>();
@@ -322,7 +325,7 @@ const Paiement: React.FC = () => {
           </S.FlexBoxCentered>
 
           <S.FlexBoxCentered>
-            <PrimaryButton
+            {/* <PrimaryButton
               label={""}
               onClick={() => PayPal()}
               sx={{
@@ -333,7 +336,8 @@ const Paiement: React.FC = () => {
                 backgroundSize: "cover",
                 borderRadius: "11px",
               }}
-            />
+            /> */}
+            {/* <ButtonWrapper /> */}
             <PrimaryButton
               label={""}
               onClick={() => IPayHandler()}
@@ -346,7 +350,7 @@ const Paiement: React.FC = () => {
                 borderRadius: "11px",
               }}
             />
-            <PrimaryButton
+            {/* <PrimaryButton
               label={""}
               onClick={() => GPayHandler()}
               sx={{
@@ -357,7 +361,8 @@ const Paiement: React.FC = () => {
                 backgroundSize: "cover",
                 borderRadius: "11px",
               }}
-            />
+            /> */}
+            <GooglePay />
           </S.FlexBoxCentered>
         </Box>
       </S.PaiementContainer>
