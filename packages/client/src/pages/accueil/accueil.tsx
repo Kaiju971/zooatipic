@@ -6,7 +6,7 @@ import laboratoire from "../../images/laboratoire.jpg";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Avis from "../../components/avis/avis";
+import AvisShow from "../../components/avis/avis";
 
 import * as S from "./accueil.styled";
 
@@ -70,7 +70,7 @@ const Home: React.FC = () => {
           <S.Img src={laboratoire} width="40vw" height="50vh" />
         </S.ImgContainer>
       </S.GridBox>
-      <Avis />
+      <AvisShow />
     </S.MainContainer>
   );
 };

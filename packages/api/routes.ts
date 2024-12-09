@@ -58,6 +58,7 @@ import {
   getPhotosArticles,
   getPhotosProduitsByCategorie,
   uploadImage,
+  getPhotosByIdRace,
 } from "./src/controllers/photos";
 import multer from "multer";
 import {
@@ -100,6 +101,7 @@ router.get(
 );
 router.get("/photosproduits/:id", getPhotosProduitsByCategorie(photosModel));
 router.get("/loi/:titre", getLoiByTitre(loiModel));
+router.get("/photosraces/:id", getPhotosByIdRace(photosModel));
 
 router.post("/login", login(userModel));
 router.post("/createuser", upload.single("file"), createNewUser(userModel));

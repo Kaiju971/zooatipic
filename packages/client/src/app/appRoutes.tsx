@@ -12,6 +12,7 @@ const Admin = lazy(() => import("../pages/admin/admin"));
 const Notreparc = lazy(() => import("../pages/notreparc/notreparc"));
 const Nosrésidents = lazy(() => import("../pages/nosresidents"));
 const Produits = lazy(() => import("../pages/produits"));
+const Races = lazy(() => import("../pages/races"));
 const Panier = lazy(() => import("../pages/panier/panierStepper"));
 const Vente = lazy(() => import("../pages/vente"));
 const Profil = lazy(() => import("../pages/profil"));
@@ -34,6 +35,7 @@ export const AppRoutes: React.FunctionComponent = () => {
       <Route path={Routes.notreparc} element={withSuspense(Notreparc)} />
       <Route path={Routes.nosrésidents} element={withSuspense(Nosrésidents)} />
       <Route path={Routes.produits} element={withSuspense(Produits)} />
+      <Route path={Routes.races} element={withSuspense(Races)} />
       <Route path={Routes.panier} element={withSuspense(Panier)} />
       <Route path={Routes.connexion} element={withSuspense(Connexion)} />
       <Route path={Routes.profil} element={withSuspense(Profil)} />

@@ -46,6 +46,21 @@ export const getPhotosProduitsByCategorie =
     res.send({ results: photos });
   };
 
+export const getPhotosByIdRace =
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
+    const { params } = req;
+    const raceId = Number(params.id ?? -1);
+
+    const photos = await model.getPhotosByIdRace(raceId as number);
+
+    if (!photos) {
+      return res.status(404).send({ message: "Pas de photo" });
+    }
+
+    res.send({ results: photos });
+  };
+
 export const uploadImage =
   (model: Photos) =>
   async (req: Request, res: Response): Promise<any> => {

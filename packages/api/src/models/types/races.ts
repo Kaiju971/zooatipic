@@ -31,6 +31,14 @@ export type DataImages = {
   id_article: number | null;
 };
 
+export type DataImagesRaces = {
+  id_animal: number | null;
+  id_race: number | null;
+  race: string;
+  lien: string;
+  description: string;
+};
+
 export type ImagesUpd = {
   id: number;
   animal: string;
