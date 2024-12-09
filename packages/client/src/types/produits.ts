@@ -48,6 +48,7 @@ export type ProduitsWithPhoto = {
   lien: string;
   id_race: number;
   race: string;
+  description: string;
 };
 
 export type Photo = {

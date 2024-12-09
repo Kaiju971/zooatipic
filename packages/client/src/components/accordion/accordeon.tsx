@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -19,6 +19,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as S from "./accordeon.styled";
 import { TextField, Typography } from "@mui/material";
 import { BoxContainer } from "./accordeon.styled";
+import SetAvis from "./setAvis";
 
 const Accordeon: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -255,6 +256,26 @@ const Accordeon: React.FC = () => {
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+          sx={{
+            background:
+              "linear-gradient(0deg, #FFC700 30%, #CC9F00 60%, #997700 100%)",
+          }}
+        >
+          Laisser mon avis
+        </AccordionSummary>
+        <AccordionDetails
+          sx={{
+            background: "rgba(198, 186, 147, 0.5)",
+          }}
+        >
+          <SetAvis />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="panel4-content"
           id="panel4-header"
           sx={{
@@ -457,9 +478,9 @@ const Accordeon: React.FC = () => {
             variant="contained"
             disableElevation
             sx={{
-              height:"8vh",
+              height: "8vh",
               color: "white",
-              borderColor:"black",
+              borderColor: "black",
               backgroundColor: "#FF0000",
               borderRadius: "10px",
               boxShadow: "0px 4px 10px #A30000",

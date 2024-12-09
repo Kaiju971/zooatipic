@@ -5,6 +5,7 @@ export enum Routes {
   login = "/login",
   nosrésidents = "/nosrésidents",
   produits = "/produits/:animalId/:animal/:background",
+  races = "/races/:raceId/:race/:animalId/:animal/:background",
   panier = "/panier",
   notreparc = "/notreparc",
   profil = "/profil",

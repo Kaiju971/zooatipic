@@ -5,27 +5,10 @@ import Box from "@mui/material/Box";
 import Slider from "react-slick";
 import * as S from "./avis.styled";
 import { Typography } from "@mui/material";
-
-interface Label {
-  [index: string]: string;
-}
-
-const labels: Label = {
-  0.5: "Je déconseille",
-  1: "Je déconseille+",
-  1.5: "Mauvais",
-  2: "Mauvais+",
-  2.5: "Moyen",
-  3: "Moyen+",
-  3.5: "Bien",
-  4: "Bien+",
-  4.5: "Excellent",
-  5: "Excellent+",
-};
-
-function getLabelText(value: number) {
-  return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-}
+import { useQuery } from "@tanstack/react-query";
+import { AvisShowType } from "../../types/avis";
+import { getAvis } from "../../api/fetchers/avis";
+import LongText from "../../utils/lirePlus";
 
 interface ArrowProps {
   className?: string;
@@ -87,11 +70,22 @@ const settings = {
   prevArrow: <SamplePrevArrow />,
 };
 
-const ArrayConfig = [1, 2, 3, 4, 5];
+interface AvisData {
+  results: AvisShowType[];
+}
 
-const Avis: React.FC = () => {
-  const [value, setValue] = React.useState<number | null>(2);
-  const [hover, setHover] = React.useState(-1);
+const AvisShow: React.FC = () => {
+  const {
+    data: avisdata,
+    isLoading,
+    isError,
+  } = useQuery<AvisData>({
+    queryKey: ["getavis"],
+    queryFn: () => getAvis(),
+  });
+  console.log(avisdata);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading products</p>;
 
   return (
     <S.MainContainer>
@@ -104,18 +98,8 @@ const Avis: React.FC = () => {
         AVIS CLIENTS
       </Typography>
       <Slider {...settings}>
-        {ArrayConfig.map((item, index) => (
-          <Box
-            key={index}
-            sx={{
-              width: 200,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "3rem",
-              textAlign: "center",
-            }}
-          >
+        {avisdata?.results?.flat().map((item, index) => (
+          <S.Box key={index}>
             <Typography
               variant="h5"
               color="white"
@@ -123,32 +107,39 @@ const Avis: React.FC = () => {
               justifyContent="center"
               sx={{ mt: 0 }}
             >
-              Avis des clients
+              sujet: {item.sujet}
             </Typography>
+            {/* <Typography
+              variant="h5"
+              color="white"
+              display="flex"
+              justifyContent="center"
+              sx={{ mt: 0 }}
+            > */}
+            <LongText text={item.message} />
+            {/* </Typography> */}
             <Rating
-              name={`hover-feedback-${index}`}
+              disabled
               size="large"
-              value={value}
-              precision={0.5}
-              getLabelText={getLabelText}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }}
+              value={item.note || 0}
               emptyIcon={
                 <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
               }
             />
-            {value !== null && (
-              <Box sx={{ mt: 1 }}>{labels[hover !== -1 ? hover : value]}</Box>
-            )}
-          </Box>
+            <Typography
+              variant="h5"
+              color="white"
+              display="flex"
+              justifyContent="center"
+              sx={{ mt: 2 }}
+            >
+              {item.prenom}
+            </Typography>
+          </S.Box>
         ))}
       </Slider>
     </S.MainContainer>
   );
 };
 
-export default Avis;
+export default AvisShow;

@@ -3,31 +3,32 @@ import { Breadcrumbs, ImageListItem, Link, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { ProduitsWithPhoto } from "../../types/produits";
-import { useNavigate, useParams } from "react-router";
-import { fetchProducts } from "../../api/fetchers/produit";
+import { useParams } from "react-router";
+import { fetchRaces } from "../../api/fetchers/races";
 
-import * as S from "./produits.styled";
+import * as S from "./races.styled";
 
 interface ProductsData {
   results: ProduitsWithPhoto[];
 }
 
-const Produits: React.FC = () => {
-  const navigate = useNavigate();
-  const { animalId, animal, background } = useParams<{
+const Races: React.FC = () => {
+  const { raceId, race, animalId, animal, background } = useParams<{
+    raceId: string | undefined;
+    race: string;
     animalId: string | undefined;
     animal: string;
     background: string | undefined;
   }>();
-
+  const encodedBackground = encodeURIComponent(background ?? "");
   const {
-    data: productdata,
+    data: racedata,
     isLoading,
     isError,
   } = useQuery<ProductsData>({
-    queryKey: ["photosproduitsbycategorie", animalId],
-    queryFn: () => fetchProducts({ animalId: animalId ?? "" }),
-    enabled: !!animalId,
+    queryKey: ["photosproduitsbycategorie", raceId],
+    queryFn: () => fetchRaces({ raceId: raceId ?? "" }),
+    enabled: !!raceId,
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -59,30 +60,31 @@ const Produits: React.FC = () => {
               Nos residents
             </Typography>
           </Link>
-          <Typography variant="h6">{animal} </Typography>
+          <Link
+            underline="hover"
+            color="inherit"
+            href={`/produits/${animalId}/${animal}/${encodedBackground}`}
+          >
+            <Typography variant="h6" color="colorOrangeMenu.main">
+              {animal}
+            </Typography>
+          </Link>
+          <Typography variant="h6">{race} </Typography>
         </Breadcrumbs>
       </S.BreadcrumbsContainer>
 
       <S.StyledImageBox>
-        <Typography variant="h1">{animal}</Typography>
+        <Typography variant="h1">{race}</Typography>
         <S.StyledImageList cols={4}>
-          {productdata !== undefined &&
-            productdata?.results?.length > 0 &&
-            productdata?.results?.map((item) => (
+          {racedata !== undefined &&
+            racedata?.results?.length > 0 &&
+            racedata?.results?.map((item) => (
               <ImageListItem key={item.id}>
                 <S.Image
                   srcSet={`${item.lien}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
                   src={`${item.lien}?w=100&h=100&fit=crop&auto=format`}
                   alt=""
                   loading="lazy"
-                  onClick={() => {
-                    const encodedBackground = encodeURIComponent(
-                      background ?? ""
-                    );
-                    navigate(
-                      `/races/${item.id_race}/${item.race}/${animalId}/${animal}/${encodedBackground}`
-                    );
-                  }}
                 />
               </ImageListItem>
             ))}
@@ -92,4 +94,4 @@ const Produits: React.FC = () => {
   );
 };
 
-export default Produits;
+export default Races;

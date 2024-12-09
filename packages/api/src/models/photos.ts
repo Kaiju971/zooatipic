@@ -1,5 +1,5 @@
 import { knex } from "../../db";
-import { DataImages, Images, ImagesUpd } from "./types/races";
+import { DataImages, DataImagesRaces, Images, ImagesUpd } from "./types/races";
 import { v4 } from "uuid";
 import storage from "../firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -77,6 +77,27 @@ export const getPhotosProduitsByCategorie = async (id_animal: number) => {
 
     .leftJoin("races as r", "id_race", "r.id")
     .where({ id_animal });
+
+  if (results && results.length) {
+    return results;
+  }
+
+  return null;
+};
+
+export const getPhotosByIdRace = async (id_race: number) => {
+  const results = await knex<DataImagesRaces>(table)
+    .select(
+      `${table}.id`,
+      `${table}.lien`,
+      `${table}.id_animal`,
+      `${table}.id_race`,
+      `r.race`,
+      `r.description`
+    )
+
+    .leftJoin("races as r", "id_race", "r.id")
+    .where({ id_race });
 
   if (results && results.length) {
     return results;
