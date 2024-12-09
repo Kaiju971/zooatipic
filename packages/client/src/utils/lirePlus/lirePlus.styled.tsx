@@ -1,40 +1,24 @@
 import { styled } from "@mui/material/styles";
+import { Button } from "@mui/material";
 
 export const MainContainer = styled("div")`
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 80% 20%;
-  margin-bottom: 4vh;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  width: 100%;
+  min-height: 9vh;
 `;
 
-export const TextContainer = styled("div")`
-  grid-row: 1;
-  width: 80%; /* Largeur fixe */
-  display: -webkit-box; /* Pour activer line-clamp */
-  -webkit-line-clamp: 2; /* Nombre de lignes max */
-  -webkit-box-orient: vertical; /* Orientation de la boîte */
-  overflow: hidden; /* Masquer le texte débordant */
-  text-overflow: ellipsis; /* Ajouter ... à la fin */
-  height: 4vh;
+export const TextField = styled("div")<{ isExpanded: boolean; rows: number }>`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: ${({ isExpanded, rows }) =>
+    isExpanded ? "unset" : rows};
+  line-height: 1.5em;
   text-align: center;
-  justify-self: center;
 `;
 
-export const FullText = styled("div")`
-  grid-row: 2;
-  /*width: 300px; /* Largeur identique */
-  white-space: normal; /* Autorise les sauts de ligne */
-  overflow: visible; /* Affiche tout */
-`;
-
-export const VoirPlus = styled("span")`
-  color: blue;
-  cursor: pointer;
-  font-weight: bold;
-  margin-left: 5px;
-  height: 1vh;
-  padding-top: 1vh;
-  &:hover {
-    text-decoration: underline;
-  }
+export const ButtonShowMore = styled(Button)`
+  padding-left: 0;
 `;

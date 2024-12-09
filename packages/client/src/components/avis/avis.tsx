@@ -83,8 +83,7 @@ const AvisShow: React.FC = () => {
     queryKey: ["getavis"],
     queryFn: () => getAvis(),
   });
-  console.log(avisdata);
-  if (isLoading) return <p>Loading...</p>;
+
   if (isError) return <p>Error loading products</p>;
 
   return (
@@ -107,17 +106,15 @@ const AvisShow: React.FC = () => {
               justifyContent="center"
               sx={{ mt: 0 }}
             >
-              sujet: {item.sujet}
+              {item.sujet}
             </Typography>
-            {/* <Typography
-              variant="h5"
-              color="white"
-              display="flex"
-              justifyContent="center"
-              sx={{ mt: 0 }}
-            > */}
-            <LongText text={item.message} />
-            {/* </Typography> */}
+
+            <LongText
+              textExpanded={item.message}
+              variantTypography={"body1"}
+              loading={isLoading}
+            />
+
             <Rating
               disabled
               size="large"
