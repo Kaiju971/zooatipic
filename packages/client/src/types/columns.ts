@@ -3,5 +3,5 @@ export type ColumnDefinition<T> = {
   header: string;
   editable?: boolean;
   type?: string;
-  //   customCellRenderer?: (row: T) => JSX.Element;
+  customCellRenderer?: (data: T) => React.ReactNode;
 };

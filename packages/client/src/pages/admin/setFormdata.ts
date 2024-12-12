@@ -19,7 +19,7 @@ export const setFormData = (data: FormData | FormValues, fields: string[]) => {
       value = data[field];
     }
 
-    if (field === "avatar" && value) {
+    if (field === "image" && value) {
       validateFile(value as File, formData);
     } else if (field === "role") {
       const roleValue = value?.toString().toUpperCase();

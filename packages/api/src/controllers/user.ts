@@ -162,7 +162,7 @@ export const createNewUser =
   async (req: Request, res: Response): Promise<any> => {
     const avatar = req.file;
     const data = req.body;
-    console.log(data);
+
     let file;
     if (avatar) {
       file = avatar?.buffer;
@@ -192,7 +192,7 @@ export const createNewUser =
 
     try {
       const userExist = await model.getUserBy("", data.email as string, "");
-      console.log(userExist);
+
       if (userExist) {
         return res.status(409).json({ error: "email existant" });
       }
@@ -211,6 +211,7 @@ export const createNewUser =
         email: data.email,
         id_role: data.id_role,
         password: passwordHash,
+        id_adresse: data.id_adresse,
         image: file,
       };
 
@@ -224,6 +225,7 @@ export const createNewUser =
         email: data.email,
         id_role: data.id_role,
         password: passwordHash,
+        id_adresse: data.id_adresse,
       };
 
       const jwtOptions = {

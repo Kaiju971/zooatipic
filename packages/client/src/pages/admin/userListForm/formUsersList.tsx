@@ -37,6 +37,8 @@ import TableColumns from "../columns";
 import { UserColumnsList } from "../../../constants/userColumnsList";
 import { UserRoles } from "../../../constants/roles";
 import { setFormData } from "../setFormdata";
+import { Adresse } from "../../../types/adresses";
+import { fetchAdresses } from "../../../api/fetchers/createAdresses";
 
 interface UserResponse {
   results: User[];
@@ -48,6 +50,9 @@ const FormUsersList: React.FC = () => {
   const { authState } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
   const [selectedRole, setSelectedRole] = useState<string>(UserRoles.SALARIE);
+  const [adresseId, setAdresseId] = useState<number>(-1);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const {
     data: userdata,
@@ -64,7 +69,7 @@ const FormUsersList: React.FC = () => {
   const { mutate: saveUser } = useMutation<
     { results: { id: number }[] },
     AxiosError,
-    User
+    FormData
   >({
     mutationFn: createUser,
     onSuccess: (result) => {
@@ -81,6 +86,35 @@ const FormUsersList: React.FC = () => {
     },
   });
 
+  const { mutate: saveAddress } = useMutation<
+    { results: { id: number }[] },
+    AxiosError,
+    Adresse
+  >({
+    mutationFn: fetchAdresses,
+    onSuccess: (response) => {
+      setAdresseId(response.results[0].id);
+    },
+    onError: (error: AxiosError) => {
+      console.error(error.response);
+      const errorMessage =
+        (error.response?.data as { message?: string })?.message ||
+        error.message;
+      enqueueSnackbar(errorMessage, {
+        variant: "error",
+      });
+    },
+  });
+
+  const handleAvatarUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setAvatarFile(file);
+      const previewUrl = URL.createObjectURL(file);
+      setPreviewImage(previewUrl);
+    }
+  };
+
   //CREATE action
   const handleCreateUser: MRT_TableOptions<User>["onCreatingRowSave"] = async ({
     values,
@@ -96,14 +130,37 @@ const FormUsersList: React.FC = () => {
 
     // setValidationErrors({});
 
-    const fieldsAdresse = ["numero", "adresse", "code_postal", "ville"];
-    const formDataAdresse = setFormData(values, fieldsAdresse);
+    // const fieldsAdresse = ["numero", "adresse", "code_postal", "ville"];
+    // const formDataAdresse = setFormData(values, fieldsAdresse);
 
-    const fieldsUser = ["email", "password", "nom", "prenom", "role", "avatar"];
-    const updatedValues = { ...values, role: selectedRole.toUpperCase() };
+    const dataAdresse = {
+      numero: values.numero.toString(),
+      adresse: values.adresse.toString(),
+      codePostal: Number(values.code_postal),
+      ville: values.ville.toString(),
+      id_adresse_type: 1,
+      livraison_dom: true,
+    };
+
+    saveAddress(dataAdresse);
+
+    const fieldsUser = [
+      "email",
+      "password",
+      "nom",
+      "prenom",
+      "role",
+      "image",
+      "id_adresse",
+    ];
+    const updatedValues = {
+      ...values,
+      role: selectedRole.toUpperCase(),
+      id_adresse: adresseId,
+      image: avatarFile,
+    };
     const formDataUser = setFormData(updatedValues, fieldsUser);
-
-    // saveUser(formDataUser);
+    saveUser(formDataUser);
 
     table.setCreatingRow(null); //exit creating mode
   };
@@ -114,36 +171,6 @@ const FormUsersList: React.FC = () => {
       // deleteUser(row.original.id);
     }
   };
-
-  // const columnsList = [
-  //   { accessorKey: "id", header: "Id", editable: false },
-  //   { accessorKey: "nom", header: "Nom" },
-  //   { accessorKey: "prenom", header: "Prénom" },
-  //   { accessorKey: "role", header: "Role" },
-  //   { accessorKey: "email", header: "Email", type: "email" },
-  //   { accessorKey: "password", header: "Password" },
-  //   {
-  //     accessorKey: "image",
-  //     header: "Avatar",
-  //     editable: false,
-  //     // customCellRenderer: ({ row }: MRT_Row) => {
-  //     //   const imageData = row.original.image?.data;
-  //     //   if (!imageData) return <span>No Image</span>;
-
-  //     //   const base64String = btoa(
-  //     //     String.fromCharCode(...new Uint8Array(imageData))
-  //     //   );
-
-  //     //   return (
-  //     //     <img
-  //     //       src={`data:image/png;base64,${base64String}`}
-  //     //       alt="Avatar"
-  //     //       style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-  //     //     />
-  //     //   );
-  //     // },
-  //   },
-  // ];
 
   const columns = TableColumns({ columnsList: UserColumnsList });
 
@@ -212,15 +239,15 @@ const FormUsersList: React.FC = () => {
                   <input
                     type="file"
                     accept="image/*"
-                    // onChange={(event) => handleFileChange(event, row, table)}
+                    onChange={handleAvatarUpload}
                   />
-                  {/* {row.original.image && (
-            <img
-              src={`data:image/png;base64,${base64String}`}
-              alt="Avatar Preview"
-              style={{ width: 50, height: 50, borderRadius: "50%" }}
-            />
-          )} */}
+                  {previewImage && (
+                    <img
+                      src={previewImage}
+                      alt="Avatar Preview"
+                      style={{ width: 50, height: 50, borderRadius: "50%" }}
+                    />
+                  )}
                 </div>
               );
             }

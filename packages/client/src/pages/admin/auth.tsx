@@ -82,7 +82,7 @@ const Auth = () => {
     }
 
     const roleValue = data.get("role")?.toString().toUpperCase();
-    let roleIndex = 2;
+    let roleIndex = 3;
     if (roleValue !== undefined) {
       roleIndex = Object.keys(UserRoles).indexOf(roleValue) + 1;
     }

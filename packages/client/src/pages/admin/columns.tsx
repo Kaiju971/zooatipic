@@ -16,7 +16,7 @@ const TableColumns = ({ columnsList }: Props): MRT_ColumnDef<User>[] => {
           header,
           editable = true,
           type,
-          // customCellRenderer,
+          customCellRenderer,
         }) => ({
           accessorKey,
           header,
@@ -24,10 +24,9 @@ const TableColumns = ({ columnsList }: Props): MRT_ColumnDef<User>[] => {
           muiEditTextFieldProps: type
             ? { type, required: true }
             : { required: true },
-          // Cell: customCellRenderer
-          //   ? ({ cell }) =>
-          //       customCellRenderer(cell.getValue() as User[keyof User])
-          //   : undefined,
+          Cell: customCellRenderer
+            ? ({ row }) => customCellRenderer(row.original)
+            : undefined,
         })
       ),
     [columnsList]
