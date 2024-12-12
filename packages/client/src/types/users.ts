@@ -3,6 +3,7 @@ export type User = {
   nom: string;
   prenom: string;
   email: string;
+  password: string;
   role: string;
   id_role: number;
   image: { data: Uint8Array | null };

@@ -46,6 +46,124 @@ export const deleteCommandeById = async (id: string) => {
   return knex<number>(table).where("id", id).del();
 };
 
+// export const createCommande = async (
+//   dataCommande: CommandesHead,
+//   commandeRows: CommandesRows[]
+// ) => {
+//   try {
+//     const result = await knex.transaction(async (trx) => {
+//       const idArticleList: number[] = commandeRows
+//         .filter((item) => item.categorie_ventes === "nourriture")
+//         .map((item) => item.id_article as number);
+
+//       const articleStockSubquery = await trx("articles")
+//         .select("id", "article", "stock")
+//         .whereIn("id", idArticleList)
+//         .as("a");
+
+//       const subquerySQL = articleStockSubquery
+//         .map((item) => `(${item.id}, '${item.article}', ${item.stock})`)
+//         .join(", ");
+
+//       const diff = await trx
+//         .with("commandes_temp", (qb) => {
+//           qb.select("*").from(
+//             trx.raw(
+//               `(
+//               VALUES ${commandeRows
+//                 .filter((item) => item.categorie_ventes === "nourriture")
+//                 .map((item) => `(${item.id_article}, ${Number(item.quantite)})`)
+//                 .join(", ")}
+//             ) AS t(id_article, quantite)`
+//             )
+//           );
+//         })
+//         .select(
+//           "a.id",
+//           "a.article",
+//           "a.stock as stock_quantite",
+//           "c.quantite as commandes_quantite",
+//           trx.raw("CAST(a.stock AS INTEGER) - c.quantite as difference")
+//         )
+//         .from(trx.raw(`(VALUES ${subquerySQL}) AS a(id, article, stock)`))
+//         .join("commandes_temp as c", "a.id", "c.id_article")
+//         .whereRaw("CAST(a.stock AS INTEGER) < c.quantite");
+
+//       if (diff && diff.length) {
+//         const outOfStockItems = diff.map((item) => ({
+//           article: item.article,
+//           diff: item.difference,
+//         }));
+
+//         trx.rollback();
+//         return { error: -2, outOfStockItems };
+//       }
+
+//       //const lastNumber = await getLastNumber();
+
+//       dataCommande.somme = Number(dataCommande.somme.toFixed(2));
+//       dataCommande.tva = Number(dataCommande.tva.toFixed(2));
+
+//       const results: { id: number }[] = await trx<CommandesHead>(table)
+//         .insert(dataCommande)
+//         .returning("id");
+
+//       if (results) {
+//         const commandId = Number(results[0].id);
+//         const dataRows: DataRows[] = commandeRows.map((item) => ({
+//           id_commande: commandId,
+//           id_article: item.id_article,
+//           prix: item.prix,
+//           quantite: item.quantite,
+//           somme: Number((item.prix * item.quantite).toFixed(2)),
+//           tva: Number((item.prix * item.quantite * TVA).toFixed(2)),
+//           date_visite: item.date_visite,
+//         }));
+
+//         const resultsRow: number[] = await trx<DataRows[]>("commandesRows")
+//           .insert(dataRows)
+//           .returning("id");
+
+//         const articleStockResults = await articleStockSubquery;
+
+//         const dataForStock: Partial<Articles>[] = commandeRows
+//           .filter((item) => item.categorie_ventes === "nourriture")
+//           .map((item) => ({
+//             id: item.id_article,
+//             stock:
+//               articleStockResults.filter(
+//                 (el: Articles) => el.id === item.id_article
+//               )[0].stock - item.quantite,
+//           }));
+
+//         if (resultsRow && resultsRow.length > 0) {
+//           const resultsPutArticle = await Promise.all(
+//             dataForStock.map((item) => {
+//               return trx<Articles>("articles")
+//                 .update("stock", item.stock ?? 0)
+//                 .where("id", item.id);
+//             })
+//           );
+
+//           const allSuccess = resultsPutArticle.every((result) => result);
+
+//           if (allSuccess) {
+//             return { id: commandId, numero: commandId };
+//           } else {
+//             return { error: -3 };
+//           }
+//         } else {
+//           return { error: -4 };
+//         }
+//       }
+//     });
+//     return { result };
+//   } catch (error: unknown) {
+//     console.error("Transaction failed:", error);
+//     return { error: -1 };
+//   }
+// };
+
 export const createCommande = async (
   dataCommande: CommandesHead,
   commandeRows: CommandesRows[]
@@ -61,44 +179,45 @@ export const createCommande = async (
         .whereIn("id", idArticleList)
         .as("a");
 
-      const subquerySQL = articleStockSubquery
-        .map((item) => `(${item.id}, '${item.article}', ${item.stock})`)
-        .join(", ");
+      if (idArticleList && idArticleList.length > 0) {
+        const subquerySQL = articleStockSubquery
+          .map((item) => `(${item.id}, '${item.article}', ${item.stock})`)
+          .join(", ");
 
-      const diff = await trx
-        .with("commandes_temp", (qb) => {
-          qb.select("*").from(
-            trx.raw(
-              `(
+        const diff = await trx
+          .with("commandes_temp", (qb) => {
+            qb.select("*").from(
+              trx.raw(
+                `(
               VALUES ${commandeRows
                 .filter((item) => item.categorie_ventes === "nourriture")
                 .map((item) => `(${item.id_article}, ${Number(item.quantite)})`)
                 .join(", ")}
             ) AS t(id_article, quantite)`
-            )
-          );
-        })
-        .select(
-          "a.id",
-          "a.article",
-          "a.stock as stock_quantite",
-          "c.quantite as commandes_quantite",
-          trx.raw("CAST(a.stock AS INTEGER) - c.quantite as difference")
-        )
-        .from(trx.raw(`(VALUES ${subquerySQL}) AS a(id, article, stock)`))
-        .join("commandes_temp as c", "a.id", "c.id_article")
-        .whereRaw("CAST(a.stock AS INTEGER) < c.quantite");
+              )
+            );
+          })
+          .select(
+            "a.id",
+            "a.article",
+            "a.stock as stock_quantite",
+            "c.quantite as commandes_quantite",
+            trx.raw("CAST(a.stock AS INTEGER) - c.quantite as difference")
+          )
+          .from(trx.raw(`(VALUES ${subquerySQL}) AS a(id, article, stock)`))
+          .join("commandes_temp as c", "a.id", "c.id_article")
+          .whereRaw("CAST(a.stock AS INTEGER) < c.quantite");
 
-      if (diff && diff.length) {
-        const outOfStockItems = diff.map((item) => ({
-          article: item.article,
-          diff: item.difference,
-        }));
+        if (diff && diff.length) {
+          const outOfStockItems = diff.map((item) => ({
+            article: item.article,
+            diff: item.difference,
+          }));
 
-        trx.rollback();
-        return { error: -2, outOfStockItems };
+          trx.rollback();
+          return { error: -2, outOfStockItems };
+        }
       }
-
       //const lastNumber = await getLastNumber();
 
       dataCommande.somme = Number(dataCommande.somme.toFixed(2));
@@ -124,28 +243,32 @@ export const createCommande = async (
           .insert(dataRows)
           .returning("id");
 
-        const articleStockResults = await articleStockSubquery;
+        let allSuccess = !!resultsRow;
 
-        const dataForStock: Partial<Articles>[] = commandeRows
-          .filter((item) => item.categorie_ventes === "nourriture")
-          .map((item) => ({
-            id: item.id_article,
-            stock:
-              articleStockResults.filter(
-                (el: Articles) => el.id === item.id_article
-              )[0].stock - item.quantite,
-          }));
+        if (idArticleList && idArticleList.length > 0) {
+          const articleStockResults = await articleStockSubquery;
 
-        if (resultsRow && resultsRow.length > 0) {
-          const resultsPutArticle = await Promise.all(
-            dataForStock.map((item) => {
-              return trx<Articles>("articles")
-                .update("stock", item.stock ?? 0)
-                .where("id", item.id);
-            })
-          );
+          const dataForStock: Partial<Articles>[] = commandeRows
+            .filter((item) => item.categorie_ventes === "nourriture")
+            .map((item) => ({
+              id: item.id_article,
+              stock:
+                articleStockResults.filter(
+                  (el: Articles) => el.id === item.id_article
+                )[0].stock - item.quantite,
+            }));
 
-          const allSuccess = resultsPutArticle.every((result) => result);
+          if (resultsRow && resultsRow.length > 0) {
+            const resultsPutArticle = await Promise.all(
+              dataForStock.map((item) => {
+                return trx<Articles>("articles")
+                  .update("stock", item.stock ?? 0)
+                  .where("id", item.id);
+              })
+            );
+
+            allSuccess = resultsPutArticle.every((result) => result);
+          }
 
           if (allSuccess) {
             return { id: commandId, numero: commandId };

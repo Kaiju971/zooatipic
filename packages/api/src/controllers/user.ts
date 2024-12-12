@@ -162,7 +162,7 @@ export const createNewUser =
   async (req: Request, res: Response): Promise<any> => {
     const avatar = req.file;
     const data = req.body;
-
+    console.log(data);
     let file;
     if (avatar) {
       file = avatar?.buffer;
@@ -192,7 +192,7 @@ export const createNewUser =
 
     try {
       const userExist = await model.getUserBy("", data.email as string, "");
-
+      console.log(userExist);
       if (userExist) {
         return res.status(409).json({ error: "email existant" });
       }

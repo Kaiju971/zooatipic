@@ -163,8 +163,6 @@ const Paiement: React.FC = () => {
       });
   };
 
-  console.log(formData);
-
   return (
     <S.MainContainer>
       <S.PageTitle variant="h1">PANIER</S.PageTitle>
