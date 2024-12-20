@@ -1,14 +1,28 @@
 import { ImageList, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { keyframes, styled } from "@mui/material/styles";
 
 export const MainContainer = styled("div")<{ background: string | undefined }>`
   text-align: center;
+  min-height: 100vh;
   color: ${({ theme }) => theme.palette.secondary.main};
   display: flex;
+  flex-direction: column;
   padding-left: 0.5vw;
-  padding-top: 25vh;
+  padding-top: 20vh;
   background-color: ${({ background, theme }) =>
     background ? background : theme.palette.primary.main};
+
+  /* @media (max-width: 750px) {
+    align-items: center;
+    height: 100%;
+  } */
+`;
+
+export const FlexContainer = styled("div")`
+  text-align: center;
+  display: flex;
+  height: 100%;
+  margin-bottom: 5rem;
 
   @media (max-width: 750px) {
     align-items: center;
@@ -23,128 +37,123 @@ export const BreadcrumbsContainer = styled("div")`
   width: 4vw;
 `;
 
+export const StyledImageBox = styled("div")`
+  width: 98vw;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 14% 43% 43%;
+  align-items: center;
+  justify-items: center;
+`;
+
+export const Titre = styled(Typography)`
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  padding-bottom: 2vh;
+`;
+
 export const Image = styled("img")`
-  width: 22vw;
+  grid-column: 1;
+  grid-row: 2;
+  width: 16rem;
+  /* height: 100%; */
   border-radius: 10%;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   margin: 0.5rem;
 `;
 
-export const StyledImageList = styled(ImageList)`
-  justify-items: center;
-  align-items: center;
-`;
-
-export const StyledImageBox = styled("div")`
-  width: 98vw;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`;
 export const ContainerTexte = styled("div")`
+  grid-column: 2;
+  grid-row: 2 / span 2;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  width: 30%;
-  height: 20rem;
+
   border-radius: 10%;
   background-color: ${({ theme }) => theme.palette.colorGris.main};
 `;
 
-export const StyledFlexBox = styled("div")`
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+// Définition des animations
+const scanerX = keyframes`
+  to {top: 13rem; background-position: bottom center;}
 `;
 
-// Conteneur principal
-export const ContainerGrid = styled("div")`
-  width: 24rem;
-  height: 24rem;
-  padding: 4vh;
+const scanerY = keyframes`
+  0% {opacity: .1;}
+  5% {opacity: 1;}
+  50% {opacity: 1;}
+  55% {opacity: .6;}
+  100% {opacity: .6;}
 `;
 
-// Image stylisée
-export const ImageTurn = styled("img")`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+const soportes = keyframes`
+  to {top: 13rem;}
+`;
+
+interface StyledImageScanProps {
+  image1: string;
+  image2: string;
+}
+
+export const StyledImageScan = styled("div")<StyledImageScanProps>`
   grid-column: 1;
-  grid-row: 1;
-`;
+  grid-row: 3;
 
-export const ContainerGeneral = styled("div")`
   position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem;
-  overflow: hidden;
-  pointer-events: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  width: 16rem;
+  height: 16rem;
+
+  border-left: 4px solid #eeeeee;
+  border-right: 4px solid #eeeeee;
+  margin: 0 15px;
+
+  box-shadow: 0 0 1px #000, 0 0 1px #000 inset, 0 0 4px rgba(0, 0, 0, 0.4),
+    0 0 4px rgba(0, 0, 0, 0.4) inset, 0 0 6px 2px rgba(0, 0, 0, 0.4),
+    0 0 6px 2px rgba(0, 0, 0, 0.4) inset;
+  background: url(${(props) => props.image1}) no-repeat top center;
+  background-size: cover;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 15.5rem;
+    height: 50px;
+    border: 1px solid #000;
+    background: url(${(props) => props.image2}) no-repeat top center;
+    background-size: 16rem 16rem;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
+    animation: ${scanerX} 5s linear alternate infinite,
+      ${scanerY} 10s linear infinite;
+    opacity: 1;
+  }
 `;
 
-export const ImageContainerCommon = styled("div")`
+export const ImageScanItem = styled(ImageList)`
+  content: "";
   position: absolute;
-  width: 30vw;
-  height: 30vw;
-  transform-origin: center;
-  transition: 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  rotate: 45deg;
+  top: -10px;
+  width: 30px;
+  height: 70px;
+  background-color: #333;
+  box-shadow: 0 0 5px #333;
+  z-index: 5;
+  animation: ${soportes} 5s linear alternate infinite;
 
-  &:hover {
-    translate: 0 0;
-    rotate: 0deg;
-    z-index: 99;
+  &:first-of-type {
+    left: 0;
+    border-radius: 0 10px 10px 0;
   }
-`;
 
-export const ImageContainer1 = styled(ImageContainerCommon)`
-  translate: 21vw 0;
-  z-index: 9;
-`;
-
-export const ImageContainer2 = styled(ImageContainerCommon)`
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100%;
-  translate: 0 25vh;
-  z-index: 8;
-
-  &:hover .text {
-    opacity: 0;
+  &:last-of-type {
+    right: 0;
+    border-radius: 10px 0 0 10px;
   }
-`;
-
-export const StyledTypography = styled(Typography)`
-  grid-column: 1;
-  grid-row: 1;
-  align-self: center;
-  justify-self: center;
-  margin-top: -6rem;
-  margin-left: -6rem;
-  rotate: -45deg;
-  transition: opacity 1s ease;
-`;
-
-export const ImageContainer3 = styled(ImageContainerCommon)`
-  translate: -21vw 0;
-  z-index: 9;
-`;
-
-export const ImageContainer4 = styled(ImageContainerCommon)`
-  translate: 0 -42vh;
-  z-index: 9;
 `;

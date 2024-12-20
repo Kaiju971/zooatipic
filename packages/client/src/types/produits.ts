@@ -49,6 +49,7 @@ export type ProduitsWithPhoto = {
   id_race: number;
   race: string;
   description: string;
+  quiz: string;
 };
 
 export type Photo = {

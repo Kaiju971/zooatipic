@@ -1,7 +1,6 @@
 import React from "react";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import Box from "@mui/material/Box";
 import Slider from "react-slick";
 import * as S from "./avis.styled";
 import { Typography } from "@mui/material";

@@ -148,3 +148,8 @@ export const ImageContainer4 = styled(ImageContainerCommon)`
   translate: 0 -42vh;
   z-index: 9;
 `;
+
+export const ImageContainerSkull = styled("div")`
+  translate: 0 -42vh;
+  z-index: 9;
+`;

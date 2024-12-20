@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
           <Typography
             variant="body1"
             sx={{ color: "primary.main", width: "100%", cursor: "pointer" }}
-            onClick={() => navigate("loi/Mentions Légales")} // Navigue vers la section CGV Billetterie
+            onClick={() => navigate("loi/Mentions Légales")}
           >
             Mentions légales
           </Typography>

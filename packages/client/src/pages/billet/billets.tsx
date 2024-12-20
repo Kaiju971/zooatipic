@@ -14,6 +14,7 @@ import TicketBouton from "../../components/ticketBouton";
 import { splitLineAtParenthesis } from "../../utils/utils";
 import Calendrier from "../../components/calendrier";
 import { addBasket, addPropertyToBasket } from "../../utils/basket";
+import Checkbox from "@mui/material/Checkbox";
 
 import * as S from "./billets.styled";
 
@@ -32,7 +33,18 @@ interface ProductsData {
 const Billets: React.FC = () => {
   const [open, setOpen] = useState(false); // État pour contrôler l'ouverture de la modale
   const [dateValue, setDateValue] = useState<string>("");
-  const [idTicket, setIdTicket] = useState<number>(0);
+  const [idTickets, setIdTickets] = useState<number[]>([]);
+  const [selectedArticles, setSelectedArticles] = useState<Articles[]>([]);
+
+  // Fonction de gestion de la sélection
+  const handleCheckboxChange = (article: Articles) => {
+    setSelectedArticles(
+      (prev) =>
+        prev.some((a) => a.id === article.id)
+          ? prev.filter((a) => a.id !== article.id) // Supprime si déjà sélectionné
+          : [...prev, article] // Ajoute si non sélectionné
+    );
+  };
 
   const {
     data: articlesdata,
@@ -54,23 +66,29 @@ const Billets: React.FC = () => {
     setOpen(false); // Fermer la modale
   };
 
-  const handleBuyClick = (item: Articles) => {
-    handleClickOpen(); // Ouvrir la modale après l'ajout au panier
-    setIdTicket(item.id);
-    addBasket({
-      id_article: item.id,
-      prix: item.prix,
-      quantite: 1,
-      article: item.article,
-      photo: "",
-      stock: 1,
-      date_visite: "",
-      categorie_ventes: "ticket",
+  const handleBuyClick = (items: Articles[]): void => {
+    handleClickOpen(); // Ouvre la modale après l'ajout au panier
+
+    items.forEach((item: Articles) => {
+      setIdTickets((idTicket) => [...idTicket, item.id]);
+      addBasket({
+        id_article: item.id,
+        prix: item.prix,
+        quantite: 1,
+        article: item.article,
+        photo: "",
+        stock: 1,
+        date_visite: "",
+        categorie_ventes: "ticket",
+      });
     });
   };
 
   const handleConfirmed = () => {
-    addPropertyToBasket(idTicket, "date_visite", dateValue);
+    idTickets.forEach((idTicket) =>
+      addPropertyToBasket(idTicket, "date_visite", dateValue)
+    );
+
     setOpen(false);
   };
   return (
@@ -89,7 +107,11 @@ const Billets: React.FC = () => {
             articlesdata?.results
               .filter((el) => el.groupe_tickets === groupes[0])
               .map((item) => (
-                <S.FlexBox>
+                <S.FlexBox key={item.id}>
+                  <Checkbox
+                    checked={selectedArticles.some((a) => a.id === item.id)}
+                    onChange={() => handleCheckboxChange(item)}
+                  />
                   {item.article.indexOf("(") === -1 ? (
                     <Typography variant="h6" color="primary">
                       {item.article}:
@@ -112,7 +134,7 @@ const Billets: React.FC = () => {
                   <S.StyledButton>
                     <TicketBouton
                       label="Acheter"
-                      onClick={() => handleBuyClick(item)}
+                      onClick={() => handleBuyClick(selectedArticles)}
                     />
                   </S.StyledButton>
                 </S.FlexBox>
@@ -156,7 +178,10 @@ const Billets: React.FC = () => {
                       <S.StyledButton>
                         <TicketBouton
                           label="Acheter"
-                          onClick={() => handleBuyClick(item)}
+                          onClick={() => {
+                            handleCheckboxChange(item);
+                            handleBuyClick(selectedArticles);
+                          }}
                         />
                       </S.StyledButton>
                     </S.FlexBoxColumn>
@@ -185,7 +210,10 @@ const Billets: React.FC = () => {
                     <S.StyledButton>
                       <TicketBouton
                         label="Acheter"
-                        onClick={() => handleBuyClick(item)}
+                        onClick={() => {
+                          handleCheckboxChange(item);
+                          handleBuyClick(selectedArticles);
+                        }}
                       />
                     </S.StyledButton>
                   </>
@@ -204,7 +232,10 @@ const Billets: React.FC = () => {
                     <S.StyledButton>
                       <TicketBouton
                         label="Acheter"
-                        onClick={() => handleBuyClick(item)}
+                        onClick={() => {
+                          handleCheckboxChange(item);
+                          handleBuyClick(selectedArticles);
+                        }}
                       />
                     </S.StyledButton>
                   </>

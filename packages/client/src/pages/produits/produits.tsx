@@ -88,6 +88,7 @@ const Produits: React.FC = () => {
             ))}
         </S.StyledImageList>
       </S.StyledImageBox>
+      <S.ImageContainerSkull></S.ImageContainerSkull>
     </S.MainContainer>
   );
 };

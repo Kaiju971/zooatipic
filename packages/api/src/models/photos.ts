@@ -18,6 +18,49 @@ export const getPhotos = async () => {
   return null;
 };
 
+export const getPhotosBy = async (
+  categorie_photo: string,
+  id_animal?: number | null,
+  id_race?: number | null
+) => {
+  const columns = [
+    `${table}.id as id_photo`,
+    `${table}.lien`,
+    `${table}.id_animal as id_animal`,
+    `${table}.id_race as id_race`,
+  ];
+
+  let query = knex<DataImages>(table)
+    .select(columns)
+    .where(`${table}.categorie_photo`, categorie_photo);
+
+  if (categorie_photo === "nourriture") {
+    columns.push(`a.animal`, `a.background`);
+    query = query.leftJoin("articles as a", `${table}.id_article`, "a.id");
+  }
+  if (id_animal) {
+    columns.push(`ax.animal`, `ax.background`);
+    query = query
+      .leftJoin("animaux as ax", `${table}.id_animal`, "ax.id")
+      .andWhere(`${table}.id_animal`, id_animal);
+  }
+
+  if (id_race) {
+    columns.push(`r.race`);
+    query = query
+      .leftJoin("races as r", `${table}.id_race`, "r.id")
+      .andWhere(`${table}.id_race`, id_race);
+  }
+
+  const results = await query;
+
+  if (results && results.length) {
+    return results;
+  }
+
+  return null;
+};
+
 export const getPhotosCategorie = async () => {
   const results = await knex<DataImages>(table)
     .select(

@@ -4,6 +4,24 @@ import * as imagesModel from "../models/photos";
 import { DataImages } from "../models/types/races";
 type Photos = typeof imagesModel;
 
+export const getPhotosBy =
+  (model: Photos) =>
+  async (req: Request, res: Response): Promise<any> => {
+    const { params, query } = req;
+
+    const id_animal = Number(query.id_animal);
+    const id_race = Number(query.id_race);
+    const categorie_photo = params.categorie;
+
+    const photos = await model.getPhotosBy(categorie_photo, id_animal, id_race);
+
+    if (!photos) {
+      return res.status(404).send({ message: "Pas de photo" });
+    }
+
+    res.send({ results: photos });
+  };
+
 export const getPhotosCategorie =
   (model: Photos) =>
   async (req: Request, res: Response): Promise<any> => {
