@@ -7,6 +7,8 @@ import { useParams } from "react-router";
 
 import * as S from "./races.styled";
 import { getPhotosBy } from "../../api/fetchers/getPhotosBy";
+import PrimaryButton from "../../components/buttonPrincipale";
+import ReactMarkdown from "react-markdown";
 
 interface ProductsData {
   results: ProduitsWithPhoto[];
@@ -50,7 +52,7 @@ const Races: React.FC = () => {
       }),
   });
 
-  console.log(squelettedata);
+  console.log(racedata);
   if (isLoading || isLoadingSquelette) return <p>Loading...</p>;
   if (isError || isErrorSquelette) return <p>Error loading products</p>;
 
@@ -105,7 +107,9 @@ const Races: React.FC = () => {
             />
           )}
 
-          <S.ContainerTexte>texte</S.ContainerTexte>
+          <S.ContainerTexte>
+            <ReactMarkdown>{racedata?.results[0].description}</ReactMarkdown>
+          </S.ContainerTexte>
           {!isLoadingSquelette &&
             squelettedata &&
             squelettedata?.results.length >= 2 && (
@@ -116,7 +120,18 @@ const Races: React.FC = () => {
             )}
         </S.StyledImageBox>
       </S.FlexContainer>
-      <Button sx={{ height: "4vh", color: "secondary.main" }}>récré</Button>
+      <PrimaryButton
+        sx={{
+          width: "27vw",
+          height:"6vh",
+          mb: 6,
+          marginLeft:8,
+          borderRadius: 9,
+          color:"secondary.main",
+          backgroundColor: "#23F800",boxShadow:"10",
+        }}
+        label={"Venez les rencontrer"}
+      />
     </S.MainContainer>
   );
 };

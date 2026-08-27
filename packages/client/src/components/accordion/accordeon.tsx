@@ -15,11 +15,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
-import * as S from "./accordeon.styled";
 import { TextField, Typography } from "@mui/material";
 import { BoxContainer } from "./accordeon.styled";
 import SetAvis from "./setAvis";
+
+import * as S from "./accordeon.styled";
 
 const Accordeon: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);

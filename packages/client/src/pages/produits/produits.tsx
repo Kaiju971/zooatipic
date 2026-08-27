@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router";
 import { fetchProducts } from "../../api/fetchers/produit";
 
 import * as S from "./produits.styled";
+import { getPhotosBy } from "../../api/fetchers/getPhotosBy";
 
 interface ProductsData {
   results: ProduitsWithPhoto[];
@@ -25,9 +26,13 @@ const Produits: React.FC = () => {
     isLoading,
     isError,
   } = useQuery<ProductsData>({
-    queryKey: ["photosproduitsbycategorie", animalId],
-    queryFn: () => fetchProducts({ animalId: animalId ?? "" }),
-    enabled: !!animalId,
+    queryKey: ["photosproduitsbycategorie", "race", animalId],
+    queryFn: () =>
+      getPhotosBy({
+        categorie_photo: "race",
+        id_animal: animalId,
+        id_race: undefined,
+      }),
   });
 
   if (isLoading) return <p>Loading...</p>;

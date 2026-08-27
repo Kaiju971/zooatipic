@@ -28,9 +28,12 @@ export const getPhotosBy = async (
     `${table}.lien`,
     `${table}.id_animal as id_animal`,
     `${table}.id_race as id_race`,
+    "r.race",
+    "r.description",
   ];
 
   let query = knex<DataImages>(table)
+    .leftJoin("races as r", `${table}.id_race`, "r.id")
     .select(columns)
     .where(`${table}.categorie_photo`, categorie_photo);
 
@@ -46,10 +49,7 @@ export const getPhotosBy = async (
   }
 
   if (id_race) {
-    columns.push(`r.race`);
-    query = query
-      .leftJoin("races as r", `${table}.id_race`, "r.id")
-      .andWhere(`${table}.id_race`, id_race);
+    query = query.andWhere(`${table}.id_race`, id_race);
   }
 
   const results = await query;

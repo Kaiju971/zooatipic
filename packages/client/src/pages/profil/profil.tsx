@@ -5,7 +5,7 @@ import * as S from "./profil.styled";
 const Profil: React.FC = () => {
   return (
     <S.MainContainer>
-      <Typography variant="h1">BILLETS</Typography>
+      <Typography variant="h1">PROFIL</Typography>
       <S.StyledAccordeon>
         <Accordeon />
       </S.StyledAccordeon>
